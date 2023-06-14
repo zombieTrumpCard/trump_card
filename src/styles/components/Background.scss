@@ -1,0 +1,28 @@
+*{
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 100%;
+    background-image: url('../../../public/background.jpg');
+    background-size: cover
+  }
+  
+  html, body, #root{
+    height: 100%;
+  }
+
+  @font-face {
+    font-family: "Mali-Regular";
+    src: url("../../../public/font/Mali-Regular.ttf") format("opentype");
+  }
+
+  Button {
+    width: 203px;
+    height: 75px;
+    margin-left: auto;
+
+    font-family: "Mali-Regular";
+    font-weight: 400;
+    font-size: 60px;
+    text-align: center;
+  }
