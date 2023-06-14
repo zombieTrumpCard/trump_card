@@ -1,0 +1,9 @@
+{
+    "eslint.validate": ["javascript", "html"],
+    "eslint.alwaysShowStatus": true,
+    "editor.tabSize": 2,
+    "git.ignoreLimitWarning": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+  }
