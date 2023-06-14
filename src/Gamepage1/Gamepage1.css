@@ -1,0 +1,12 @@
+*{
+    box-sizing: border-box;
+  }
+  
+  html, body, #root{
+    height: 100%;
+  }
+
+  @font-face {
+    font-family: "Mali-Regular";
+    src: url("/public/font/Mali-Regular.ttf") format("opentype");
+  }
