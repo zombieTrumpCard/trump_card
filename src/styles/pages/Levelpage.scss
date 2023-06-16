@@ -24,7 +24,7 @@
 
     border: none;
     background-color: transparent;
-    background-image: url(#($bgImageEasy));
+    background-image: url('../../../public/easyBtn.png');
     background-size: cover;
   };
 
@@ -38,7 +38,7 @@
 
     border: none;
     background-color: transparent;
-    background-image: url(#($bgImageNormal));
+    background-image: url('../../../public/easyBtn.png');
     background-size: cover;
   };
 
@@ -52,7 +52,7 @@
 
     border: none;
     background-color: transparent;
-    background-image: url(#($bgImageHard));
+    background-image: url('../../../public/easyBtn.png');
     background-size: cover;
   };
 

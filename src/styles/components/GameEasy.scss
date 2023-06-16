@@ -71,11 +71,11 @@
 
 .menu__nav-time::before {
   margin-right: 3px;
-  background-image: url('./../img/common/time.png');
+  background-image: url('../../../public/easyBtn.png');
 }
 
 .menu__nav-home--button {
-  background-image: url('./../img/common/home.png');
+  background-image: url('../../../public/easyBtn.png');
 }
 
 .game {
@@ -132,7 +132,7 @@
 
 .card__back {
   transform: rotateY(0deg);
-  background-image: url('../img/game-cm/pawprint.png');
+  background-image: url('../../../public/easyBtn.png');
   background-size: 50% auto;
 }
 
@@ -144,7 +144,7 @@
   display: none;
   width: 230px;
   height: 230px;
-  background-image: url('../img/game-cm/clear.png');
+  background-image: url('../../../public/easyBtn.png');
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: center center;

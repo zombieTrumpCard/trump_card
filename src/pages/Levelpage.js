@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, history } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Levelpage() {
   const [bgImageEasy, setBgImageEasy] = useState('url(../public/easyBtn.png)');
@@ -23,15 +23,15 @@ export default function Levelpage() {
     setSelectedPage('levelHard');
   };
 
-  const clickStart = () => {
-    if (selectedPage === 'levelEasy') {
-      history.push('/levelEasy');
-    } else if (selectedPage === 'levelNormal') {
-      history.push('/levelNormal');
-    } else if (selectedPage === 'levelHard') {
-      history.push('/levelHard');
-    }
-  };
+  // const clickStart = () => {
+  //   if (selectedPage === 'levelEasy') {
+  //     history.push('/levelEasy');
+  //   } else if (selectedPage === 'levelNormal') {
+  //     history.push('/levelNormal');
+  //   } else if (selectedPage === 'levelHard') {
+  //     history.push('/levelHard');
+  //   }
+  // };
 
   return (
     <div className="background">
@@ -41,7 +41,7 @@ export default function Levelpage() {
       <button type="button" className="chooseLevelEasy" onClick={handleSelectEasy} style={{ bgImageEasy }}> </button>
       <button type="button" className="chooseLevelNormal" onClick={handleSelectNormal} style={{ bgImageNormal }}> </button>
       <button type="button" className="chooseLevelHard" onClick={handleSelectHard} style={{ bgImageHard }}> </button>
-      <Link to="/gameeagy" className="startBtn" onClick={clickStart} />
+      {/* <Link to="/gameeagy" className="startBtn" onClick={clickStart} /> */}
     </div>
   );
 }

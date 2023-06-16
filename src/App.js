@@ -34,13 +34,13 @@ function App() {
             <Levelpage />
           )}
         />
-        {/* <Route
+        <Route
           path="/gameeasy"
           element={(
             <GameEasy />
           )}
         />
-      </Routes> */}
+      </Routes>
     </BrowserRouter>
   );
 }
