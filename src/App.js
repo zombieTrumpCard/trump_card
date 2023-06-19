@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Levelpage from './pages/Levelpage';
 import Header from './components/Header';
 import Home from './pages/Home';
 import MyPage from './pages/Mypage';
@@ -8,6 +9,11 @@ import Rank from './pages/Rank';
 import UserCreate from './pages/UserCreate';
 import Store from './pages/Store';
 import UserDrop from './pages/UserDrop';
+import GameEasy from './pages/GameEasy';
+import GameNormal from './pages/GameNormal';
+import GameHard from './pages/GameHard';
+import GameOver from './pages/GameOver';
+import GameEnd from './pages/GameEnd';
 
 function App() {
   return (
@@ -73,6 +79,39 @@ function App() {
               <Header />
               <UserDrop />
             </>
+          path="/level"
+          element={(
+            <Levelpage />
+          )}
+        />
+        <Route
+          path="/gameeasy"
+          element={(
+            <GameEasy />
+          )}
+        />
+        <Route
+          path="/gamenormal"
+          element={(
+            <GameNormal />
+            )}
+        />
+        <Route
+          path="/gamenhard"
+          element={(
+            <GameEnd />
+          )}
+        />
+        <Route
+          path="/gameover"
+          element={(
+            <GameOver />
+          )}
+        />
+        <Route
+          path="/gamenend"
+          element={(
+            <GameEnd />
           )}
         />
       </Routes>

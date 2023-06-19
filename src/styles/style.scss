@@ -7,3 +7,13 @@
 @import 'pages/Rank';
 @import 'pages/UserCreate';
 @import 'pages/Store';
+@import 'components/SingleCard';
+@import 'pages/Levelpage';
+@import 'pages/GameEasy';
+@import 'pages/GameNormal';
+@import 'pages/GameOver';
+
+@font-face {
+  font-family: "Mali-Regular";
+  src: url("../../public/font/Mali-Regular.ttf") format("opentype");
+}
