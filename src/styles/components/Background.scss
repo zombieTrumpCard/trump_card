@@ -1,28 +1,34 @@
-*{
-    box-sizing: border-box;
-
-    width: 100%;
-    height: 100%;
-    background-image: url('../../../public/background.jpg');
-    background-size: cover
-  }
+.background {
+  display: flex;
+  position: relative;
   
-  html, body, #root{
-    height: 100%;
-  }
+  width: 100%;
+  height: 100vh;
+  background-image: url('../../../public/background.jpg');
+  background-size: cover;
 
-  @font-face {
-    font-family: "Mali-Regular";
-    src: url("../../../public/font/Mali-Regular.ttf") format("opentype");
-  }
-
-  Button {
-    width: 203px;
-    height: 75px;
+  .homeBtn {
+    width: 80px;
+    height: 30px;
     margin-left: auto;
 
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+
     font-family: "Mali-Regular";
-    font-weight: 400;
-    font-size: 60px;
+    font-size: 20px;
+    color: #000;
     text-align: center;
+  };
+
+  .rabbitIcon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 87%;
+
+    background-image: url('../../../public/rabbitIcon.png');
+    background-size: cover;
   }
+}
