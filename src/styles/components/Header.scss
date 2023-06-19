@@ -1,16 +1,21 @@
 .header {
   width: 100%;
   height: 3.2rem;
-  background-color: pink;
+  background-color: black;
 
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  .title {
+    padding-left: 1rem;
+    color:white;
+    text-decoration: none;
+  }
   .navbar {
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: purple;
-    .btn {
+    .nav-btn {
       padding: 8px 16px;
       margin: 0 8px;
       background-color: #f0f0f0;
@@ -19,6 +24,49 @@
       border-radius: 4px;
       cursor: pointer;
       text-decoration: none;
+      font-size: 0.8rem;
     }
   }
+}
+
+// 로그인
+/* The Modal (background) */
+.modal {
+  display: flex; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 1rem; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 60px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative; /* Add position relative */
+}
+
+/* The Close Button */
+.close {
+  display: inline-block;
+  padding: 5px 10px;
+  position: absolute; /* Position absolute */
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
