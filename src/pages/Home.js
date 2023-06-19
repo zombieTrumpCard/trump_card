@@ -117,7 +117,7 @@ export default function Home() {
       {/* 헤더 */}
       <div className="header">
         <Link to="/" className="title">
-          트럼프 맞추기 게임
+          트럼프카드 맞추기 게임
         </Link>
         {isLoggedIn ? (
           <div className="navbar">
@@ -192,17 +192,21 @@ export default function Home() {
         )}
       </div>
       {/* 메인페이지 */}
-      <div style={divStyle} />
-      <p>Home Page is here.</p>
-      {isLoggedIn ? (
-        <Link to="/level" style={gameScreenStyle}>
-          게임
-        </Link>
-      ) : (
-        <div onClick={handleOpenModal} style={gameScreenStyle}>
-          게임
+      <div className="home">
+        <div className="home-title">
+          <b>트럼프카드 맞추기 게임</b>
         </div>
-      )}
+        <p>Home Page is here.</p>
+        {isLoggedIn ? (
+          <Link to="/level" className="gameScreen">
+            게임
+          </Link>
+        ) : (
+          <div onClick={handleOpenModal} style={gameScreenStyle}>
+            게임
+          </div>
+        )}
+      </div>
     </>
   );
 }

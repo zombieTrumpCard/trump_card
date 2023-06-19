@@ -2,123 +2,133 @@ $card-width: 160px;
 $card-height: 260px;
 
 .mypage {
-  padding: 2rem 10rem;
+  
   background-color: aquamarine;
-  .box-content {
-    background-color: #f0f0f0;
+  font-family: "NanumSquareNeo-Variable";
+  display: grid;
+  height: 100%;
+  place-items: center;
 
-    display: flex;
-    justify-content: space-between;
-    .myname {
-      padding: 0 1rem;
-      font-size: 1.4rem;
-    }
-    .navbar {
+  .box-whole {
+
+
+    .box-content {
+      background-color: #f0f0f0;
+
       display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: purple;
-      .nav-btn {
-        padding: 8px 12px;
-        margin: 0 8px;
-        background-color: #f0f0f0;
-        color: #333;
-        border: none;
-        border-radius: 15px;
-        cursor: pointer;
-        text-decoration: none;
-        font-size: 0.8rem;
-      }
-    }
-  }
-  .body-content {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    .skinimg-container {
-      position: relative;
-      width: $card-width;
-      height: $card-height;
-      // float: left;
-      cursor: pointer;
-      .skinimg-front {
-        position: absolute;
-        width: $card-width;
-        height: $card-height;
-        background-color: white;
-        top: 0;
-        left: 0;
-        border-radius: 25px;
-        border: 0.1rem solid;
-      }
-      .skinimg-back {
-        position: absolute;
-        width: $card-width;
-        height: $card-height;
-        background-color: grey;
-        top: 0;
-        left: 0;
-        border-radius: 25px;
-
-        text-align: right;
-        line-height : $card-height;
-        font-size: 3rem;
-        border: 0.1rem solid;
-      }
-      // .skinimg-front {
-      //   transform: translate(0px); transition: all 0.8s ease;
-      // }
-      .skinimg-back {
-        transform: translate(0px); transition: all 0.8s ease;
-      }
-    }
-    .skinimg-container:hover {
-      // border: 2px solid yellow;
-    }
-    // .skinimg-container:hover .skinimg-front {
-    //   transform: translate(0px);
-    // }
-    .skinimg-container:hover .skinimg-back {
-      transform: translate(30px);
-    }
-    .keyvalue-box {
-      display: flex;
-      align-items: center;
-
-      .mykey {
-        font-size: 0.8rem;
-        padding: 8px 12px;
-      }
-      .myvalue {
+      justify-content: space-between;
+      .myname {
+        padding: 0 1rem;
         font-size: 1.4rem;
-        padding: 8px 12px;
+      }
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: purple;
+        .nav-btn {
+          padding: 8px 12px;
+          margin: 0 8px;
+          background-color: #f0f0f0;
+          color: #333;
+          border: none;
+          border-radius: 15px;
+          cursor: pointer;
+          text-decoration: none;
+          font-size: 0.8rem;
+        }
       }
     }
-  }
-  .modal {
-    .modal-content {
-      .close {
+    .body-content {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      .skinimg-container {
+        position: relative;
+        width: $card-width;
+        height: $card-height;
+        // float: left;
+        cursor: pointer;
+        .skinimg-front {
+          position: absolute;
+          width: $card-width;
+          height: $card-height;
+          background-color: white;
+          top: 0;
+          left: 0;
+          border-radius: 25px;
+          border: 0.1rem solid;
+        }
+        .skinimg-back {
+          position: absolute;
+          width: $card-width;
+          height: $card-height;
+          background-color: grey;
+          top: 0;
+          left: 0;
+          border-radius: 25px;
+
+          text-align: right;
+          line-height: $card-height;
+          font-size: 3rem;
+          border: 0.1rem solid;
+        }
+        // .skinimg-front {
+        //   transform: translate(0px); transition: all 0.8s ease;
+        // }
+        .skinimg-back {
+          transform: translate(0px);
+          transition: all 0.8s ease;
+        }
       }
-      .p {
+      .skinimg-container:hover {
+        // border: 2px solid yellow;
       }
-      .shelf {
+      // .skinimg-container:hover .skinimg-front {
+      //   transform: translate(0px);
+      // }
+      .skinimg-container:hover .skinimg-back {
+        transform: translate(30px);
+      }
+      .keyvalue-box {
         display: flex;
-        align-items: row;
-        .skin-box {
-          padding: 1.2rem 2rem;
-          .skin-img {
-            width: 184px;
-            height: 239px;
-            background-image: url("https://placehold.co/184x239");
-            cursor: pointer;
-          }
-          .skin-img.checked {
-            border: 5px solid red;
-          }
-          .skin-name {
-            color: red;
+        align-items: center;
+
+        .mykey {
+          font-size: 0.8rem;
+          padding: 8px 12px;
+        }
+        .myvalue {
+          font-size: 1.4rem;
+          padding: 8px 12px;
+        }
+      }
+    }
+    .modal {
+      .modal-content {
+        .close {
+        }
+        .p {
+        }
+        .shelf {
+          display: flex;
+          align-items: row;
+          .skin-box {
+            padding: 1.2rem 2rem;
+            .skin-img {
+              width: 184px;
+              height: 239px;
+              background-image: url("https://placehold.co/184x239");
+              cursor: pointer;
+            }
+            .skin-img.checked {
+              border: 5px solid red;
+            }
+            .skin-name {
+              color: red;
+            }
           }
         }
       }

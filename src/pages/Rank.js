@@ -48,7 +48,6 @@ export default function Rank() {
 
     // 포맷된 날짜 출력
     const formattedDate = `${year}년 ${month}월 ${day}일`;
-    console.log(formattedDate);
     return formattedDate;
   };
 
@@ -153,8 +152,8 @@ export default function Rank() {
                 data.map((item, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{item.tier}</td>
-                    <td>{item.nickname}</td>
+                    <td>{item.userScores.tier}</td>
+                    <td>{item.userScores.nickname}</td>
                     <td>{item.score}</td>
                     <td>{dateParser(item.date)}</td>
                   </tr>

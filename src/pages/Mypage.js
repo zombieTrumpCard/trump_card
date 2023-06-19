@@ -40,7 +40,7 @@ export default function Mypage() {
     setShowModal(false);
   };
 
-  const fetchData = async () => {
+  const getData = async () => {
     try {
       const response = await axios.get("/userInfos/myInfo");
       console.log(response.data);
@@ -96,7 +96,7 @@ export default function Mypage() {
   };
 
   useEffect(() => {
-    fetchData();
+    getData();
   }, []);
 
   useEffect(() => {
@@ -105,6 +105,7 @@ export default function Mypage() {
 
   return (
     <div className="mypage">
+      <div className="box-whole">
       <div className="box-content">
         <p className="myname">
           {nickname}
@@ -187,6 +188,7 @@ export default function Mypage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
