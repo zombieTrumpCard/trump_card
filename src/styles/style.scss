@@ -1,7 +1,10 @@
 @import 'components/Background';
-@import 'pages/Levelpage';
 @import 'components/Header';
-@import 'components/GameEasy';
+@import 'components/SingleCard';
+@import 'pages/Levelpage';
+@import 'pages/GameEasy';
+@import 'pages/GameNormal';
+@import 'pages/GameOver';
 
 @font-face {
   font-family: "Mali-Regular";

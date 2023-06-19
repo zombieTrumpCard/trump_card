@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SingleCard from '../components/SingleCard';
 
-export default function GameEasy() {
+export default function GameHard() {
   const cardImages = [
     { src: '/cardFront/SpadeQ.png', matched: false },
     { src: '/cardFront/SpadeK.png', matched: false },
@@ -67,7 +67,7 @@ export default function GameEasy() {
   // 카드 개수 제한
   const getRandomCards = () => {
     const shuffledCards = [...cardImages].sort(() => 0.5 - Math.random()); // 배열을 랜덤하게 섞음
-    return shuffledCards.slice(0, 8);
+    return shuffledCards.slice(0, 16);
   };
   const randomCard = getRandomCards();
 

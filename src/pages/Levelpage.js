@@ -1,47 +1,88 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Levelpage() {
-  const [bgImageEasy, setBgImageEasy] = useState('url(../public/easyBtn.png)');
-  const [bgImageNormal, setBgImageNormal] = useState('url(../public/easyBtn.png)');
-  const [bgImageHard, setBgImageHard] = useState('url(../public/easyBtn.png)');
+  const navigate = useNavigate();
+
+  const [bgImageEasy, setBgImageEasy] = useState(false);
+  const [bgImageNormal, setBgImageNormal] = useState(false);
+  const [bgImageHard, setBgImageHard] = useState(false);
   const [selectedPage, setSelectedPage] = useState(null);
 
   const handleSelectEasy = () => {
-    setBgImageEasy('url(../public/selectEasyBtn.png)');
-    alert('easy');
+    setBgImageEasy(true);
+    setBgImageNormal(false);
+    setBgImageHard(false);
     setSelectedPage('levelEasy');
   };
+
   const handleSelectNormal = () => {
-    setBgImageNormal('url("../public/selectEasyBtn.png")');
-    alert('normal');
+    setBgImageEasy(false);
+    setBgImageNormal(true);
+    setBgImageHard(false);
     setSelectedPage('levelNormal');
   };
+
   const handleSelectHard = () => {
-    setBgImageHard('url(../public/selectEasyBtn.png)');
-    alert('hard');
+    setBgImageEasy(false);
+    setBgImageNormal(false);
+    setBgImageHard(true);
     setSelectedPage('levelHard');
   };
 
-  // const clickStart = () => {
-  //   if (selectedPage === 'levelEasy') {
-  //     history.push('/levelEasy');
-  //   } else if (selectedPage === 'levelNormal') {
-  //     history.push('/levelNormal');
-  //   } else if (selectedPage === 'levelHard') {
-  //     history.push('/levelHard');
-  //   }
-  // };
+  const clickStart = () => {
+    let path;
+    if (selectedPage === 'levelEasy') {
+      path = '/gameeasy';
+    } else if (selectedPage === 'levelNormal') {
+      path = '/levelNormal';
+    } else if (selectedPage === 'levelHard') {
+      path = '/levelHard';
+    }
+
+    if (path) {
+      navigate(path);
+    }
+  };
 
   return (
     <div className="background">
-      <Link to="/" className="homeBtn"> HOME </Link>
+      <Link to="/" className="homeBtn">
+        HOME
+      </Link>
       <div className="rabbitIcon" />
       <h1 className="levelTitle"> Level </h1>
-      <button type="button" className="chooseLevelEasy" onClick={handleSelectEasy} style={{ bgImageEasy }}> </button>
-      <button type="button" className="chooseLevelNormal" onClick={handleSelectNormal} style={{ bgImageNormal }}> </button>
-      <button type="button" className="chooseLevelHard" onClick={handleSelectHard} style={{ bgImageHard }}> </button>
-      {/* <Link to="/gameeagy" className="startBtn" onClick={clickStart} /> */}
+      <button
+        type="button"
+        className="chooseLevelEasy"
+        onClick={handleSelectEasy}
+        style={{
+          backgroundImage: `url(${
+            bgImageEasy ? '/selectEasyBtn.png' : '/easyBtn.png'
+          })`,
+        }}
+      />
+      <button
+        type="button"
+        className="chooseLevelNormal"
+        onClick={handleSelectNormal}
+        style={{
+          backgroundImage: `url(${
+            bgImageNormal ? '/selectEasyBtn.png' : '/easyBtn.png'
+          })`,
+        }}
+      />
+      <button
+        type="button"
+        className="chooseLevelHard"
+        onClick={handleSelectHard}
+        style={{
+          backgroundImage: `url(${
+            bgImageHard ? '/selectEasyBtn.png' : '/easyBtn.png'
+          })`,
+        }}
+      />
+      <button className="startBtn" onClick={clickStart} />
     </div>
   );
 }
