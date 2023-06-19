@@ -184,7 +184,7 @@ export default function Home() {
                     <br />
                     <button type="submit">로그인</button>
                   </form>
-                  <button type="button">회원가입</button>
+                  <Link to="/userCreate">회원가입</Link>
                 </div>
               </div>
             )}
@@ -194,7 +194,15 @@ export default function Home() {
       {/* 메인페이지 */}
       <div style={divStyle} />
       <p>Home Page is here.</p>
-      {isLoggedIn ? (<div style={gameScreenStyle}>게임</div>) : <div onClick={handleOpenModal} style={gameScreenStyle}>게임</div>}
+      {isLoggedIn ? (
+        <Link to="/level" style={gameScreenStyle}>
+          게임
+        </Link>
+      ) : (
+        <div onClick={handleOpenModal} style={gameScreenStyle}>
+          게임
+        </div>
+      )}
     </>
   );
 }
