@@ -81,6 +81,42 @@ function App() {
             </>
           }
         />
+        <Route
+          path="/level"
+          element={(
+            <Levelpage />
+          )}
+        />
+        <Route
+          path="/gameeasy"
+          element={(
+            <GameEasy />
+          )}
+        />
+        <Route
+          path="/gamenormal"
+          element={(
+            <GameNormal />
+            )}
+        />
+        <Route
+          path="/gamehard"
+          element={(
+            <GameHard />
+          )}
+        />
+        <Route
+          path="/gameover"
+          element={(
+            <GameOver />
+          )}
+        />
+        <Route
+          path="/gamenend"
+          element={(
+            <GameEnd />
+          )}
+        />
         <Route path="/level" element={<Levelpage />} />
         <Route path="/gameeasy" element={<GameEasy />} />
         <Route path="/gamenormal" element={<GameNormal />} />

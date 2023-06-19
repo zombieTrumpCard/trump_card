@@ -135,6 +135,7 @@ export default function GameHard() {
   }, [cards]);
 
   return (
+    <div className="GameHard">
     <div className="GameBackground">
       <button className="RestartBtn" onClick={shuffleCards}>
         Restart
@@ -152,6 +153,7 @@ export default function GameHard() {
           />
         ))}
       </div>
+    </div>
     </div>
   );
 }
