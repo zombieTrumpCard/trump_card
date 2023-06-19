@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SingleCard from '../components/SingleCard';
 
 export default function GameEasy() {
@@ -63,6 +64,19 @@ export default function GameEasy() {
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [seconds, setSeconds] = useState(10);
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+  const navigate = useNavigate();
+
+  // 타이머
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSeconds(prevSeconds => prevSeconds - 1); // 1초마다 초 감소
+    }, 1000);
+    // 컴포넌트가 언마운트되거나 업데이트되기 전에 타이머를 정리(cleanup)
+    return () => clearInterval(timer);
+  }, []); // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때만 타이머 설정
 
   // 카드 개수 제한
   const getRandomCards = () => {
@@ -80,7 +94,11 @@ export default function GameEasy() {
     setChoiceOne(null);
     setChoiceTwo(null);
     setCards(shuffledCards);
-    setTurns(0);
+    setTurns(0);    
+    setTimeout(() => {
+      setIsInitialRender(false);
+    }, 1000);
+    setSeconds(10);
   };
 
   // handle of choice
@@ -124,15 +142,23 @@ export default function GameEasy() {
   }, []);
 
   // Game Score 계산
-  const [totalScore, setTotalScore] = useState(0);
+  const [score, setScore] = useState(0);
   const updateScore = () => {
     const matchedCardsCount = cards.filter((card) => card.matched).length;
     const newScore = matchedCardsCount * 100 / 2;
-    setTotalScore(newScore);
+    setScore(newScore);
   };
   useEffect(() => {
     updateScore();
   }, [cards]);
+
+  // 게임 종료
+  useEffect(() => {
+    if (seconds === 0) {
+      // 타이머가 0이 되면 페이지 전환을 수행합니다.
+      navigate('/gameover'); // 적절한 경로로 변경해야 합니다.
+    }
+  }, [seconds, navigate]);
 
   return (
     <div className="GameEasy">
@@ -141,14 +167,15 @@ export default function GameEasy() {
         Restart
       </button>
       <p>Turns: {turns}</p>
-      <p>Score: {totalScore}</p>
+      <p>Score: {score}</p>
+      <p>Timer: {seconds}</p>
       <div className="cardGrid">
         {cards.map((card) => (
           <SingleCard
             key={card.id}
             card={card}
             handleChoice={handleChoice}
-            flipped={card === choiceOne || card === choiceTwo || card.matched}
+            flipped={isInitialRender || card === choiceOne || card === choiceTwo || card.matched}
             disabled={disabled}
           />
         ))}
