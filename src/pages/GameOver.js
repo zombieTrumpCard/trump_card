@@ -1,10 +1,22 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
+import axios from 'axios';
 import PropTypes from 'prop-types';
+import { Cookies } from "react-cookie";
 
-export default function GameOver() {
+const cookies = new Cookies();
+
+export default function GameOver({ score }) {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // 새로고침 시 로그인 상태를 복원
+    const getCookie = cookies.get("accessToken");
+    if (!!getCookie === true) {
+      // token이 빈 값이 아니라면
+      axios.defaults.headers.common.Authorization = `Bearer ${getCookie}`;
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -14,19 +26,20 @@ export default function GameOver() {
     return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머를 정리합니다.
   }, [navigate]);
 
-  // const postScore = async () => {
-  //   try {
-  //     const response = await axios.post("/userScores/mkscore", {totalScore, level:"hard"} );
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert(error);
+  const postScore = async () => {
+    const response = await axios.post("/userScores/mkscore", { score, level:"hard" } );
+    console.log('1: %o', response.data);
+    try {
+      console.log('2: %o', response.data);
+    } catch (error) {
+      console.error(`3. err: %o`, error);
+      alert(error);
       
-  //   }
-  // };
-  // useEffect(() => {
-  //   postScore();
-  // }, []);
+    }
+  };
+  useEffect(() => {
+    postScore();
+  }, []);
 
   return (
     <div className='bgGameOver'>
@@ -36,5 +49,5 @@ export default function GameOver() {
 }
 
 GameOver.propTypes = {
-  totalScore: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
 };

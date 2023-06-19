@@ -5,6 +5,8 @@
 .card img {
   width: 100%;
   display: block;
+
+  border: 5px solid #fff;
   border-radius: 12px;
 }
 
@@ -22,7 +24,6 @@
 
 // back of card - cover
 .card .back {
-  border: 5px solid #fff;
   transition: all ease-in 0.2s;
   transition-delay: 0.2s;
 }
