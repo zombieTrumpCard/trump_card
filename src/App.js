@@ -78,7 +78,9 @@ function App() {
             <>
               <Header />
               <UserDrop />
-            </>
+            </>)}
+        />
+        <Route
           path="/level"
           element={(
             <Levelpage />
@@ -97,9 +99,9 @@ function App() {
             )}
         />
         <Route
-          path="/gamenhard"
+          path="/gamehard"
           element={(
-            <GameEnd />
+            <GameHard />
           )}
         />
         <Route

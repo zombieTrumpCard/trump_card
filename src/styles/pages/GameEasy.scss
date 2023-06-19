@@ -1,4 +1,4 @@
-body {
+.GameEasy {
   margin: 0;
   font-family: 'Mali-Regular';
   font-size: 1.5em;
@@ -33,7 +33,7 @@ body {
   .cardGrid {
     margin-top: 40px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 20px;
   }
 }

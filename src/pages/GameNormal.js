@@ -135,6 +135,7 @@ export default function GameNormal() {
   }, [cards]);
 
   return (
+    <div className="GameNormal">
     <div className="GameBackground">
       <button className="RestartBtn" onClick={shuffleCards}>
         Restart
@@ -152,6 +153,7 @@ export default function GameNormal() {
           />
         ))}
       </div>
+    </div>
     </div>
   );
 }
