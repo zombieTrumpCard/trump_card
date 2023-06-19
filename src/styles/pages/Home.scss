@@ -1,12 +1,30 @@
-.home-title {
-  width: "100%";
-  height: "7rem";
-  background-color: "skyblue";
+.header {
+  font-family: "NanumSquareNeo-Variable";
 }
 
-.gameScreen {
-  width: "60%";
-  height: "30rem";
-  margin: "auto";
-  background-color: "yellow";
+.home {
+  height: 80%;
+  width: 100%;
+  font-family: "NanumSquareNeo-Variable";
+
+  .home-title {
+    width: 100%;
+    height: 7rem;
+    background-color: skyblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    b {
+      font-size: 4rem;
+      font-family: "HSJiptokki-Black";
+    }
+  }
+
+  .gameScreen {
+    width: 60%;
+    height: 30rem;
+    margin: auto;
+    background-color: yellow;
+  }
 }
