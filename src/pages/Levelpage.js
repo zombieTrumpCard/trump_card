@@ -35,9 +35,9 @@ export default function Levelpage() {
     if (selectedPage === 'levelEasy') {
       path = '/gameeasy';
     } else if (selectedPage === 'levelNormal') {
-      path = '/levelNormal';
+      path = '/gamenormal';
     } else if (selectedPage === 'levelHard') {
-      path = '/levelHard';
+      path = '/gamehard';
     }
 
     if (path) {
