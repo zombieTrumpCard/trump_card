@@ -3,6 +3,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home';
 import MyPage from './pages/Mypage';
+import NickChange from './pages/NickChange';
+import Rank from './pages/Rank';
+import UserCreate from './pages/UserCreate';
+import Store from './pages/Store';
+import UserDrop from './pages/UserDrop';
 
 function App() {
   return (
@@ -12,8 +17,16 @@ function App() {
           path="/"
           element={(
             <>
-              <Header />
               <Home />
+            </>
+          )}
+        />
+        <Route
+          path="/userCreate"
+          element={(
+            <>
+              <Header />
+              <UserCreate />
             </>
           )}
         />
@@ -26,7 +39,42 @@ function App() {
             </>
           )}
         />
-        {/* <Route path="/game" elements={ChooseLevel} /> */}
+        <Route
+          path="/rank"
+          element={(
+            <>
+              <Header />
+              <Rank />
+            </>
+          )}
+        />
+        <Route
+          path="/store"
+          element={(
+            <>
+              <Header />
+              <Store />
+            </>
+          )}
+        />
+        <Route
+          path="/nickChange"
+          element={(
+            <>
+              <Header />
+              <NickChange />
+            </>
+          )}
+        />
+        <Route
+          path="/dropuser"
+          element={(
+            <>
+              <Header />
+              <UserDrop />
+            </>
+          )}
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -1,0 +1,74 @@
+.store {
+  padding: 2rem 10rem;
+  background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+
+  .box-content {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+
+    .navbar {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .body-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .shop-owner {
+      width: 10rem;
+      height: 10rem;
+      background-color: green;
+    }
+
+    .shelf {
+      width: 100%; /* 가로 폭을 100%로 설정 */
+      background-color: white;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      padding: 2rem 4rem;
+
+      .skin {
+        flex: 1; /* 가로 공간을 공평하게 분배 */
+        background-color: pink;
+
+        .buy-btn {
+          padding: 8px 12px;
+          margin: 0 8px;
+          background-color: yellow;
+          color: #333;
+          border: none;
+          border-radius: 15px;
+          cursor: pointer;
+          text-decoration: none;
+          font-size: 0.8rem;
+        }
+
+        .skin-img {
+          width: 6rem;
+          height: 10rem;
+          background-color: grey;
+        }
+
+        .skin-name {
+          font-size: 1rem;
+        }
+
+        .skin-price {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

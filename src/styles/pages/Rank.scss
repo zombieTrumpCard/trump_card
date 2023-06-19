@@ -1,0 +1,68 @@
+.rank {
+  padding: 2rem 10rem;
+  background-color: aquamarine;
+
+  .body-content {
+    display: flex;
+    justify-content: center;
+    .navbar {
+      display: flex;
+      align-items: center;
+      // justify-content: center;
+      flex-direction: column;
+
+      padding: 1rem 2rem;
+      background-color: yellow;
+      .lv {
+        padding: 0.2rem 0.4rem;
+        font-size: 1rem;
+      }
+      .lv-btn {
+        padding: 0.2rem 0.4rem;
+        margin: 0 8px;
+        font-size: 1rem;
+        background-color: transparent;
+        color: #333;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .lv-btn:hover {
+        background-color: black;
+        opacity: 0.3;
+        color: white;
+        cursor: pointer;
+      }
+    }
+    .table-box::-webkit-scrollbar {
+      width: 15px; /* Chrome, Safari, Opera */
+    }
+
+    .table-box::-webkit-scrollbar-thumb {
+      background-color: red; /* Chrome, Safari, Opera */
+    }
+
+    .table-box::-webkit-scrollbar-track {
+      background-color: green; /* Chrome, Safari, Opera */
+      width: 4px;
+    }
+    .table-box {
+      background-color: #f0f0f0;
+      height: 20rem;
+
+      display: flex;
+      justify-content: space-between;
+      overflow-x: hidden; /* 가로 스크롤 숨기기 */
+      overflow-y: scroll; /* 세로 스크롤 표시 */
+
+      .rank-table {
+        padding: 1rem 3rem;
+        td {
+          padding: 0.5rem 3rem;
+        }
+      }
+    }
+    
+  }
+}
