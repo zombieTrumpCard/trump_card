@@ -6,24 +6,10 @@ import { Cookies } from "react-cookie";
 const cookies = new Cookies();
 
 export default function Home() {
-  const divStyle = {
-    width: "100%",
-    height: "7rem",
-    backgroundColor: "skyblue",
-  };
-
-  const gameScreenStyle = {
-    width: "60%",
-    height: "30rem",
-    margin: "auto",
-    backgroundColor: "yellow",
-  };
-
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
   const [showModal, setShowModal] = useState(false); // 모달
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  // const [toSignin, setToSignin] = useState(true); // true:로그인창 false:회원가입창
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,10 +35,12 @@ export default function Home() {
   // 로그아웃 처리
   const handleLogout = () => {
     setIsLoggedIn(false);
-    // deleteCookie("isLoggedIn");
     deleteCookie("accessToken");
     // 헤더에서 Authorization 제거
     delete axios.defaults.headers.common.Authorization;
+    
+    // 사용자에게 로그아웃되었음을 알림
+    alert("로그아웃 되었습니다.");
   };
 
   const handleFormSubmit = async (e) => {
@@ -69,13 +57,6 @@ export default function Home() {
 
       // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
       axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-
-      // JWT 토큰을 쿠키에 설정
-      // document.cookie = `token=${authToken}; path=/;`; // HttpOnly; Secure; HttpsOnly속성
-      // console.log('authToken', authToken);
-
-      // 로그인 상태 쿠키 생성
-      // cookies.set("isLoggedIn", true);
 
       // 로그인 상태 변경
       setIsLoggedIn(true);
@@ -112,13 +93,20 @@ export default function Home() {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
 
+  const clickStart = () => {
+    navigate("/level");
+  };
+
   return (
     <>
       {/* 헤더 */}
       <div className="header">
-        <Link to="/" className="title">
-          트럼프카드 맞추기 게임
-        </Link>
+        <div>
+          <img src="/logo_trump.png" alt="logImage"></img>
+          <Link to="/" className="title">
+            트럼프카드 맞추기 게임
+          </Link>
+        </div>
         {isLoggedIn ? (
           <div className="navbar">
             <Link to="/rank" className="nav-btn">
@@ -164,27 +152,42 @@ export default function Home() {
                   >
                     &times;
                   </button>
-                  <p>로그인</p>
-                  <form onSubmit={handleFormSubmit}>
-                    <input
-                      type="text"
-                      className="form-control-text"
-                      value={id}
-                      placeholder="id:a4 pw:4444"
-                      onChange={(e) => setId(e.target.value)}
-                    />
-                    <br />
-                    <input
-                      type="password"
-                      className="form-control-text"
-                      value={password}
-                      placeholder="PW를입력하세요"
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <br />
-                    <button type="submit">로그인</button>
-                  </form>
-                  <Link to="/userCreate">회원가입</Link>
+                  <div className="login-container">
+                    <form className="login-form" onSubmit={handleFormSubmit}>
+                      <p>로그인</p>
+                      <input
+                        type="text"
+                        className="form-control-text"
+                        value={id}
+                        placeholder="id를 입력하세요"
+                        onChange={(e) => setId(e.target.value)}
+                      />
+                      <br />
+                      <input
+                        type="password"
+                        className="form-control-text"
+                        value={password}
+                        placeholder="PW를 입력하세요"
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <br />
+                      <div className="btn-bar">
+                        <button className="submit-button" type="submit">
+                          로그인
+                        </button>
+                        <button
+                          className="signup-button"
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setShowModal(false);
+                          }}
+                        >
+                          <Link to="/userCreate">회원가입</Link>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             )}
@@ -193,19 +196,20 @@ export default function Home() {
       </div>
       {/* 메인페이지 */}
       <div className="home">
-        <div className="home-title">
-          <b>트럼프카드 맞추기 게임</b>
-        </div>
-        <p>Home Page is here.</p>
-        {isLoggedIn ? (
-          <Link to="/level" className="gameScreen">
-            게임
-          </Link>
-        ) : (
-          <div onClick={handleOpenModal} style={gameScreenStyle}>
-            게임
+        <div className="box-whole">
+          <div className="home-title">
+            <b>트럼프카드 맞추기 게임</b>
           </div>
-        )}
+          {isLoggedIn ? (
+            <div className="gameScreen">
+              <button onClick={clickStart} className="game-link" />
+            </div>
+          ) : (
+            <div onClick={handleOpenModal} className="gameScreen">
+              <button onClick={clickStart} className="game-link" />
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

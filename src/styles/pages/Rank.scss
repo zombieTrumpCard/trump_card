@@ -1,70 +1,177 @@
+$row-height: 3.35rem;
+
 .rank {
-  height:80%;
-  padding: 2rem 10rem;
-  background-color: aquamarine;
-  font-family: 'NanumSquareNeo-Variable';
+  // background-color: aquamarine;
+  font-family: "NanumSquareNeo-Variable";
+  display: grid;
+  height: calc(93% - 1px);
+  place-items: center;
 
-  .body-content {
-    display: flex;
-    justify-content: center;
-    .navbar {
+  .box-whole {
+    .body-content {
       display: flex;
-      align-items: center;
-      // justify-content: center;
-      flex-direction: column;
+      justify-content: center;
+      .navbar {
+        display: flex;
+        align-items: center;
+        // justify-content: center;
+        flex-direction: column;
 
-      padding: 1rem 2rem;
-      background-color: yellow;
-      .lv {
-        padding: 0.2rem 0.4rem;
-        font-size: 1rem;
+        padding: 1rem 2rem;
+        background-color: yellow;
+        .lv {
+          padding: 0.2rem 0.4rem;
+          font-size: 1rem;
+        }
+        .lv-btn {
+          padding: 0.2rem 0.4rem;
+          margin: 0 8px;
+          font-size: 1rem;
+          background-color: transparent;
+          color: #333;
+          border: none;
+          border-radius: 15px;
+          cursor: pointer;
+          text-decoration: none;
+        }
+        .lv-btn:hover {
+          background-color: black;
+          opacity: 0.3;
+          color: white;
+          cursor: pointer;
+        }
       }
-      .lv-btn {
-        padding: 0.2rem 0.4rem;
-        margin: 0 8px;
-        font-size: 1rem;
-        background-color: transparent;
-        color: #333;
-        border: none;
-        border-radius: 15px;
-        cursor: pointer;
-        text-decoration: none;
+      .table-box::-webkit-scrollbar {
+        width: 15px; /* Chrome, Safari, Opera */
       }
-      .lv-btn:hover {
-        background-color: black;
-        opacity: 0.3;
-        color: white;
-        cursor: pointer;
+
+      .table-box::-webkit-scrollbar-thumb {
+        background-color: skyblue; /* Chrome, Safari, Opera */
+        border-radius: 25px;
       }
-    }
-    .table-box::-webkit-scrollbar {
-      width: 15px; /* Chrome, Safari, Opera */
-    }
 
-    .table-box::-webkit-scrollbar-thumb {
-      background-color: red; /* Chrome, Safari, Opera */
-    }
+      .table-box::-webkit-scrollbar-track {
+        background-color: gray; /* Chrome, Safari, Opera */
+        width: 4px;
+      }
+      .table-box {
+        background-color: #f0f0f0;
+        height: 25rem;
 
-    .table-box::-webkit-scrollbar-track {
-      background-color: green; /* Chrome, Safari, Opera */
-      width: 4px;
-    }
-    .table-box {
-      background-color: #f0f0f0;
-      height: 20rem;
+        display: flex;
+        justify-content: space-between;
 
-      display: flex;
-      justify-content: space-between;
-      overflow-x: hidden; /* 가로 스크롤 숨기기 */
-      overflow-y: scroll; /* 세로 스크롤 표시 */
+        overflow-x: hidden; /* 가로 스크롤 숨기기 */
+        overflow-y: scroll; /* 세로 스크롤 표시 */
+        .table-container {
+          background-color: pink;
+          border-collapse: collapse;
+          // overflow-y: hidden; /* 세로 스크롤 표시 */
+        }
 
-      .rank-table {
-        padding: 1rem 3rem;
-        td {
-          padding: 0.5rem 3rem;
+        .table-container thead {
+          position: sticky;
+          top: 0;
+          background-color: white;
+        }
+
+        .table-container tbody {
+          // overflow-y: auto; /* 세로 스크롤 표시 */
+          height: calc(
+            100% - $row-height * 4
+          ); /* thead의 높이를 제외한 부분의 높이 설정 */
+        }
+
+        .table-container tbody tr:nth-child(1) {
+          position: sticky;
+          top: $row-height;
+          background-color: rgb(42, 42, 42);
+          color: white;
+          z-index: 1;
+        }
+
+        .table-container tbody tr:nth-child(2) {
+          position: sticky;
+          top: $row-height * 2;
+          background-color: rgb(56, 56, 56);
+          color: white;
+          z-index: 1;
+
+          .rainbow-text-loop {
+            font-size: 1.5rem;
+            display: inline-block;
+            margin-top: 1rem;
+            text-shadow: 2px 2px 4px #000000;
+            animation: rainbow 5s infinite;
+          }
+
+          @keyframes rainbow {
+            0% {
+              color: orange;
+            }
+            10% {
+              color: purple;
+            }
+            20% {
+              color: red;
+            }
+            30% {
+              color: CadetBlue;
+            }
+            40% {
+              color: yellow;
+            }
+            50% {
+              color: coral;
+            }
+            60% {
+              color: green;
+            }
+            70% {
+              color: cyan;
+            }
+            80% {
+              color: DeepPink;
+            }
+            90% {
+              color: DodgerBlue;
+            }
+            100% {
+              color: orange;
+            }
+          }
+        }
+
+        .table-container tbody tr:nth-child(3) {
+          position: sticky;
+          top: $row-height * 3;
+          background-color: rgb(77, 77, 77);
+          color: white;
+          z-index: 1;
+        }
+
+        .table-container tbody tr:nth-child(n + 4) {
+          background-color: white;
         }
       }
     }
-    
   }
+}
+
+th {
+  padding: 1rem 3rem;
+}
+
+td {
+  padding: 1rem 3rem;
+}
+
+td:nth-child(n - 3) {
+  /* index + 1에 해당하는 td 요소 선택 */
+  text-align: center;
+}
+
+td:nth-child(4) {
+  /* item.score에 해당하는 td 요소 선택 */
+  text-align: right;
 }

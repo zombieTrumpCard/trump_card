@@ -10,7 +10,6 @@ export default function Header() {
   const [showModal, setShowModal] = useState(false); // 모달
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  // const [toSignin, setToSignin] = useState(true); // true:로그인창 false:회원가입창
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,10 +35,12 @@ export default function Header() {
   // 로그아웃 처리
   const handleLogout = () => {
     setIsLoggedIn(false);
-    // deleteCookie("isLoggedIn");
     deleteCookie("accessToken");
     // 헤더에서 Authorization 제거
     delete axios.defaults.headers.common.Authorization;
+    
+    // 사용자에게 로그아웃되었음을 알림
+    alert("로그아웃 되었습니다.");
   };
 
   const handleFormSubmit = async (e) => {
@@ -57,23 +58,16 @@ export default function Header() {
       // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
       axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
-      // JWT 토큰을 쿠키에 설정
-      // document.cookie = `token=${authToken}; path=/;`; // HttpOnly; Secure; HttpsOnly속성
-      // console.log('authToken', authToken);
-
-      // 로그인 상태 쿠키 생성
-      // cookies.set("isLoggedIn", true);
-
       // 로그인 상태 변경
       setIsLoggedIn(true);
 
       // 모달창 끄기
       setShowModal(false);
 
-      // window.location.reload(); // 새로고침
+      window.location.reload(); // 새로고침
     } catch (error) {
       console.error(error); // 에러 처리
-      if (error.code !== 200 && error.code === 401) {
+      if (error.code !== 200) {
         alert(`${error.response.data.message}`);
       } else {
         alert(error);
@@ -83,17 +77,6 @@ export default function Header() {
     }
   };
 
-  // // 쿠키 읽어오는 함수
-  // function getCookie(name) {
-  //   const cookie = document.cookie.split(";").map((c) => c.trim());
-  //   for (let i = 0; i < cookie.length; i += 1) {
-  //     if (cookie[i].startsWith(`${name}=`)) {
-  //       return cookie[i].substring(name.length + 1);
-  //     }
-  //   }
-  //   return "";
-  // }
-
   // 쿠키 삭제 함수
   function deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
@@ -101,9 +84,12 @@ export default function Header() {
 
   return (
     <div className="header">
-      <Link to="/" className="title">
-        트럼프 맞추기 게임
-      </Link>
+      <div>
+        <img src="/logo_trump.png" alt="logImage"></img>
+        <Link to="/" className="title">
+          트럼프카드 맞추기 게임
+        </Link>
+      </div>
       {isLoggedIn ? (
         <div className="navbar">
           <Link to="/rank" className="nav-btn">
@@ -149,27 +135,40 @@ export default function Header() {
                 >
                   &times;
                 </button>
-                <p>로그인</p>
-                <form onSubmit={handleFormSubmit}>
-                  <input
-                    type="text"
-                    className="form-control-text"
-                    value={id}
-                    placeholder="id:a4 pw:4444"
-                    onChange={(e) => setId(e.target.value)}
-                  />
-                  <br />
-                  <input
-                    type="password"
-                    className="form-control-text"
-                    value={password}
-                    placeholder="PW를입력하세요"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <br />
-                  <button type="submit">로그인</button>
-                </form>
-                <button type="button">회원가입</button>
+                <div className="login-container">
+                  <form className="login-form" onSubmit={handleFormSubmit}>
+                    <p>로그인</p>
+                    <input
+                      type="text"
+                      className="form-control-text"
+                      value={id}
+                      placeholder="id를 입력하세요"
+                      onChange={(e) => setId(e.target.value)}
+                    />
+                    <br />
+                    <input
+                      type="password"
+                      className="form-control-text"
+                      value={password}
+                      placeholder="PW를 입력하세요"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <br />
+                    <div className="btn-bar">
+                      <button className="submit-button" type="submit">로그인</button>
+                      <button
+                        className="signup-button"
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setShowModal(false);
+                        }}
+                      >
+                        <Link to="/userCreate">회원가입</Link>
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           )}

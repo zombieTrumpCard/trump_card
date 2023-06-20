@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import skinList from "../skin.json";
 
 export default function Store() {
   const [skinArr, setSkinArr] = useState([]);
