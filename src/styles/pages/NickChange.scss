@@ -2,7 +2,6 @@
   font-family: "NanumSquareNeo-Variable";
   display: grid;
   height: calc(93% - 1px);
-  place-items: center;
 
   .box-whole {
     .myname {
@@ -21,11 +20,48 @@
         
         font-size: 2rem;
     }
+       
+    .labelForm {
+        position: absolute;
+        top: 52%;
+        left: 37%;
+        transform: translate(-50%);
+
+        font-size: 1.2rem;
+    }
+
+    .labelInput{
+        position: absolute;
+        top: -11%;
+        left: 270%;
+        transform: translate(-50%);
+        
+        padding: 6px 6px;
+        font-size: 1.2rem;
+    }
+
+    .checkBtn {
+        position: absolute;
+        top: 51.5%;
+        left: 65%;
+        transform: translate(-50%);
+
+        background-color: #f0f0f0;
+        color: #333;
+        border: none;
+        border-radius: 4px;
+        padding: 6px 6px;
+        text-decoration: none;
+        font-family: "NanumSquareNeo-Variable";
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
     .changeBtn {
         position: absolute;
         left: 50%;
         transform: translate(-50%);
-        top: 75%;
+        top: 71%;
 
         font-family: "NanumSquareNeo-Variable";
         padding: 1.2rem 2.4rem;
@@ -33,25 +69,7 @@
         color: #ffffff;
         border: 1px solid black;
         font-size: 1rem;
-    }
-   
-    .labelForm {
-
-    }
-    
-    .labelInput{
-        position: absolute;
-        top: 55%;
-        left: 50%;
-        transform: translate(-50%);
- 
-        font-size: 1rem;
-     }
-
-    .checkBtn {
-        position: absolute;
-        left: 64%;
-        top: 55%;
+        cursor: pointer;
     }
   }
 }
