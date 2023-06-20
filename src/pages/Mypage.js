@@ -67,8 +67,7 @@ export default function Mypage() {
 
       // 스킨 이름 세팅
       const getSkinName = skinList.find(
-        (item) =>
-          item.skin === (response.data.skinName || "nomal")
+        (item) => item.skin === (response.data.skinName || "nomal")
       );
       setSkinNameKO(getSkinName ? getSkinName.skin_name : null);
     } catch (error) {
@@ -109,7 +108,13 @@ export default function Mypage() {
       console.log("response.data GETMYSKIN", response.data);
 
       // 데이터 담기
-      setMykinArr(response.data); // 내스킨목록
+      if (response.data.length > 0) {
+        setMykinArr(response.data); // 내스킨목록
+      } else if (response.data.length === 0) {
+        setMykinArr([{
+          skin_id: 11,
+        }]);
+      }
     } catch (error) {
       alert(error);
     }
@@ -205,10 +210,8 @@ export default function Mypage() {
                     myskinArr.map((item, index) => (
                       <div className="skin-box" key={index}>
                         <span className="skin-name">
-                          {
-                            skinList.find((one) => one.skin_id === item.skin_id)
-                              ?.skin_name || "nomal"
-                          }
+                          {skinList.find((one) => one.skin_id === item.skin_id)
+                            ?.skin_name || "nomal"}
                         </span>
                         <div
                           className={`skin-img ${

@@ -47,11 +47,11 @@ $card-height: 210px;
       align-items: center;
       // background-color: skyblue;
       .mykey.myskin {
-        margin : 0;
-        margin-top:3rem;
+        margin: 0;
+        margin-top: 3rem;
       }
       .myvalue.myskin {
-        margin:0;
+        margin: 0;
       }
 
       .skinimg-container {
@@ -110,6 +110,20 @@ $card-height: 210px;
       .myvalue {
         font-size: 1.4rem;
         padding: 8px 12px;
+      }
+      select {
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        // background-image: url("arrow.png"); /* 사용자 정의 화살표 이미지 */
+        background-repeat: no-repeat;
+        background-position: right center;
+        padding-right: 20px; /* 이미지와 간격 조절 */
+      }
+      select option:checked {
+        background-color: #ddd;
       }
     }
     .modal {
