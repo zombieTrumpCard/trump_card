@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import PropTypes from 'prop-types';
+import React, { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import { Cookies } from "react-cookie";
 
 const cookies = new Cookies();
 
-export default function GameOver({ score }) {
+export default function GameOver() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // 새로고침 시 로그인 상태를 복원
@@ -18,36 +18,46 @@ export default function GameOver({ score }) {
     }
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate('/gameend');
-    }, 2000);
-
-    return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머를 정리합니다.
-  }, [navigate]);
-
-  const postScore = async () => {
-    const response = await axios.post("/userScores/mkscore", { score, level:"hard" } );
-    console.log('1: %o', response.data);
+  // 스코어, 포인트, 레벨을 서버로 보내는 설정
+  const postSP = async (score, level, point) => {
     try {
-      console.log('2: %o', response.data);
+      const response = await axios.post("/userScores/mkscore", {
+        score,
+        level,
+        point,
+      });
     } catch (error) {
-      console.error(`3. err: %o`, error);
       alert(error);
-      
     }
   };
+
+  // 스코어, 포인트, 레벨을 가져오고, 보내기
+  // 3초 후 다음 페이지로 이동
+  const navigateToGameEnd = () => {
+    navigate("/gameend", {
+      state: {
+        score: location.state.totalScore,
+        point: location.state.totalPoint
+      }
+    });
+  };
+  
   useEffect(() => {
-    postScore();
-  }, []);
+    const score = location.state.totalScore;
+    const point = location.state.totalPoint;
+    const level = location.state.nowLevel;
+    postSP(score, level, point);
+  
+    const timer = setTimeout(() => {
+      navigateToGameEnd();
+    }, 3000);
+  
+    return () => clearTimeout(timer);
+  }, [navigateToGameEnd]);
 
   return (
-    <div className='bgGameOver'>
-      <h1 className='youDied'>You Died</h1>
+    <div className="bgGameOver">
+      <h1 className="youDied">You Died</h1>
     </div>
   );
 }
-
-GameOver.propTypes = {
-  score: PropTypes.number.isRequired,
-};
