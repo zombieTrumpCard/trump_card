@@ -26,12 +26,13 @@ export default function GameEnd() {
 
   return (
     <>
-      <div className="GameEnd">
-        <h1 className="Restart">Restart?</h1>
+      <div className="background">
+        <h1 className="RestartTitle">Restart?</h1>
         <button onClick={clickY} className="clickY" />
         <button onClick={clickN} className="clickN" />
-        <p className="SP">Score : {totalScore}</p>
-        <p className="SP">point : {totalPoint}</p>
+        <p className="SP1">Score : {totalScore}</p>
+        <p className="SP2">point : {totalPoint}</p>
+        <div className="rabbitIcon" />
       </div>
     </>
   );

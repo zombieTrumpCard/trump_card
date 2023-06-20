@@ -1,28 +1,16 @@
-.GameHard {
-  margin: 0;
-  font-family: 'Mali-Regular';
-  font-size: 1.5em;
-  text-align: center;
-  color: #000;
-
-  width: 100%;
-  height: 100vh;
-  background-image: url('../../../public/background.jpg');
-  background-size: cover;
-
-  .GameBackground {
-    max-width: 860px;
-    margin: 40px auto;
-  }
+.background {
 
   .RestartBtn {
+    position: absolute;
+    top: 0.5rem;
+    margin-left: 88%;
     background: none;
     border: none;
 
     font-family: 'Mali-Regular';
     color: #000;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 2.5rem;
   }
 
   .RestartBtn:hover {
@@ -30,10 +18,21 @@
     color: #000;
   }
 
+  .hardGameBackground {
+    position: absolute;
+    top: 2.5rem;
+    left: 50%;
+    transform: translate(-50%);
+    width: 48%;
+
+    text-align: center;
+    font-size: 2rem;
+
   .cardGrid {
     margin-top: 40px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 20px;
+  }
   }
 }
