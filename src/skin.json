@@ -6,7 +6,7 @@
   },
   {
     "skin_id": 2,
-    "skin": "heart queen",
+    "skin": "heart_queen",
     "skin_name": "하트여왕"
   },
   {
@@ -22,11 +22,11 @@
   {
     "skin_id": 5,
     "skin": "basic",
-    "skin_name": "트럼프카드"
+    "skin_name": "열정!열정!열정!"
   },
   {
     "skin_id": 6,
-    "skin": "white rabbit",
+    "skin": "white_rabbit",
     "skin_name": "흰토끼"
   },
   {
@@ -51,7 +51,7 @@
   },
   {
     "skin_id": 11,
-    "skin": "default",
-    "skin_name": "기본"
+    "skin": "nomal",
+    "skin_name": "기본카드"
   }
 ]

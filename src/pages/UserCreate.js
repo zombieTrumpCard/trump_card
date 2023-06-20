@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function UserCreate() {
   const [id, setId] = useState("");
@@ -8,6 +9,8 @@ export default function UserCreate() {
   const [nickname, setNickname] = useState("");
   const [phonenum, setPhonenum] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   // axios 인스턴스 생성
   const api = axios.create({
@@ -38,6 +41,7 @@ export default function UserCreate() {
       console.log(response.data); // 로그인 성공 시 받아온 데이터 처리
       // window.location.reload(); // 새로고침
       alert("회원가입되었습니다!");
+      navigate("/");
     } catch (error) {
       console.error(error); // 에러 처리
       if (error.code !== 200 && error.code !== 500) {
