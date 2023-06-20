@@ -28,6 +28,7 @@ $card-height: 210px;
         align-items: center;
         .myPoint {
           font-size: 1.3rem;
+          margin: 0 1rem;
         }
       }
     }
@@ -89,8 +90,9 @@ $card-height: 210px;
             background-color: #003cff;
           }
           .buy-btn {
-            padding: 0.6rem 4rem;
-            margin: 1rem 0;
+            padding: 0.6rem 3rem;
+            width:100%;
+            margin: 0.6rem 0;
             background-color: rgb(0, 179, 255);
             font-family: "NanumSquareNeo-Variable";
             color: #ffffff;
@@ -100,7 +102,9 @@ $card-height: 210px;
             text-decoration: none;
             font-size: 0.8rem;
           }
-
+          .buy-btn.soldOut {
+            background-color: red;
+          }
         }
       }
     }
