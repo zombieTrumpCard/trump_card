@@ -1,0 +1,57 @@
+.nickchange {
+  font-family: "NanumSquareNeo-Variable";
+  display: grid;
+  height: calc(93% - 1px);
+  place-items: center;
+
+  .box-whole {
+    .myname {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+        top: 20%;
+
+        font-size: 3rem;
+    }
+    .changeNameTitle {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+        top: 30%;
+        
+        font-size: 2rem;
+    }
+    .changeBtn {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+        top: 75%;
+
+        font-family: "NanumSquareNeo-Variable";
+        padding: 1.2rem 2.4rem;
+        background-color: #777eff;
+        color: #ffffff;
+        border: 1px solid black;
+        font-size: 1rem;
+    }
+   
+    .labelForm {
+
+    }
+    
+    .labelInput{
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%);
+ 
+        font-size: 1rem;
+     }
+
+    .checkBtn {
+        position: absolute;
+        left: 64%;
+        top: 55%;
+    }
+  }
+}

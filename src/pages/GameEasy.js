@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SingleCard from "../components/SingleCard";
 
 export default function GameEasy() {
@@ -212,9 +212,9 @@ export default function GameEasy() {
 
   return (
     <div className="background">
-      <button className="RestartBtn" onClick={restart}>
-          Restart
-        </button>
+      <Link to="/" className="homeBtn">
+        HOME
+      </Link>
       <div className="easyGameBackground">
         <p>Level: {nowLevel} / Turns: {turns} / Score: {totalScore} / Timer: {seconds}</p>
         <div className="cardGrid">
@@ -234,6 +234,9 @@ export default function GameEasy() {
           ))}
         </div>
       </div>
+      <button className="RestartBtn" onClick={restart}>
+          Restart
+        </button>
       <div className="rabbitIcon" />
     </div>
   );
