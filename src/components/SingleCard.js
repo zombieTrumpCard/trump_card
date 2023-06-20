@@ -8,7 +8,7 @@ export default function SingleCard({ card, handleChoice, flipped, disabled }) {
   const changeSkin = async () => {
     try {
       const response = await axios.get("/userSkins/useSkin", {});
-      setActiveSkin(response.data?.skin || 'nomal');
+      setActiveSkin(response.data.Skin.skin === null ? 'nomal' : response.data.Skin.skin);
     } catch (error) {
       alert(error);
     }

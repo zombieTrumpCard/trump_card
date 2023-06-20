@@ -11,7 +11,7 @@ export default function NickChange() {
       const response = await axios.put("/userInfos/reUser", { nickname });
       console.log(response.status);
       console.log(response.data); // 로그인 성공 시 받아온 데이터 처리
-      console.log('response닉네임', response.data.nickname); // 로그인 성공 시 받아온 데이터 처리
+      console.log("response닉네임", response.data.nickname); // 로그인 성공 시 받아온 데이터 처리
 
       // window.location.reload(); // 새로고침
     } catch (error) {
@@ -23,26 +23,29 @@ export default function NickChange() {
       }
     }
   };
-  
+
   return (
     <div className="nickchange">
-      <p className="myname">아이디명 님!</p>
-      <p>닉네임 변경하기</p>
-      <form onSubmit={handleFormSubmit}>
-        <label htmlFor="nickname">
-          새 닉네임 :
-          <input
-            id="nickname"
-            type="text"
-            placeholder="새 닉네임을 적어주세요"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-          />
-        </label>
-        <button type="button">닉네임 중복확인</button>
-        <br />
-        <button type="submit">변경하기</button>
-      </form>
+      <div className="box-whole">
+        <p className="myname">아이디명 님!</p>
+        <p className="changeNameTitle">닉네임 변경하기</p>
+        <form onSubmit={handleFormSubmit}>
+          <label className='labelForm' htmlFor="nickname">
+            새 닉네임 : 
+            <input
+              className="labelInput"
+              id="nickname"
+              type="text"
+              placeholder="새 닉네임을 적어주세요"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+          </label>
+          <button className="checkBtn" type="button">닉네임 중복확인</button>
+          <br />
+          <button className="changeBtn" type="submit">변경하기</button>
+        </form>
+      </div>
     </div>
   );
 }
