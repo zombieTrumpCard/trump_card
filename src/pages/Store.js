@@ -21,7 +21,7 @@ export default function Store() {
     try {
       const response = await axios.post("/userSkins/buySkin", { skin_id });
       console.log("response.data 구매", response.data);
-
+      alert("스킨을 구매하였습니다.")
     } catch (error) {
       console.log(error);
     }
@@ -34,19 +34,19 @@ export default function Store() {
   return (
     <div className="store">
       <div className="box-whole">
-        <div className="box-content">
-          <p className="myname">상점</p>
+        <div className="box-content-top">
+          <p>상점</p>
           <div className="navbar">
             <span>보유 포인트 :</span>
-            <span>3000G</span>
+            <span className="myPoint">3000G</span>
           </div>
         </div>
-        <div className="box-content">
+        <div className="box-content-bottom">
           <div className="shop-owner" />
           <div className="shelf">
             {skinArr.length > 0 ? (
               skinArr.map((item, index) => (
-                <div className="skin" key={index}>
+                <div className="skin-box" key={index}>
                   <button
                     className="buy-btn"
                     type="button"
@@ -54,9 +54,9 @@ export default function Store() {
                       buySkin(item.skin_id);
                     }}
                   >
-                    구매 {item.skin_id}
+                    구매
                   </button>
-                  <div className="skin-img" />
+                  <div className={`skin-img ${item.skin}`} />
                   <span className="skin-name">{item.skin}</span>
                   <span className="skin-price">{item.price} G</span>
                 </div>

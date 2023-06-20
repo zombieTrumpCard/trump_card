@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export default function Rank() {
-  const [level, setLevel] = useState("hard");
+  const [activeLevel, setActiveLevel] = useState("Hard");
   const [myscore, setMyscore] = useState("");
   const [data, setData] = useState([
     {
@@ -74,19 +74,24 @@ export default function Rank() {
   const dateParser = (string) => {
     const dateString = string;
     const date = new Date(dateString);
-
+  
     // 날짜 부분 추출
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-
-    // 포맷된 날짜 출력
-    const formattedDate = `${year}년 ${month}월 ${day}일`;
+  
+    // 시간 부분 추출
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+  
+    // 포맷된 날짜 및 시간 출력
+    const formattedDate = `${month}월 ${day}일 ${hours}:${minutes}:${seconds}`;
     return formattedDate;
   };
+  
 
-  const getData = async () => {
-    console.log("level", level);
+  const getData = async (level) => {
     try {
       const response = await axios.get("/userScores/ckscoreBefore", {
         params: {
@@ -120,53 +125,56 @@ export default function Rank() {
     }
   };
 
+  const handleButtonClick = (e) => {
+    const buttonId = e.target.id; // 클릭된 버튼의 ID 값 가져오기
+    console.log(`누른 버튼 아이디는 ${buttonId}`);
+    setActiveLevel(buttonId);
+    getData(buttonId);
+  };
+
   // 최초 1회 호출
   useEffect(() => {
-    // getData();
+    getData("Hard");
     // myscoreGet();
   }, []);
 
   return (
     <div className="rank">
       <div className="box-whole">
-        <h1 className="rainbow-text-loop">랭킹</h1>
-        <p>내 스코어 : {myscore}</p>
+        <h1>랭킹</h1>
+        {/* <p>내 스코어 : {myscore}</p>
         <button type="button" onClick={myscoreGet}>
           가져오기
-        </button>
+        </button> */}
         <div className="body-content">
           <div className="navbar">
-            <span className="lv">난이도</span>
-            <button
-              className="lv-btn"
-              type="button"
-              onClick={() => {
-                setLevel("hard");
-                getData();
-              }}
-            >
-              어려움
-            </button>
-            <button
-              className="lv-btn"
-              type="button"
-              onClick={() => {
-                setLevel("normal");
-                getData();
-              }}
-            >
-              보통
-            </button>
-            <button
-              className="lv-btn"
-              type="button"
-              onClick={() => {
-                setLevel("easy");
-                getData();
-              }}
-            >
-              쉬움
-            </button>
+            <div className="lv-bar">
+              <span className="lv">난이도</span>
+              <button
+                className={activeLevel === "Hard" ? "lv-btn active" : "lv-btn"}
+                type="button"
+                id="Hard"
+                onClick={handleButtonClick}
+              >
+                어려움
+              </button>
+              <button
+                className={activeLevel === "Normal" ? "lv-btn active" : "lv-btn"}
+                type="button"
+                id="Normal"
+                onClick={handleButtonClick}
+              >
+                보통
+              </button>
+              <button
+                className={activeLevel === "Easy" ? "lv-btn active" : "lv-btn"}
+                type="button"
+                id="Easy"
+                onClick={handleButtonClick}
+              >
+                쉬움
+              </button>
+            </div>
           </div>
           <div className="table-box">
             <table className="table-container">
@@ -184,9 +192,21 @@ export default function Rank() {
                   data.map((item, index) => (
                     <tr key={index} className={`row${index + 1}`}>
                       <td>{index + 1}</td>
-                      <td>{item.userScores?.tier}</td>
-                      <td>{item.userScores?.nickname}</td>
-                      <td>{item.score ? Number(item.score).toLocaleString() : "null"}</td>
+                      <td
+                        className={
+                          item["UserInfo.tier"] === "다이아"
+                            ? "rainbow-text-loop"
+                            : ""
+                        }
+                      >
+                        {item["UserInfo.tier"]}
+                      </td>
+                      <td>{item["UserInfo.nickname"]}</td>
+                      <td>
+                        {item.score
+                          ? Number(item.score).toLocaleString()
+                          : "null"}
+                      </td>
                       <td>{dateParser(item.date)}</td>
                     </tr>
                   ))

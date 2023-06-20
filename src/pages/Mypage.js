@@ -68,7 +68,7 @@ export default function Mypage() {
       // 스킨 이름 세팅
       const getSkinName = skinList.find(
         (item) =>
-          item.skin === (response.data.userSkin?.skin_skinName || "nomal")
+          item.skin === (response.data.skinName || "nomal")
       );
       setSkinNameKO(getSkinName ? getSkinName.skin_name : null);
     } catch (error) {
@@ -232,7 +232,6 @@ export default function Mypage() {
                     <p>스킨 목록을 불러오지 못했습니다.</p>
                   )}
                 </div>
-
                 <button
                   className="setMyskin-btn"
                   type="button"
