@@ -71,6 +71,7 @@ export default function GameNormal() {
   const [totalPoint, setTotalPoint] = useState(0);
 
   const navigate = useNavigate();
+  const nowLevel = "Normal";
 
   // 타이머 설정
   useEffect(() => {
@@ -90,6 +91,7 @@ export default function GameNormal() {
 
   // 카드 섞기
   const shuffleCards = () => {
+    setIsInitialRender(true);
     const shuffledCards = [...randomCard, ...randomCard]
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }));
@@ -97,6 +99,26 @@ export default function GameNormal() {
     setChoiceOne(null);
     setChoiceTwo(null);
     setCards(shuffledCards);
+    // 시작하고 2초 동안 카드 보여주기
+    setTimeout(() => {
+      setIsInitialRender(false);
+    }, 2000);
+  };
+
+  // 게임 재시작
+  const restart = () => {
+    setSeconds(122)
+    setIsInitialRender(true);
+    const shuffledCards = [...randomCard, ...randomCard]
+      .sort(() => Math.random() - 0.5)
+      .map((card) => ({ ...card, id: Math.random() }));
+
+    setChoiceOne(null);
+    setChoiceTwo(null);
+    setCards(shuffledCards);
+    setTurns(0)
+    setTotalScore(0);
+    setTotalPoint(0);
     // 시작하고 2초 동안 카드 보여주기
     setTimeout(() => {
       setIsInitialRender(false);
@@ -153,25 +175,27 @@ export default function GameNormal() {
     }
   }, [matchedCount]);
 
-  // Game Score 계산
-  const calculateScore = () => {
-    const matchedCardCount = cards.filter((card) => card.matched).length;
-    const newScore = (matchedCardCount * 100) / 2;
-
+ // Game Score 계산
+ const calculateScore = () => {
+  const matchedCard = cards.filter((card) => card.matched);
+  if(matchedCard && matchedCard.length > 0){
+    const newScore = 100;
     // 이전 스코어가 있다면 가져오기
     const updateScore = totalScore + newScore;
     setTotalScore(updateScore);
-  };
+  }
+};
 
   // Game Point 계산
-  const calculatePoint = () =>{
-    const matchedCardCount = cards.filter((card) => card.matched).length;
-    const newPoint = (matchedCardCount * 100) / 2 / 100;
-
-    // 이전 포인트가 있다면 가져오기
-    const updatePoint = totalPoint + newPoint;
-    setTotalPoint(updatePoint);
-  }
+  const calculatePoint = () => {
+    const matchedCard = cards.filter((card) => card.matched);
+    if(matchedCard && matchedCard.length > 0){
+      const newPoint = 1;
+      // 이전 포인트가 있다면 가져오기
+      const updatePoint = totalPoint + newPoint;
+      setTotalPoint(updatePoint);
+    }
+  };
 
   useEffect(() => {
     calculateScore();
@@ -182,19 +206,17 @@ export default function GameNormal() {
   useEffect(() => {
     if (seconds === 0) {
       // 타이머가 0이 되면 페이지 전환을 수행합니다.
-      navigate("/gameover", { state: { totalScore, totalPoint } });
+      navigate("/gameover", { state: { totalScore, totalPoint, nowLevel } });
     }
   }, [seconds, navigate]);
 
   return (
-    <div className="GameNormal">
-      <div className="GameBackground">
-        <button className="RestartBtn" onClick={shuffleCards}>
+    <div className="background">
+      <button className="RestartBtn" onClick={restart}>
           Restart
         </button>
-        <p>Turns: {turns}</p>
-        <p>Score: {totalScore}</p>
-        <p>Timer: {seconds}</p>
+      <div className="normalGameBackground">
+        <p>Level: {nowLevel} / Turns: {turns} / Score: {totalScore} / Timer: {seconds}</p>
         <div className="cardGrid">
           {cards.map((card) => (
             <SingleCard
@@ -212,6 +234,7 @@ export default function GameNormal() {
           ))}
         </div>
       </div>
+      <div className="rabbitIcon" />
     </div>
   );
 }

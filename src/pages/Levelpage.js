@@ -68,7 +68,7 @@ export default function Levelpage() {
         onClick={handleSelectNormal}
         style={{
           backgroundImage: `url(${
-            bgImageNormal ? '/selectEasyBtn.png' : '/easyBtn.png'
+            bgImageNormal ? '/selectNormalBtn.png' : '/normalBtn.png'
           })`,
         }}
       />
@@ -78,7 +78,7 @@ export default function Levelpage() {
         onClick={handleSelectHard}
         style={{
           backgroundImage: `url(${
-            bgImageHard ? '/selectEasyBtn.png' : '/easyBtn.png'
+            bgImageHard ? '/selectHardBtn.png' : '/hardBtn.png'
           })`,
         }}
       />

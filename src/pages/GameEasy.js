@@ -64,7 +64,7 @@ export default function GameEasy() {
   const [choiceOne, setChoiceOne] = useState(null); // 첫 번째 선택
   const [choiceTwo, setChoiceTwo] = useState(null); // 두 번째 선택
   const [disabled, setDisabled] = useState(false); // 세 번째 선택 막기
-  const [seconds, setSeconds] = useState(10); // 타이머 시간
+  const [seconds, setSeconds] = useState(122); // 타이머 시간
   const [isInitialRender, setIsInitialRender] = useState(true); // 초기 렌더링
   const [matchedCount, setMatchedCount] = useState(0); // 매치된 카드 개수
   const [totalScore, setTotalScore] = useState(0);
@@ -91,6 +91,7 @@ export default function GameEasy() {
 
   // 카드 섞기
   const shuffleCards = () => {
+    setIsInitialRender(true);
     const shuffledCards = [...randomCard, ...randomCard]
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }));
@@ -98,6 +99,26 @@ export default function GameEasy() {
     setChoiceOne(null);
     setChoiceTwo(null);
     setCards(shuffledCards);
+    // 시작하고 2초 동안 카드 보여주기
+    setTimeout(() => {
+      setIsInitialRender(false);
+    }, 2000);
+  };
+
+  // 게임 재시작
+  const restart = () => {
+    setSeconds(122)
+    setIsInitialRender(true);
+    const shuffledCards = [...randomCard, ...randomCard]
+      .sort(() => Math.random() - 0.5)
+      .map((card) => ({ ...card, id: Math.random() }));
+
+    setChoiceOne(null);
+    setChoiceTwo(null);
+    setCards(shuffledCards);
+    setTurns(0)
+    setTotalScore(0);
+    setTotalPoint(0);
     // 시작하고 2초 동안 카드 보여주기
     setTimeout(() => {
       setIsInitialRender(false);
@@ -156,23 +177,25 @@ export default function GameEasy() {
 
   // Game Score 계산
   const calculateScore = () => {
-    const matchedCardCount = cards.filter((card) => card.matched).length;
-    const newScore = (matchedCardCount * 100) / 2;
-
-    // 이전 스코어가 있다면 가져오기
-    const updateScore = totalScore + newScore;
-    setTotalScore(updateScore);
+    const matchedCard = cards.filter((card) => card.matched);
+    if(matchedCard && matchedCard.length > 0){
+      const newScore = 100;
+      // 이전 스코어가 있다면 가져오기
+      const updateScore = totalScore + newScore;
+      setTotalScore(updateScore);
+    }
   };
 
   // Game Point 계산
-  const calculatePoint = () =>{
-    const matchedCardCount = cards.filter((card) => card.matched).length;
-    const newPoint = (matchedCardCount * 100) / 2 / 100;
-
-    // 이전 포인트가 있다면 가져오기
-    const updatePoint = totalPoint + newPoint;
-    setTotalPoint(updatePoint);
-  }
+  const calculatePoint = () => {
+    const matchedCard = cards.filter((card) => card.matched);
+    if(matchedCard && matchedCard.length > 0){
+      const newPoint = 1;
+      // 이전 포인트가 있다면 가져오기
+      const updatePoint = totalPoint + newPoint;
+      setTotalPoint(updatePoint);
+    }
+  };
 
   useEffect(() => {
     calculateScore();
@@ -188,15 +211,12 @@ export default function GameEasy() {
   }, [seconds, navigate]);
 
   return (
-    <div className="GameEasy">
-      <div className="GameBackground">
-        <button className="RestartBtn" onClick={shuffleCards}>
+    <div className="background">
+      <button className="RestartBtn" onClick={restart}>
           Restart
         </button>
-        <p>Turns: {turns}</p>
-        <p>Score: {totalScore}</p>
-        <p>Timer: {seconds}</p>
-        <p>level: {nowLevel}</p>
+      <div className="easyGameBackground">
+        <p>Level: {nowLevel} / Turns: {turns} / Score: {totalScore} / Timer: {seconds}</p>
         <div className="cardGrid">
           {cards.map((card) => (
             <SingleCard
@@ -214,6 +234,7 @@ export default function GameEasy() {
           ))}
         </div>
       </div>
+      <div className="rabbitIcon" />
     </div>
   );
 }
