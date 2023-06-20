@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import skinList from "../skin.json";
+import Balloon from "../components/Balloon";
+import "../styles/pages/Store.scss";
 
 export default function Store() {
   const [skinArr, setSkinArr] = useState([]);
-  const [mySkinArr, setMykinArr] = useState([]);
+  const [mySkinArr, setMySkinArr] = useState([]);
   const [point, setPoint] = useState();
 
   const getSkinArr = async () => {
@@ -12,9 +14,7 @@ export default function Store() {
       const response = await axios.get("/skins/ckskin");
       console.log(response.data);
 
-      const filteredArray = response.data.filter(
-        (item) => item.skin !== "nomal"
-      );
+      const filteredArray = response.data.filter((item) => item.skin !== "nomal");
       // 데이터 담기
       setSkinArr(filteredArray);
     } catch (error) {
@@ -22,13 +22,13 @@ export default function Store() {
     }
   };
 
-  const getMyskin = async () => {
+  const getMySkin = async () => {
     try {
       const response = await axios.get("/userSkins/ckSkin");
       // console.log("response.data GETMYSKIN", response.data);
 
       // 데이터 담기
-      setMykinArr(response.data); // 내스킨목록
+      setMySkinArr(response.data); // 내스킨목록
       console.log("response.data 내스킨목록", mySkinArr);
     } catch (error) {
       alert(error);
@@ -54,7 +54,7 @@ export default function Store() {
 
       // 포인트와 구매한 스킨을 불러온다.
       getMyPoint();
-      getMyskin();
+      getMySkin();
       alert("스킨을 구매하였습니다.");
     } catch (error) {
       console.log(error);
@@ -62,7 +62,6 @@ export default function Store() {
   };
 
   const verifyBuying = (skin_id, price, e) => {
-    // console.log("구매완료버튼누름", e.target.className);
     if (e.target.className === "buy-btn soldOut") {
       e.preventDefault();
       console.log("구매완료버튼누름", e.target.className);
@@ -81,7 +80,7 @@ export default function Store() {
 
   useEffect(() => {
     getMyPoint();
-    getMyskin();
+    getMySkin();
   }, [point]);
 
   return (
@@ -96,15 +95,14 @@ export default function Store() {
         </div>
         <div className="box-content-bottom">
           <div className="shop-owner" />
+          <Balloon />
           <div className="shelf">
             {skinArr.length > 0 ? (
               skinArr.map((item, index) => (
                 <div className="skin-box" key={index}>
                   <button
                     className={`buy-btn ${
-                      mySkinArr.some((one) => one.skin_id === item.skin_id)
-                        ? "soldOut"
-                        : ""
+                      mySkinArr.some((one) => one.skin_id === item.skin_id) ? "soldOut" : ""
                     }`}
                     type="button"
                     onClick={(e) => {
@@ -118,8 +116,7 @@ export default function Store() {
                   <div className={`skin-img ${item.skin}`} />
                   <span className="skin-name">
                     {skinList.find((one) => one.skin_id === item.skin_id)
-                      ? skinList.find((one) => one.skin_id === item.skin_id)
-                          .skin_name
+                      ? skinList.find((one) => one.skin_id === item.skin_id).skin_name
                       : "데이터없음"}
                   </span>
                   <span className="skin-price">{item.price} G</span>
