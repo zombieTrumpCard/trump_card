@@ -76,7 +76,7 @@ $card-height: 210px;
           position: absolute;
           width: $card-width;
           height: $card-height;
-          background-color: grey;
+          background-color: rgb(101, 174, 208);
           top: 0;
           left: 0;
           border-radius: 12px;
@@ -225,7 +225,7 @@ $card-height: 210px;
   background-image: url("../../../public/Skin/Jedi.png");
 }
 
-.Magic {
+.magic {
   background-image: url("../../../public/Skin/magic.png");
 }
 

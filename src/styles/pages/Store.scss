@@ -1,3 +1,7 @@
+// 카드 크기
+$card-width: 152px;
+$card-height: 210px;
+
 .store {
   font-family: "NanumSquareNeo-Variable";
   // background-color: aquamarine;
@@ -11,18 +15,24 @@
     align-content: center;
     justify-content: center;
 
-    .box-content {
+    .box-content-top {
       background-color: #f0f0f0;
       display: flex;
       justify-content: space-between;
-
+      p {
+        font-size: 2rem;
+        padding-left: 2rem;
+      }
       .navbar {
         display: flex;
         align-items: center;
+        .myPoint {
+          font-size: 1.3rem;
+        }
       }
     }
 
-    .box-content {
+    .box-content-bottom {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -31,49 +41,66 @@
       .shop-owner {
         width: 10rem;
         height: 10rem;
-        background-image: url('../../../public/shopOwner.png');
+        background-image: url("../../../public/shopOwner.png");
         background-size: cover;
       }
 
+      .shelf::-webkit-scrollbar {
+        width: 15px; /* Chrome, Safari, Opera */
+      }
+
+      .shelf::-webkit-scrollbar-thumb {
+        background-color: rgb(112, 212, 255); /* Chrome, Safari, Opera */
+        border-radius: 25px;
+      }
+
+      .shelf::-webkit-scrollbar-track {
+        background-color: rgb(222, 222, 222); /* Chrome, Safari, Opera */
+        width: 4px;
+      }
+
       .shelf {
-        width: 115%; /* 가로 폭을 100%로 설정 */
-        background-color: white;
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
-        padding: 2rem 4rem;
+        align-items: row;
+        overflow-x: scroll;
+        width: 50rem;
 
-        .skin {
-          flex: 1; /* 가로 공간을 공평하게 분배 */
-          background-color: pink;
-
+        .skin-box {
+          padding: 1.2rem 2rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          .skin-name {
+            padding: 0.4rem 0.4rem;
+            color: rgb(0, 186, 232);
+            font-size: 1.2rem;
+          }
+          .skin-img {
+            width: $card-width;
+            height: $card-height;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            border-radius: 12px;
+            border: solid 1px black;
+            cursor: pointer;
+          }
+          .buy-btn:hover{
+            background-color: #003cff;
+          }
           .buy-btn {
-            padding: 8px 12px;
-            margin: 0 8px;
-            background-color: yellow;
-            color: #333;
+            padding: 0.6rem 4rem;
+            margin: 1rem 0;
+            background-color: rgb(0, 179, 255);
+            font-family: "NanumSquareNeo-Variable";
+            color: #ffffff;
             border: none;
-            border-radius: 15px;
+            border-radius: 25px;
             cursor: pointer;
             text-decoration: none;
             font-size: 0.8rem;
           }
 
-          .skin-img {
-            width: 6rem;
-            height: 10rem;
-            background-color: grey;
-          }
-
-          .skin-name {
-            font-size: 1rem;
-          }
-
-          .skin-price {
-            font-size: 1rem;
-          }
         }
       }
     }
