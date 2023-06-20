@@ -1,8 +1,8 @@
 .store {
   font-family: "NanumSquareNeo-Variable";
-  background-color: aquamarine;
+  // background-color: aquamarine;
   display: grid;
-  height: 100%;
+  height: calc(93% - 1px);
   place-items: center;
 
   .box-whole {
@@ -31,11 +31,12 @@
       .shop-owner {
         width: 10rem;
         height: 10rem;
-        background-color: green;
+        background-image: url('../../../public/shopOwner.png');
+        background-size: cover;
       }
 
       .shelf {
-        width: 100%; /* 가로 폭을 100%로 설정 */
+        width: 115%; /* 가로 폭을 100%로 설정 */
         background-color: white;
         display: flex;
         flex-direction: row;

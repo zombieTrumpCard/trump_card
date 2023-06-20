@@ -3,10 +3,10 @@ $card-height: 260px;
 
 .mypage {
   
-  background-color: aquamarine;
+  // background-color: aquamarine;
   font-family: "NanumSquareNeo-Variable";
   display: grid;
-  height: 100%;
+  height: calc(93% - 1px);
   place-items: center;
 
   .box-whole {
