@@ -1,8 +1,8 @@
-$card-width: 160px;
-$card-height: 260px;
+// 카드 크기
+$card-width: 152px;
+$card-height: 210px;
 
 .mypage {
-  
   // background-color: aquamarine;
   font-family: "NanumSquareNeo-Variable";
   display: grid;
@@ -10,8 +10,6 @@ $card-height: 260px;
   place-items: center;
 
   .box-whole {
-
-
     .box-content {
       background-color: #f0f0f0;
 
@@ -20,12 +18,14 @@ $card-height: 260px;
       .myname {
         padding: 0 1rem;
         font-size: 1.4rem;
+        margin-right: 10rem;
       }
       .navbar {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: purple;
+        background-color: rgb(50, 69, 238);
+        border-radius: 12px;
         .nav-btn {
           padding: 8px 12px;
           margin: 0 8px;
@@ -45,6 +45,15 @@ $card-height: 260px;
       justify-content: center;
       flex-direction: column;
       align-items: center;
+      // background-color: skyblue;
+      .mykey.myskin {
+        margin : 0;
+        margin-top:3rem;
+      }
+      .myvalue.myskin {
+        margin:0;
+      }
+
       .skinimg-container {
         position: relative;
         width: $card-width;
@@ -58,8 +67,10 @@ $card-height: 260px;
           background-color: white;
           top: 0;
           left: 0;
-          border-radius: 25px;
+          border-radius: 12px;
           border: 0.1rem solid;
+          background-repeat: no-repeat;
+          background-size: 100%;
         }
         .skinimg-back {
           position: absolute;
@@ -68,16 +79,14 @@ $card-height: 260px;
           background-color: grey;
           top: 0;
           left: 0;
-          border-radius: 25px;
+          border-radius: 12px;
 
           text-align: right;
           line-height: $card-height;
           font-size: 3rem;
           border: 0.1rem solid;
         }
-        // .skinimg-front {
-        //   transform: translate(0px); transition: all 0.8s ease;
-        // }
+
         .skinimg-back {
           transform: translate(0px);
           transition: all 0.8s ease;
@@ -86,52 +95,140 @@ $card-height: 260px;
       .skinimg-container:hover {
         // border: 2px solid yellow;
       }
-      // .skinimg-container:hover .skinimg-front {
-      //   transform: translate(0px);
-      // }
+
       .skinimg-container:hover .skinimg-back {
         transform: translate(30px);
       }
       .keyvalue-box {
         display: flex;
         align-items: center;
-
-        .mykey {
-          font-size: 0.8rem;
-          padding: 8px 12px;
-        }
-        .myvalue {
-          font-size: 1.4rem;
-          padding: 8px 12px;
-        }
+      }
+      .mykey {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+      }
+      .myvalue {
+        font-size: 1.4rem;
+        padding: 8px 12px;
       }
     }
     .modal {
       .modal-content {
         .close {
         }
-        .p {
+        p {
+          padding-left: 1.3rem;
         }
-        .shelf {
+        .box-xscroll {
           display: flex;
-          align-items: row;
-          .skin-box {
-            padding: 1.2rem 2rem;
-            .skin-img {
-              width: 184px;
-              height: 239px;
-              background-image: url("https://placehold.co/184x239");
-              cursor: pointer;
+          align-items: column;
+          justify-content: center;
+          .shelf::-webkit-scrollbar {
+            width: 15px; /* Chrome, Safari, Opera */
+          }
+
+          .shelf::-webkit-scrollbar-thumb {
+            background-color: rgb(112, 212, 255); /* Chrome, Safari, Opera */
+            border-radius: 25px;
+          }
+
+          .shelf::-webkit-scrollbar-track {
+            background-color: rgb(222, 222, 222); /* Chrome, Safari, Opera */
+            width: 4px;
+          }
+          .shelf {
+            display: flex;
+            align-items: row;
+            overflow-x: scroll;
+            width: 50rem;
+            .skin-box {
+              padding: 1.2rem 2rem;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              .skin-name {
+                padding: 0.4rem 0.4rem;
+                color: rgb(0, 186, 232);
+                font-size: 1.2rem;
+              }
+              .skin-img {
+                width: $card-width;
+                height: $card-height;
+                background-repeat: no-repeat;
+                background-size: 100%;
+                border-radius: 12px;
+                border: solid 1px black;
+                cursor: pointer;
+              }
+              .skin-img.checked {
+                box-shadow: 10px 10px lightblue;
+              }
+              .skin-img:hover {
+                position: relative;
+                top: -5px;
+                left: -5px;
+              }
             }
-            .skin-img.checked {
-              border: 5px solid red;
-            }
-            .skin-name {
-              color: red;
-            }
+          }
+          .setMyskin-btn {
+            background-color: rgb(0, 186, 232);
+            border: none;
+            border-radius: 12px;
+            margin: 1rem;
+            color: white;
+            font-size: 1rem;
+            font-family: "NanumSquareNeo-Variable";
+          }
+          .setMyskin-btn:hover {
+            background-color: rgb(0, 144, 221);
           }
         }
       }
     }
   }
+}
+
+.apple {
+  background-image: url("../../../public/Skin/apple.png");
+}
+
+.heart_queen {
+  background-image: url("../../../public/Skin/heart_queen.png");
+}
+
+.cat {
+  background-image: url("../../../public/Skin/cat.png");
+}
+
+.zombie {
+  background-image: url("../../../public/Skin/zombie.png");
+}
+
+.basic {
+  background-image: url("../../../public/Skin/basic.png");
+}
+
+.white_rabbit {
+  background-image: url("../../../public/Skin/white_rabbit.png");
+}
+
+.Taewook {
+  background-image: url("../../../public/Skin/Taewook.png");
+}
+
+.Arsenal {
+  background-image: url("../../../public/Skin/Arsenal.png");
+}
+
+.Jedi {
+  background-image: url("../../../public/Skin/Jedi.png");
+}
+
+.Magic {
+  background-image: url("../../../public/Skin/magic.png");
+}
+
+.nomal {
+  background-image: url("../../../public/Skin/nomal.png");
 }

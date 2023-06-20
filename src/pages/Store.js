@@ -20,10 +20,8 @@ export default function Store() {
   const buySkin = async (skin_id) => {
     try {
       const response = await axios.post("/userSkins/buySkin", { skin_id });
-      console.log(response.data);
+      console.log("response.data 구매", response.data);
 
-      // 데이터 담기
-      setSkinArr(response.data);
     } catch (error) {
       console.log(error);
     }

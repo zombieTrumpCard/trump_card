@@ -122,7 +122,7 @@ export default function Rank() {
 
   // 최초 1회 호출
   useEffect(() => {
-    getData();
+    // getData();
     // myscoreGet();
   }, []);
 
@@ -184,8 +184,8 @@ export default function Rank() {
                   data.map((item, index) => (
                     <tr key={index} className={`row${index + 1}`}>
                       <td>{index + 1}</td>
-                      <td>{item.userScores.tier}</td>
-                      <td>{item.userScores.nickname}</td>
+                      <td>{item.userScores?.tier}</td>
+                      <td>{item.userScores?.nickname}</td>
                       <td>{item.score ? Number(item.score).toLocaleString() : "null"}</td>
                       <td>{dateParser(item.date)}</td>
                     </tr>
