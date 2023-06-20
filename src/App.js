@@ -112,7 +112,7 @@ function App() {
           )}
         />
         <Route
-          path="/gamenend"
+          path="/gameend"
           element={(
             <GameEnd />
           )}
@@ -122,7 +122,7 @@ function App() {
         <Route path="/gamenormal" element={<GameNormal />} />
         <Route path="/gamenhard" element={<GameHard />} />
         <Route path="/gameover" element={<GameOver />} />
-        <Route path="/gamenend" element={<GameEnd />} />
+        <Route path="/gameend" element={<GameEnd />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from "axios";
 import PropTypes from 'prop-types';
 
 export default function SingleCard({ card, handleChoice, flipped, disabled }) {
+  const [activeSkin, setActiveSkin] = useState('default')
+
+  const changeSkin = async () => {
+    try {
+      const response = await axios.get("/userSkins/useSkin", {});
+      setActiveSkin(response.data?.skin || 'nomal');
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const handleClick = () => {
     if (!disabled) {
       handleChoice(card);
     }
   };
+
+  useEffect(() => {
+    changeSkin();
+  }, []);
 
   return (
     <div>
@@ -15,7 +31,7 @@ export default function SingleCard({ card, handleChoice, flipped, disabled }) {
           <img className="front" src={card.src} alt="card front" />
           <img
             className="back"
-            src="./Skin/SkinDS.jpg"
+            src={`./Skin/${activeSkin}.png`}
             onClick={handleClick}
             alt="card back"
           />
