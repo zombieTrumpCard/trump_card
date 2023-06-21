@@ -38,7 +38,7 @@ export default function Home() {
     deleteCookie("accessToken");
     // 헤더에서 Authorization 제거
     delete axios.defaults.headers.common.Authorization;
-    
+
     // 사용자에게 로그아웃되었음을 알림
     alert("로그아웃 되었습니다.");
   };
@@ -104,7 +104,7 @@ export default function Home() {
         <div>
           <img src="/logo_trump.png" alt="logImage"></img>
           <Link to="/" className="title">
-            트럼프카드 맞추기 게임
+            WonderLand
           </Link>
         </div>
         {isLoggedIn ? (
