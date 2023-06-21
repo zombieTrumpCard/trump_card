@@ -219,7 +219,7 @@ export default function UserCreate() {
                   <input
                     id="id"
                     type="text"
-                    placeholder="ID을 입력하세요"
+                    placeholder="ID을 입력하세요(영문 숫자)"
                     value={id}
                     onChange={(e) => setId(e.target.value)}
                   />

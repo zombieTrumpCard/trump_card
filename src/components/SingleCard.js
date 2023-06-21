@@ -6,13 +6,24 @@ export default function SingleCard({ card, handleChoice, flipped, disabled }) {
   const [activeSkin, setActiveSkin] = useState('default')
 
   const changeSkin = async () => {
-    try {
-      const response = await axios.get("/userSkins/useSkin", {});
-      setActiveSkin(response.data.Skin.skin === null ? 'nomal' : response.data.Skin.skin);
-    } catch (error) {
-      alert(error);
-    }
+  try {
+    const response = await axios.get("/userSkins/useSkin", {});
+    const skin = response.data && response.data.Skin ? response.data.Skin.skin : 'nomal';
+    setActiveSkin(skin);
+  } catch (error) {
+    alert(error);
+  }
   };
+
+  // const changeSkin = async () => {
+  //   try {
+  //     const response = await axios.get("/userSkins/useSkin", {});
+  //     console.log(response.data.Skin);
+  //     setActiveSkin(response.data.Skin === null ? 'nomal' : response.data.Skin.skin);
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
   const handleClick = () => {
     if (!disabled) {
