@@ -1,9 +1,10 @@
 .balloon {
-  background-color: #aef2ed;
+  background-color: #1885f9;
   position: relative;
   width: 135px;
-  top: -143px;
-  right: -65px;
+  top: -10rem;
+  left: 5rem;
+  padding: 0 0 0 28px;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(32, 29, 29, 0.1);
 }
@@ -11,12 +12,12 @@
 .balloon::after {
   content: "";
   position: absolute;
-  bottom: -9px;
-  left: 23px;
+  top: 3.2rem;
+  left: 3rem;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 10px solid #aef2ed;
+  border-top: 10px solid #1885f9;
 }

@@ -1,0 +1,88 @@
+.userdrop {
+  font-family: "NanumSquareNeo-Variable";
+  display: grid;
+  height: calc(93% - 1px);
+
+  .dropTitle {
+    position: absolute;
+    top: 5rem;
+    left: 50%;
+    transform: translate(-50%);
+
+    font-size: 1.5rem;
+  }
+
+  .terms{
+    position: absolute;
+    top: 9rem;
+    left: 50%;
+    transform: translate(-50%);
+
+    font-size: 1rem;
+  }
+
+  .textarea {
+    position: absolute;
+    top: 12rem;
+    left: 50%;
+    transform: translate(-50%);
+    width: 761px;
+    height: 234px;
+  }
+
+  .checkbox {
+    position: absolute;
+    top: 27.75rem;
+    left: 44%;
+    transform: translate(-50%);
+  }
+
+  .checkboxText{
+    position: absolute;
+    top: 27.5rem;
+    left: 51%;
+    transform: translate(-50%);
+
+    font-size: 1rem;
+  }
+
+  .dropBtn{
+    position: absolute;
+    top: 30rem;
+    left: 50%;
+    transform: translate(-50%);
+
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 6px;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+}
+
+.dropYBtn {
+    position: absolute;
+    top: 7rem;
+    left: 35%;
+    transform: translate(-50%);
+
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 6px;
+    text-decoration: none;
+}
+
+.dropNBtn {
+    position: absolute;
+    top: 7rem;
+    left: 65%;
+    transform: translate(-50%);
+
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 6px;
+    text-decoration: none;
+}
