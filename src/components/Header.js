@@ -87,7 +87,7 @@ export default function Header() {
       <div>
         <img src="/logo_trump.png" alt="logImage"></img>
         <Link to="/" className="title">
-          트럼프카드 맞추기 게임
+          WonderLand
         </Link>
       </div>
       {isLoggedIn ? (
