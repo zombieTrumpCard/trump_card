@@ -16,9 +16,8 @@ $card-height: 210px;
     justify-content: center;
 
     .box-content-top {
-      background-color: #f0f0f0;
       position: relative;
-      top: -0.29rem;
+      background-color: #f0f0f0;
       display: flex;
       justify-content: space-between;
       p {
@@ -46,7 +45,7 @@ $card-height: 210px;
         height: 10rem;
         background-image: url("../../../public/shopOwner.png");
         background-size: cover;
-        margin-bottom: -3rem; 
+        margin-bottom: -4rem;
       }
 
       .shelf::-webkit-scrollbar {
