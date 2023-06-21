@@ -74,22 +74,21 @@ export default function Rank() {
   const dateParser = (string) => {
     const dateString = string;
     const date = new Date(dateString);
-  
+
     // 날짜 부분 추출
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-  
+
     // 시간 부분 추출
     const hours = String(date.getHours()).padStart(2, "0");
     const minutes = String(date.getMinutes()).padStart(2, "0");
     const seconds = String(date.getSeconds()).padStart(2, "0");
-  
+
     // 포맷된 날짜 및 시간 출력
     const formattedDate = `${month}월 ${day}일 ${hours}:${minutes}:${seconds}`;
     return formattedDate;
   };
-  
 
   const getData = async (level) => {
     try {
@@ -109,9 +108,13 @@ export default function Rank() {
     }
   };
 
-  const myscoreGet = async () => {
+  const myscoreGet = async (level) => {
     try {
-      const response = await axios.get("/userScores/cbScore");
+      const response = await axios.get("/userScores/cbScore", {
+        params: {
+          level,
+        },
+      });
       console.log(response.status);
       console.log(response.data); // 로그인 성공 시 받아온 데이터 처리
       setMyscore(response.data); // 내 스코어
@@ -143,7 +146,7 @@ export default function Rank() {
       <div className="box-whole">
         <h1>랭킹</h1>
         {/* <p>내 스코어 : {myscore}</p>
-        <button type="button" onClick={myscoreGet}>
+        <button type="button" onClick={() => myscoreGet(activeLevel)}>
           가져오기
         </button> */}
         <div className="body-content">
@@ -159,7 +162,9 @@ export default function Rank() {
                 어려움
               </button>
               <button
-                className={activeLevel === "Normal" ? "lv-btn active" : "lv-btn"}
+                className={
+                  activeLevel === "Normal" ? "lv-btn active" : "lv-btn"
+                }
                 type="button"
                 id="Normal"
                 onClick={handleButtonClick}

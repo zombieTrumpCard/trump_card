@@ -206,7 +206,7 @@ export default function Home() {
             </div>
           ) : (
             <div onClick={handleOpenModal} className="gameScreen">
-              <button onClick={clickStart} className="game-link" />
+              <button className="game-link" />
             </div>
           )}
         </div>

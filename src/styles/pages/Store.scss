@@ -17,8 +17,8 @@ $card-height: 210px;
 
     .box-content-top {
       background-color: #f0f0f0;
-      position: relative;
-      top: -0.29rem;
+      // position: relative;
+      // top: -0.29rem;
       display: flex;
       justify-content: space-between;
       p {
@@ -40,6 +40,7 @@ $card-height: 210px;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      margin-bottom: 1rem;
 
       .shop-owner {
         width: 10rem;

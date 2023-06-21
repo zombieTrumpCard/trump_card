@@ -6,6 +6,32 @@ $row-height: 3.35rem;
   display: grid;
   height: calc(93% - 1px);
   place-items: center;
+  .myscore {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ff0000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    position: sticky;
+    top: 0;
+    background-color: #f0f0f0;
+    z-index: 1;
+  }
+  .score-header {
+    position: sticky;
+    top: 0;
+    background-color: #f0f0f0;
+    z-index: 1;
+    padding: 1rem;
+  }
+  
+  .table-container thead {
+    position: sticky;
+    top: 3.5rem; /* .myscore의 높이와 동일하게 설정 */
+    background-color: rgb(39, 39, 39);
+    color: white;
+    z-index: 1;
+  }
+  
 
   .box-whole {
     .body-content {
