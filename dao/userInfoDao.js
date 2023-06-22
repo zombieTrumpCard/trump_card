@@ -1,8 +1,8 @@
 const { Op } = require("sequelize");
-const { UserInfo } = require("../models/index");
+const { UserInfo, UserScore, UserSkin, Skin } = require("../models/index");
 
 const dao = {
-  // 등록
+  // 회원가입
   insert(params) {
     return new Promise((resolve, reject) => {
       UserInfo.create(params)
@@ -17,53 +17,49 @@ const dao = {
         });
     });
   },
-  // 리스트 조회
-  selectList(params) {
-    // where 검색 조건
-    const setQuery = {};
-    if (params.name) {
-      setQuery.where = {
-        ...setQuery.where,
-        name: { [Op.like]: `%${params.name}%` }, // like검색
-      };
+  // 내정보 조회
+  async selectInfo(params) {
+    console.log(params.id);
+
+    const userInfo = await UserInfo.findOne({
+      where: { id: params.id },
+    });
+
+    const userScores = await UserScore.findAll({
+      where: { level: "hard", user_id: userInfo.user_id },
+      attributes: ["score"],
+      order: [["score", "DESC"]],
+      limit: 1,
+    });
+
+    const userSkin = await UserSkin.findOne({
+      where: { active_skin: true, user_id: userInfo.user_id },
+      attributes: ["skin_id"],
+    });
+
+    let skinName = null;
+    if (userSkin) {
+      const skin = await Skin.findOne({
+        where: { skin_id: userSkin.skin_id },
+        attributes: ["skin"],
+      });
+      skinName = skin ? skin.skin : null;
     }
 
-    // order by 정렬 조건
-    setQuery.order = [["id", "DESC"]];
+    return {
+      userInfo,
+      userScores,
+      userSkin,
+      skinName,
+    };
+  },
 
-    return new Promise((resolve, reject) => {
-      userInfo
-        .findAndCountAll({
-          ...setQuery,
-        })
-        .then((selectedList) => {
-          resolve(selectedList);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-  // 상세정보 조회
-  selectInfo(params) {
-    return new Promise((resolve, reject) => {
-      userInfo
-        .findByPk(params.id)
-        .then((selectedInfo) => {
-          resolve(selectedInfo);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-  // 수정
+  // 내정보 수정
   update(params) {
     return new Promise((resolve, reject) => {
-      userInfo
-        .update(params, {
-          where: { id: params.id },
-        })
+      UserInfo.update(params, {
+        where: { id: params.id },
+      })
         .then(([updated]) => {
           resolve({ updatedCount: updated });
         })
@@ -72,15 +68,53 @@ const dao = {
         });
     });
   },
-  // 삭제
+
+  // 회원탈퇴
   delete(params) {
     return new Promise((resolve, reject) => {
-      userInfo
-        .destroy({
-          where: { id: params.id },
-        })
+      UserInfo.destroy({
+        where: { id: params.id },
+      })
         .then((deleted) => {
           resolve({ deletedCount: deleted });
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+
+  // 아이디 중복 확인
+  checkId(params) {
+    return new Promise((resolve, reject) => {
+      UserInfo.findOne({
+        where: { id: params.id },
+      })
+        .then((userInfo) => {
+          if (userInfo) {
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+
+  // 닉네임 중복 확인
+  checkNm(params) {
+    return new Promise((resolve, reject) => {
+      UserInfo.findOne({
+        where: { nickname: params.nickname },
+      })
+        .then((userInfo) => {
+          if (userInfo) {
+            resolve(false);
+          } else {
+            resolve(true);
+          }
         })
         .catch((err) => {
           reject(err);

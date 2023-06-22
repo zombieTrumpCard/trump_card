@@ -14,12 +14,15 @@ dotenv.config();
 const NODE_ENV = process.env.NODE_ENV;
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/userInfo");
 
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [
+      "http://localhost:3000",
+      "http://192.168.0.71:3000",
+      "http://192.168.0.62:3000",
+    ],
     credentials: true,
   })
 );
@@ -57,7 +60,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

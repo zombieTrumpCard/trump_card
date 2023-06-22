@@ -1,11 +1,12 @@
 const logger = require("../lib/logger");
 const userSkinDao = require("../dao/userSkinDao");
+const { param } = require("../routes/userSkin");
 
 const service = {
   // userSkin 입력
   async reg(params) {
     let inserted = null;
-
+    console.log(params);
     try {
       inserted = await userSkinDao.insert(params);
       logger.debug(`(userSkinService.reg) ${JSON.stringify(inserted)}`);
@@ -26,7 +27,7 @@ const service = {
     let result = null;
 
     try {
-      result = await userSkinDao.selectList(params);
+      result = await userSkinDao.search(params);
       logger.debug(`(userSkinService.list) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userSkinService.list) ${err.toString()}`);

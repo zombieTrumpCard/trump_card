@@ -1,91 +1,169 @@
 const { Op } = require("sequelize");
-const { UserScore } = require("../models/index");
+const { UserScore, UserInfo } = require("../models/index");
+const sequelize = require("sequelize");
 
 const dao = {
-  // 등록
-  insert(params) {
-    return new Promise((resolve, reject) => {
-      UserScore.create(params)
-        .then((inserted) => {
-          // password는 제외하고 리턴함
-          const insertedResult = { ...inserted };
-          delete insertedResult.dataValues.password;
-          resolve(inserted);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-  // 리스트 조회
-  selectList(params) {
-    // where 검색 조건
-    const setQuery = {};
-    if (params.name) {
-      setQuery.where = {
-        ...setQuery.where,
-        name: { [Op.like]: `%${params.name}%` }, // like검색
-      };
+  // 점수 등록
+  async insert(params) {
+    try {
+      await UserScore.create(params);
+      let userInfo = await UserInfo.findOne({
+        where: { user_id: params.user_id },
+      });
+      if (userInfo) {
+        let updatedPoint = userInfo.point + params.point;
+        await UserInfo.update(
+          { point: updatedPoint },
+          { where: { user_id: params.user_id } }
+        );
+        console.log(updatedPoint, userInfo.point, params.point);
+
+        let totalScore = 0;
+        if (userInfo.totalscore) {
+          totalScore = userInfo.totalscore;
+        }
+        console.log(`default : ${totalScore}`);
+        if (params.level === "Hard") {
+          totalScore += params.score * 3;
+        } else if (params.level === "Normal") {
+          totalScore += params.score * 2;
+        } else if (params.level === "Easy") {
+          totalScore += params.score * 1;
+        }
+        await UserInfo.update(
+          { totalscore: totalScore },
+          { where: { user_id: params.user_id } }
+        );
+        console.log(`change : ${totalScore}`);
+        console.log(totalScore, userInfo.totalscore, params.score);
+      }
+      const userInfos = await UserInfo.findAll({
+        order: [["totalscore", "DESC"]],
+      });
+      const total = userInfos.length;
+
+      for (let i = 0; i < total; i++) {
+        let score = userInfos[i];
+        let tier;
+        if (i < Math.ceil(total * 0.05)) {
+          tier = "다이아";
+        } else if (i < Math.ceil(total * 0.15)) {
+          tier = "플래티넘";
+        } else if (i < Math.ceil(total * 0.4)) {
+          tier = "골드";
+        } else if (i < Math.ceil(total * 0.7)) {
+          tier = "실버";
+        } else {
+          tier = "브론즈";
+        }
+        await UserInfo.update({ tier: tier }, { where: { id: score.id } });
+      }
+
+      return params, userInfos;
+    } catch (err) {
+      throw err;
     }
+  },
 
-    // order by 정렬 조건
-    setQuery.order = [["id", "DESC"]];
+  // 랭킹
+  async selectList(params) {
+    // let users = await UserInfo.findAll({});
+    // let resultUsers = [];
+    // users.forEach((user) => {
+    //   user.dataValues.score = UserScore.findOne({
+    //     where: { level: params.level, user_id: user.dataValues.user_id },
+    //     order: [["score", "DESC"]],
+    //     limit: 1,
+    //   });
+    //   const test = UserScore.findOne({
+    //     where: { level: params.level, user_id: user.dataValues.user_id },
+    //     order: [["score", "DESC"]],
+    //     limit: 1,
+    //   });
+    //   console.log(`test:fdsafjdsalfjdsalkf${test}`);
+    //   resultUsers.push(user);
+    // });
+    // return resultUsers;
+    return await UserScore.findAll({
+      // attributes: [sequelize.fn("distinct", sequelize.col("user_id")), "score", "id"],
+      // attributes: [sequelize.fn("max", sequelize.col("score"))],
+      raw: true,
+      where: { level: params.level },
+      order: [["score", "DESC"]],
+      include: [
+        {
+          model: UserInfo,
+          // as: "userScores",
+          attributes: ["tier", "nickname"],
+        },
+      ],
+      limit: 15,
+    });
+  },
 
-    return new Promise((resolve, reject) => {
-      userScore
-        .findAndCountAll({
-          ...setQuery,
-        })
-        .then((selectedList) => {
-          resolve(selectedList);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  // 자신의 최고점수 조회
+  async search(params) {
+    try {
+      const userInfo = await UserInfo.findOne({
+        where: { id: params.id },
+      });
+      if (!userInfo) {
+        // 해당 id에 해당하는 UserInfo가 없는 경우에 대한 처리
+        return null;
+      }
+      console.log(userInfo);
+
+      const userScores = await UserScore.findOne({
+        raw: true,
+        where: { user_id: params.user_id, level: params.level },
+        order: [["score", "DESC"]],
+        include: [
+          {
+            model: UserInfo,
+            attributes: ["tier", "nickname"],
+          },
+        ],
+        limit: 1,
+      });
+      if (userScores.length === 0) {
+        // 해당 user_id에 해당하는 UserScore가 없는 경우에 대한 처리
+        return null;
+      }
+
+      // const highestScore = userScores.score;
+      console.log(userScores);
+      return userScores.score;
+    } catch (err) {
+      // 오류 처리
+      console.error(err);
+      throw err;
+    }
   },
-  // 상세정보 조회
-  selectInfo(params) {
-    return new Promise((resolve, reject) => {
-      userScore
-        .findByPk(params.id)
-        .then((selectedInfo) => {
-          resolve(selectedInfo);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-  // 수정
-  update(params) {
-    return new Promise((resolve, reject) => {
-      userScore
-        .update(params, {
-          where: { id: params.id },
-        })
-        .then(([updated]) => {
-          resolve({ updatedCount: updated });
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
-  },
-  // 삭제
-  delete(params) {
-    return new Promise((resolve, reject) => {
-      userScore
-        .destroy({
-          where: { id: params.id },
-        })
-        .then((deleted) => {
-          resolve({ deletedCount: deleted });
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+
+  // 탈퇴
+  async delete(params) {
+    try {
+      const userInfo = await UserInfo.findOne({
+        where: { id: params.id },
+      });
+      if (!userInfo) {
+        // 해당 id에 해당하는 UserInfo가 없는 경우에 대한 처리
+        return null;
+      }
+
+      const userScores = await UserScore.destroy({
+        where: { user_id: userInfo.user_id },
+      });
+      if (userScores.length === 0) {
+        // 해당 user_id에 해당하는 UserScore가 없는 경우에 대한 처리
+        return null;
+      }
+      return userScores;
+    } catch (err) {
+      // 오류 처리
+      console.error(err);
+      throw err;
+    }
   },
 };
 
