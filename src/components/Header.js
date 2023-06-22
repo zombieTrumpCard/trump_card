@@ -38,7 +38,7 @@ export default function Header() {
     deleteCookie("accessToken");
     // 헤더에서 Authorization 제거
     delete axios.defaults.headers.common.Authorization;
-    
+
     // 사용자에게 로그아웃되었음을 알림
     alert("로그아웃 되었습니다.");
   };
@@ -68,7 +68,10 @@ export default function Header() {
     } catch (error) {
       console.error(error); // 에러 처리
       if (error.code !== 200) {
-        alert(`${error.response.data.message}`);
+        // alert(`${error.response.data.message}`);
+        if (error.response.status === 401) {
+          alert("아이디 또는 비밀번호가 다릅니다.");
+        }
       } else {
         alert(error);
       }
@@ -155,7 +158,9 @@ export default function Header() {
                     />
                     <br />
                     <div className="btn-bar">
-                      <button className="submit-button" type="submit">로그인</button>
+                      <button className="submit-button" type="submit">
+                        로그인
+                      </button>
                       <button
                         className="signup-button"
                         type="button"
