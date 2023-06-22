@@ -1,6 +1,6 @@
-// userInfo.js
 const Sequelize = require("sequelize");
 
+//table 생성
 module.exports = class UserInfo extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
@@ -13,6 +13,7 @@ module.exports = class UserInfo extends Sequelize.Model {
         id: {
           type: Sequelize.STRING(255),
           allowNull: false,
+          unique: true,
         },
         password: {
           type: Sequelize.STRING(255),
@@ -22,10 +23,16 @@ module.exports = class UserInfo extends Sequelize.Model {
           type: Sequelize.STRING(255),
           allowNull: false,
         },
+        phonenum: {
+          type: Sequelize.STRING(255),
+        },
         tier: {
           type: Sequelize.STRING(50),
         },
         point: {
+          type: Sequelize.INTEGER,
+        },
+        totalscore: {
           type: Sequelize.INTEGER,
         },
       },
@@ -37,14 +44,15 @@ module.exports = class UserInfo extends Sequelize.Model {
     );
   }
 
+  //관계 설정
   static associate(db) {
     db.UserInfo.hasMany(db.UserSkin, {
       foreignKey: { name: "user_id", allowNull: false },
-      as: "userSkins",
+      // as: "userSkins",
     });
     db.UserInfo.hasMany(db.UserScore, {
       foreignKey: { name: "user_id", allowNull: false },
-      as: "userScores",
+      // as: "userScores",
     });
   }
 

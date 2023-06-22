@@ -1,6 +1,6 @@
-// skin.js
 const Sequelize = require("sequelize");
 
+//table 생성
 module.exports = class Skin extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
@@ -13,6 +13,10 @@ module.exports = class Skin extends Sequelize.Model {
         skin: {
           type: Sequelize.STRING(255),
         },
+        price: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
       },
       {
         sequelize,
@@ -21,7 +25,7 @@ module.exports = class Skin extends Sequelize.Model {
       }
     );
   }
-
+  // 관계설정
   static associate(db) {
     db.Skin.hasMany(db.UserSkin, {
       foreignKey: { name: "skin_id", allowNull: false },

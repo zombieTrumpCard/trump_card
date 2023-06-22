@@ -1,21 +1,25 @@
-// userSkin.js
 const Sequelize = require("sequelize");
 
+// table 생성
 module.exports = class UserSkin extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        user_skin_id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
+        // user_skin_id: {
+        //   type: Sequelize.INTEGER,
+        //   primaryKey: true,
+        //   autoIncrement: true,
+        // },
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
         skin_id: {
           type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        active_skin: {
+          type: Sequelize.BOOLEAN,
           allowNull: false,
         },
       },
@@ -27,18 +31,19 @@ module.exports = class UserSkin extends Sequelize.Model {
     );
   }
 
+  // 관계 설정
   static associate(db) {
     db.UserSkin.belongsTo(db.UserInfo, {
       foreignKey: "user_id",
       onDelete: "CASCADE",
-      as: "userSkins",
+      // as: "userSkins",
     });
     db.UserSkin.belongsTo(db.Skin, {
       foreignKey: "skin_id",
       onDelete: "CASCADE",
-      as: "userScores",
+      // as: "userScores",
     });
   }
 
-  static includeAttributes = ["user_skin_id"];
+  static includeAttributes = ["user_skin_id", "skin_id", "user_id"];
 };

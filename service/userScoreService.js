@@ -2,11 +2,12 @@ const logger = require("../lib/logger");
 const userScoreDao = require("../dao/userScoreDao");
 
 const service = {
-  // userScore 입력
+  // 등록
   async reg(params) {
     let inserted = null;
     try {
       inserted = await userScoreDao.insert(params);
+      console.log(inserted);
       logger.debug(`(userScoreService.reg) ${JSON.stringify(inserted)}`);
     } catch (err) {
       logger.error(`(userScoreService.reg) ${err.toString()}`);
@@ -20,7 +21,7 @@ const service = {
       resolve(inserted);
     });
   },
-  // selectList
+  // 조회
   async list(params) {
     let result = null;
 
@@ -38,12 +39,12 @@ const service = {
       resolve(result);
     });
   },
-  // selectInfo
+  // 상세조회
   async info(params) {
     let result = null;
 
     try {
-      result = await userScoreDao.selectInfo(params);
+      result = await userScoreDao.search(params);
       logger.debug(`(userScoreService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userScoreService.info) ${err.toString()}`);
@@ -56,15 +57,15 @@ const service = {
       resolve(result);
     });
   },
-  // update
-  async edit(params) {
-    let result = null;
 
+  // delelte
+  async delete(params) {
+    let result = null;
     try {
-      result = await userScoreDao.update(params);
-      logger.debug(`(userScoreService.edit) ${JSON.stringify(result)}`);
+      result = await userScoreDao.delete(params);
+      logger.debug(`(userScoreService.delete) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(userScoreService.edit) ${err.toString()}`);
+      logger.error(`(userScoreService.delete) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -74,14 +75,15 @@ const service = {
       resolve(result);
     });
   },
-  // delelte
-  async delete(params) {
+  // tier
+  async edit() {
     let result = null;
+
     try {
-      result = await userScoreDao.delete(params);
-      logger.debug(`(userScoreService.delete) ${JSON.stringify(result)}`);
+      result = await userScoreDao.assignTiersToUsers();
+      logger.debug(`(userScoreService.edit) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(userScoreService.delete) ${err.toString()}`);
+      logger.error(`(userScoreService.edit) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });

@@ -1,6 +1,6 @@
-// userScore.js
 const Sequelize = require("sequelize");
 
+// table 생성
 module.exports = class UserScore extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
@@ -10,8 +10,12 @@ module.exports = class UserScore extends Sequelize.Model {
           primaryKey: true,
           autoIncrement: true,
         },
+        score: {
+          type: Sequelize.INTEGER,
+        },
         date: {
           type: Sequelize.DATE,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         level: {
           type: Sequelize.STRING(255),
@@ -29,11 +33,12 @@ module.exports = class UserScore extends Sequelize.Model {
     );
   }
 
+  // 관계 설정
   static associate(db) {
     db.UserScore.belongsTo(db.UserInfo, {
       foreignKey: "user_id",
       onDelete: "CASCADE",
-      as: "userScores",
+      // as: "userScores",
     });
   }
 

@@ -2,7 +2,7 @@ const logger = require("../lib/logger");
 const userInfoDao = require("../dao/userInfoDao");
 
 const service = {
-  // userInfo 입력
+  // 회원가입
   async reg(params) {
     let inserted = null;
     try {
@@ -20,30 +20,12 @@ const service = {
       resolve(inserted);
     });
   },
-  // selectList
-  async list(params) {
-    let result = null;
-
-    try {
-      result = await userInfoDao.selectList(params);
-      logger.debug(`(userInfoService.list) ${JSON.stringify(result)}`);
-    } catch (err) {
-      logger.error(`(userInfoService.list) ${err.toString()}`);
-      return new Promise((resolve, reject) => {
-        reject(err);
-      });
-    }
-
-    return new Promise((resolve) => {
-      resolve(result);
-    });
-  },
-  // selectInfo
+  // 내정보 조회
   async info(params) {
     let result = null;
-
     try {
       result = await userInfoDao.selectInfo(params);
+      console.log(result);
       logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userInfoService.info) ${err.toString()}`);
@@ -51,15 +33,13 @@ const service = {
         reject(err);
       });
     }
-
     return new Promise((resolve) => {
       resolve(result);
     });
   },
-  // update
+  // 내정보 수정
   async edit(params) {
     let result = null;
-
     try {
       result = await userInfoDao.update(params);
       logger.debug(`(userInfoService.edit) ${JSON.stringify(result)}`);
@@ -74,7 +54,7 @@ const service = {
       resolve(result);
     });
   },
-  // delelte
+  // 회원탈퇴
   async delete(params) {
     let result = null;
 
@@ -83,6 +63,58 @@ const service = {
       logger.debug(`(userInfoService.delete) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userInfoService.delete) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
+  // 아이디 중복 확인
+  async ckid(params) {
+    let result = null;
+    try {
+      result = await userInfoDao.checkId(params);
+      console.log(result);
+      logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(userInfoService.info) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
+
+  // 닉네임 중복 확인
+  async cknm(params) {
+    let result = null;
+    try {
+      result = await userInfoDao.checkNm(params);
+      console.log(result);
+      logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(userInfoService.info) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
+  // 티어 설정
+  async tier(params) {
+    let result = null;
+    try {
+      result = await userInfoDao.mktier(params);
+      logger.debug(`(userInfoService.edit) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(userInfoService.edit) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });

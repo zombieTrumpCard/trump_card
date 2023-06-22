@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
+// db 연결
 const db = {
   username: process.env.DB_ID,
   password: process.env.DB_PASS,
