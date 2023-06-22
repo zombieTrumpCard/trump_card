@@ -5,13 +5,14 @@ import skinList from "../skin.json";
 
 export default function Mypage() {
   const [showModal, setShowModal] = useState(false); // 모달
-  const [nickname, setNickname] = useState("닉네임명");
-  const [skinId, setSkinId] = useState(426);
-  const [skinNameEN, setSkinNameEN] = useState("skinName");
-  const [skinNameKO, setSkinNameKO] = useState("스킨명");
-  const [tier, setTier] = useState("티어명");
-  const [score, setScore] = useState(0);
-  const [point, setPoint] = useState(0);
+  const [userInfo, setUserInfo] = useState({
+    nickname: "닉네임명",
+    skinNameEN: "skinName",
+    skinNameKO: "스킨명",
+    tier: "티어명",
+    score: 0,
+    point: 0,
+  });
   const [ckSkin, setCkSkin] = useState("");
   const [myskinArr, setMykinArr] = useState([
     {
@@ -46,30 +47,44 @@ export default function Mypage() {
   const getData = async () => {
     try {
       const response = await axios.get("/userInfos/myInfo");
-      console.log("response.data", response.data);
-      console.log(
-        "response.data 파싱",
-        response.data.userInfo.nickname,
-        response.data.userInfo.tier,
-        response.data.userInfo.point
-      );
+      const {
+        userSkin,
+        userInfo: { nickname, tier, point },
+        userScores,
+        skinName,
+      } = response.data;
 
-      // 데이터 담기
-      setNickname(response.data.userInfo.nickname); // 닉네임
-      setSkinId(response.data.userSkin?.skin_id || 11); // 스킨아이디
-      // setSkinname(response.data.skinName ? response.data.skinName : "nomal"); // 스킨명
-      setTier(response.data.userInfo.tier || "기록 없음"); // 티어
-      setScore(response.data.userScores[0]?.score || 0); // 스코어
+      const skin_id = userSkin?.skin_id || 11;
+      const score = userScores[0]?.score || 0;
+      const skinNameEN = skinName || "nomal";
+      const skinNameKO =
+        skinList.find((item) => item.skin === skinNameEN)?.skin_name || null;
 
-      setPoint(response.data.userInfo.point); // 포인트
+      setUserInfo({
+        nickname,
+        skinNameEN,
+        skinNameKO,
+        tier: tier || "기록 없음",
+        score,
+        point,
+      });
 
-      setSkinNameEN(response.data?.skinName || "nomal");
+      // // 데이터 담기
+      // setNickname(response.data.userInfo.nickname); // 닉네임
+      // setSkinId(response.data.userSkin?.skin_id || 11); // 스킨아이디
+      // // setSkinname(response.data.skinName ? response.data.skinName : "nomal"); // 스킨명
+      // setTier(response.data.userInfo.tier || "기록 없음"); // 티어
+      // setScore(response.data.userScores[0]?.score || 0); // 스코어
 
-      // 스킨 이름 세팅
-      const getSkinName = skinList.find(
-        (item) => item.skin === (response.data.skinName || "nomal")
-      );
-      setSkinNameKO(getSkinName ? getSkinName.skin_name : null);
+      // setPoint(response.data.userInfo.point); // 포인트
+
+      // setSkinNameEN(response.data?.skinName || "nomal");
+
+      // // 스킨 이름 세팅
+      // const getSkinName = skinList.find(
+      //   (item) => item.skin === (response.data.skinName || "nomal")
+      // );
+      // setSkinNameKO(getSkinName ? getSkinName.skin_name : null);
     } catch (error) {
       alert(error);
       if (error === null) {
@@ -91,11 +106,20 @@ export default function Mypage() {
       console.log("response.data 스코어 불러오기", response.data);
 
       // 데이터 담기
-      setScore(response.data); // 스코어
+      setUserInfo((prevUserInfo) => ({
+        ...prevUserInfo,
+        score: response.data,
+      }));
     } catch (error) {
       // alert(error);
       if (error.code !== 200) {
         console.log(`${error.response.data.message}`);
+        if (error.response.data.message === "해당 난이도 점수가 없습니다!") {
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            score: 0,
+          }));
+        }
       } else {
         alert(error);
       }
@@ -111,9 +135,11 @@ export default function Mypage() {
       if (response.data.length > 0) {
         setMykinArr(response.data); // 내스킨목록
       } else if (response.data.length === 0) {
-        setMykinArr([{
-          skin_id: 11,
-        }]);
+        setMykinArr([
+          {
+            skin_id: 11,
+          },
+        ]);
       }
     } catch (error) {
       alert(error);
@@ -136,17 +162,12 @@ export default function Mypage() {
     getData();
   }, [showModal]);
 
-  // useEffect(() => {
-  //   // console.log(ckSkin);
-  //   // console.log(skinList);
-  // }, [ckSkin, nickname, skinname, tier, score, point, myskinArr]);
-
   return (
     <div className="mypage">
       <div className="box-whole">
         <div className="box-content">
           <p className="myname">
-            {nickname}
+            {userInfo.nickname}
             님!
           </p>
           <div className="navbar">
@@ -160,7 +181,7 @@ export default function Mypage() {
         </div>
         <div className="body-content">
           <p className="mykey myskin">현재 적용 중인 스킨</p>
-          <p className="myvalue myskin">{skinNameKO}</p>
+          <p className="myvalue myskin">{userInfo.skinNameKO}</p>
           <div
             className="skinimg-container"
             onClick={() => {
@@ -169,16 +190,16 @@ export default function Mypage() {
             }}
           >
             <div className="skinimg-back">&#187;</div>
-            <div className={`skinimg-front ${skinNameEN}`}></div>
+            <div className={`skinimg-front ${userInfo.skinNameEN}`}></div>
           </div>
           <div className="keyvalue-box">
             <span className="mykey">현재 티어</span>
-            <span className="myvalue">{tier}</span>
+            <span className="myvalue">{userInfo.tier}</span>
           </div>
           <div className="keyvalue-box">
             <span className="mykey">최고 점수</span>
             <span className="myvalue">
-              {score === 0 ? "기록 없음" : `${score} 점`}
+              {userInfo.score === 0 ? "기록 없음" : `${userInfo.score} 점`}
             </span>
             <select id="levels" onChange={handleLevelChange}>
               <option value="Hard">어려움</option>
@@ -188,7 +209,7 @@ export default function Mypage() {
           </div>
           <div className="keyvalue-box">
             <span className="mykey">보유 포인트</span>
-            <span className="myvalue">{point}G</span>
+            <span className="myvalue">{userInfo.point}G</span>
           </div>
         </div>
         {/* The Modal */}

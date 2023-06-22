@@ -38,7 +38,7 @@ export default function Home() {
     deleteCookie("accessToken");
     // 헤더에서 Authorization 제거
     delete axios.defaults.headers.common.Authorization;
-    
+
     // 사용자에게 로그아웃되었음을 알림
     alert("로그아웃 되었습니다.");
   };
@@ -67,8 +67,11 @@ export default function Home() {
       // window.location.reload(); // 새로고침
     } catch (error) {
       console.error(error); // 에러 처리
-      if (error.code !== 200 && error.code === 401) {
-        alert(`${error.response.data.message}`);
+      if (error.code !== 200) {
+        // alert(`${error.response.data.message}`);
+        if (error.response.status === 401) {
+          alert("아이디 또는 비밀번호가 다릅니다.");
+        }
       } else {
         alert(error);
       }
@@ -76,17 +79,6 @@ export default function Home() {
       // alert('일치하는 정보가 없습니다');
     }
   };
-
-  // // 쿠키 읽어오는 함수
-  // function getCookie(name) {
-  //   const cookie = document.cookie.split(";").map((c) => c.trim());
-  //   for (let i = 0; i < cookie.length; i += 1) {
-  //     if (cookie[i].startsWith(`${name}=`)) {
-  //       return cookie[i].substring(name.length + 1);
-  //     }
-  //   }
-  //   return "";
-  // }
 
   // 쿠키 삭제 함수
   function deleteCookie(name) {
@@ -104,7 +96,7 @@ export default function Home() {
         <div>
           <img src="/logo_trump.png" alt="logImage"></img>
           <Link to="/" className="title">
-            트럼프카드 맞추기 게임
+            WonderLand
           </Link>
         </div>
         {isLoggedIn ? (

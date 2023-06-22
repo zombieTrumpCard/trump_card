@@ -1,17 +1,14 @@
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Cookies } from "react-cookie";
-
-const cookies = new Cookies();
 
 export default function UserDrop() {
   const navigate = useNavigate();
   const movePage = () => {navigate("/");};
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
   const [isChecked, setIsChecked] = useState(false); // 체크박스 상태
   const [showModal, setShowModal] = useState(false); // 모달
+
   // 모달 열기
   const handleOpenModal = () => {
     setShowModal(true);
@@ -32,42 +29,20 @@ export default function UserDrop() {
     setIsChecked(e.target.checked); // 체크박스 상태 업데이트
   };
 
-
-  // 로그아웃 처리
-  useEffect(() => {
-    // 새로고침 시 로그인 상태를 복원
-    const getCookie = cookies.get("accessToken");
-    if (!!getCookie === true) {
-      // token이 빈 값이 아니라면
-      setIsLoggedIn(true);
-      axios.defaults.headers.common.Authorization = `Bearer ${getCookie}`;
-    }
-  }, []);
-
   // 쿠키 삭제 함수
   function deleteCookie(name) {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
     deleteCookie("accessToken");
     // 헤더에서 Authorization 제거
     delete axios.defaults.headers.common.Authorization;
   };
 
-  // axios 인스턴스 생성
-  const api = axios.create({
-    baseURL: "http://192.168.0.50:1788", // 서버 주소
-    withCredentials: true, // CORS 요청 처리를 위한 옵션 설정
-  });
-
-
   // 회원 탈퇴
   const handleFormSubmit = async (e) => {
     e.preventDefault(); // 새로고침 막기
-    const getCookie = cookies.get("accessToken");
-    api.defaults.headers.common.Authorization = `Bearer ${getCookie}`;
     
     try{
       const response = await axios.delete('/userInfos/deleteInfo', {})
