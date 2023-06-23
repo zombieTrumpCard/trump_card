@@ -1,9 +1,12 @@
+$borderWidthTop: 1px;
+$borderWidthBottom: 1px;
+
 .header {
   width: 100%;
   height: 7%;
-  background-color: rgb(113, 219, 255);
+  background-color: rgb(209, 242, 253);
   border-bottom: 1px solid black;
-  font-family: "NanumSquareNeo-Variable";
+  border-top: 1px solid black;
 
   display: flex;
   justify-content: space-between;
@@ -15,10 +18,9 @@
     img {
       width: 38px;
       height: 38px;
-      margin-left: 1rem;
     }
 
-    .title {
+    .heading {
       color: rgb(0, 0, 0);
       text-decoration: none;
     }
@@ -29,12 +31,11 @@
     justify-content: center;
     padding-right: 20px;
     .nav-btn {
-      font-family: "NanumSquareNeo-Variable";
       padding: 6px 12px;
       margin: 0 6px;
-      background-color: #f0f0f0;
+      background-color: #ffffff;
       color: #333;
-      border: none;
+      border: 1px solid;
       border-radius: 4px;
       cursor: pointer;
       text-decoration: none;
@@ -45,17 +46,26 @@
 
 .home {
   width: 100%;
-  font-family: "NanumSquareNeo-Variable";
+  font-family: 'DungGeunMo';
   display: grid;
-  height: calc(93% - 1px);
+  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
 
   .box-whole {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    
+    .box-title-gamescreen{
+      border: 2px solid;
+      width: 60%;
+      
     .home-title {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      text-align: center;
+
       width: 100%;
-      height: 7rem;
+      height: 4.5rem;
+      border-bottom: 1px solid;
       background: rgb(215, 255, 249);
       background: radial-gradient(
         circle,
@@ -64,12 +74,11 @@
       );
 
       b {
-        font-size: 4rem;
-        font-family: "HSJiptokki-Black";
+        font-size: 3em;
       }
     }
 
-    .gameScreen::before{
+    .gameScreen::before {
       content: "";
 
       display: flex;
@@ -87,10 +96,9 @@
       justify-content: center;
       align-items: center;
 
-      width: 60%;
+      width: 100%;
       height: 30rem;
-      margin: auto;
-      background-image: url('../../../public/background.jpg');
+      background-image: url("../../../public/background.jpg");
       background-size: cover;
       background-repeat: no-repeat;
       cursor: pointer;
@@ -104,10 +112,10 @@
 
         border: none;
         background-color: transparent;
-        background-image: url('../../../public/startBtn.png');
+        background-image: url("../../../public/startBtn.png");
         background-size: cover;
       }
     }
-    
   }
+}
 }
