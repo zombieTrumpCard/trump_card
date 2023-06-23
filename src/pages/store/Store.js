@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import skinList from "../skin.json";
-import Balloon from "../components/Balloon";
-import "../styles/pages/Store.scss";
+import skinList from "../../skin.json";
+import Balloon from "../../components/common/Balloon";
 
 export default function Store() {
   const [skinArr, setSkinArr] = useState([]);

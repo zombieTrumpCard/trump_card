@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import skinList from "../skin.json";
+import skinList from "../../skin.json";
 
 export default function Mypage() {
   const [showModal, setShowModal] = useState(false); // 모달

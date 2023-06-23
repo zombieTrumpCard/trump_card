@@ -171,6 +171,7 @@ $card-height: 210px;
                 height: $card-height;
                 background-repeat: no-repeat;
                 background-size: 100%;
+                background-position: center;
                 border-radius: 12px;
                 border: solid 1px black;
                 cursor: pointer;
@@ -203,46 +204,3 @@ $card-height: 210px;
   }
 }
 
-.apple {
-  background-image: url("../../../public/Skin/apple.png");
-}
-
-.heart_queen {
-  background-image: url("../../../public/Skin/heart_queen.png");
-}
-
-.cat {
-  background-image: url("../../../public/Skin/cat.png");
-}
-
-.zombie {
-  background-image: url("../../../public/Skin/zombie.png");
-}
-
-.basic {
-  background-image: url("../../../public/Skin/basic.png");
-}
-
-.white_rabbit {
-  background-image: url("../../../public/Skin/white_rabbit.png");
-}
-
-.Taewook {
-  background-image: url("../../../public/Skin/Taewook.png");
-}
-
-.Arsenal {
-  background-image: url("../../../public/Skin/Arsenal.png");
-}
-
-.Jedi {
-  background-image: url("../../../public/Skin/Jedi.png");
-}
-
-.magic {
-  background-image: url("../../../public/Skin/magic.png");
-}
-
-.nomal {
-  background-image: url("../../../public/Skin/nomal.png");
-}

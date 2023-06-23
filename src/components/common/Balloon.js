@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../styles/components/Balloon.scss";
 
 export default function Balloon() {
   const [isVisible, setIsVisible] = useState(true);

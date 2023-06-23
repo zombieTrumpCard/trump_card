@@ -1,19 +1,20 @@
-@import 'components/Background';
-@import 'components/Header';
+@import 'components/gameCard/Background';
+@import 'components/account/Header';
+@import 'components/common/Balloon';
+@import 'components/gameCard/SingleCard';
 @import 'pages/Home';
-@import 'pages/Mypage';
-@import 'pages/NickChange';
-@import 'pages/UserDrop';
-@import 'pages/Rank';
-@import 'pages/UserCreate';
-@import 'pages/Store';
-@import 'components/SingleCard';
-@import 'pages/Levelpage';
-@import 'pages/GameEasy';
-@import 'pages/GameNormal';
-@import 'pages/GameHard';
-@import 'pages/GameOver';
-@import 'pages/GameEnd';
+@import 'pages/account/Mypage';
+@import 'pages/account/NickChange';
+@import 'pages/account/UserDrop';
+@import 'pages/rank/Rank';
+@import 'pages/account/UserCreate';
+@import 'pages/store/Store';
+@import 'pages/gameCard/Levelpage';
+@import 'pages/gameCard/GameEasy';
+@import 'pages/gameCard/GameNormal';
+@import 'pages/gameCard/GameHard';
+@import 'pages/gameCard/GameOver';
+@import 'pages/gameCard/GameEnd';
 
 // game base font
 @font-face {
@@ -50,3 +51,5 @@
   margin: 0;
   padding: 0;
 }
+
+
