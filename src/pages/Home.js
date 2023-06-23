@@ -190,9 +190,9 @@ export default function Home() {
                         </button>
                       </div>
                     </form>
-                    <button type="button" onClick={handleKaKao}>
+                    <a type="button" href="http://192.168.0.81:1788/auth/kakao">
                       카카오
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
