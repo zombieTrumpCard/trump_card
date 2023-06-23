@@ -44,7 +44,7 @@ export default function SingleCard({ card, handleChoice, flipped, disabled }) {
           <img className="front" src={card.src} alt="card front" />
           <img
             className="back"
-            src={`./Skin/${activeSkin}.png`}
+            src={`./skin/${activeSkin}.png`}
             onClick={handleClick}
             alt="card back"
           />
