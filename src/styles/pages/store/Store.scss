@@ -44,7 +44,7 @@ $card-height: 210px;
       .shop-owner {
         width: 10rem;
         height: 10rem;
-        background-image: url("../../../public/shopOwner.png");
+        background-image: url("../../../../public/shopOwner.png");
         background-size: cover;
         margin-bottom: -4rem;
       }
@@ -112,4 +112,50 @@ $card-height: 210px;
       }
     }
   }
+}
+
+
+// 카드 스킨 이미지
+.apple {
+  background-image: url("../../../../public/skin/apple.png");
+}
+
+.heart_queen {
+  background-image: url("../../../../public/skin/heart_queen.png");
+}
+
+.cat {
+  background-image: url("../../../../public/skin/cat.png");
+}
+
+.zombie {
+  background-image: url("../../../../public/skin/zombie.png");
+}
+
+.basic {
+  background-image: url("../../../../public/skin/basic.png");
+}
+
+.white_rabbit {
+  background-image: url("../../../../public/skin/white_rabbit.png");
+}
+
+.Taewook {
+  background-image: url("../../../../public/skin/Taewook.png");
+}
+
+.Arsenal {
+  background-image: url("../../../../public/skin/Arsenal.png");
+}
+
+.Jedi {
+  background-image: url("../../../../public/skin/Jedi.png");
+}
+
+.magic {
+  background-image: url("../../../../public/skin/magic.png");
+}
+
+.nomal {
+  background-image: url("../../../../public/skin/nomal.png");
 }

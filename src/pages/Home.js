@@ -89,6 +89,17 @@ export default function Home() {
     navigate("/level");
   };
 
+  // 카카오 OAuth
+  const handleKaKao = async () => {
+    console.log("kakaobtn clicked");
+    try {
+      const response = await axios.get("/auth/kakao");
+      console.log(response);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <>
       {/* 헤더 */}
@@ -179,6 +190,9 @@ export default function Home() {
                         </button>
                       </div>
                     </form>
+                    <button type="button" onClick={handleKaKao}>
+                      카카오
+                    </button>
                   </div>
                 </div>
               </div>

@@ -1,19 +1,19 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Levelpage from "./pages/Levelpage";
-import Header from "./components/Header";
+import Levelpage from "./pages/gameCard/Levelpage";
+import Header from "./components/account/Header";
 import Home from "./pages/Home";
-import MyPage from "./pages/Mypage";
-import NickChange from "./pages/NickChange";
-import Rank from "./pages/Rank";
-import UserCreate from "./pages/UserCreate";
-import Store from "./pages/Store";
-import UserDrop from "./pages/UserDrop";
-import GameEasy from "./pages/GameEasy";
-import GameNormal from "./pages/GameNormal";
-import GameHard from "./pages/GameHard";
-import GameOver from "./pages/GameOver";
-import GameEnd from "./pages/GameEnd";
+import MyPage from "./pages/account/Mypage";
+import NickChange from "./pages/account/NickChange";
+import Rank from "./pages/rank/Rank";
+import UserCreate from "./pages/account/UserCreate";
+import Store from "./pages/store/Store";
+import UserDrop from "./pages/account/UserDrop";
+import GameEasy from "./pages/gameCard/GameEasy";
+import GameNormal from "./pages/gameCard/GameNormal";
+import GameHard from "./pages/gameCard/GameHard";
+import GameOver from "./pages/gameCard/GameOver";
+import GameEnd from "./pages/gameCard/GameEnd";
 
 function App() {
   return (

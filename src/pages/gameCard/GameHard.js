@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SingleCard from "../components/SingleCard";
+import SingleCard from "../../components/gameCard/SingleCard";
 
 export default function GameHard() {
   const cardImages = [

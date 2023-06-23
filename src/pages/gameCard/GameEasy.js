@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SingleCard from "../components/SingleCard";
+import SingleCard from "../../components/gameCard/SingleCard";
 
-export default function GameNormal() {
+export default function GameEasy() {
   const cardImages = [
     { src: "/cardFront/SpadeQ.png", matched: false },
     { src: "/cardFront/SpadeK.png", matched: false },
@@ -71,7 +71,7 @@ export default function GameNormal() {
   const [totalPoint, setTotalPoint] = useState(0);
 
   const navigate = useNavigate();
-  const nowLevel = "Normal";
+  const nowLevel = "Easy";
 
   // 타이머 설정
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function GameNormal() {
   // 카드 개수 제한
   const getRandomCards = () => {
     const shuffledCards = [...cardImages].sort(() => 0.5 - Math.random()); // 배열을 랜덤하게 섞음
-    return shuffledCards.slice(0, 12);
+    return shuffledCards.slice(0, 8);
   };
   const randomCard = getRandomCards();
 
@@ -175,16 +175,16 @@ export default function GameNormal() {
     }
   }, [matchedCount]);
 
- // Game Score 계산
- const calculateScore = () => {
-  const matchedCard = cards.filter((card) => card.matched);
-  if(matchedCard && matchedCard.length > 0){
-    const newScore = 100;
-    // 이전 스코어가 있다면 가져오기
-    const updateScore = totalScore + newScore;
-    setTotalScore(updateScore);
-  }
-};
+  // Game Score 계산
+  const calculateScore = () => {
+    const matchedCard = cards.filter((card) => card.matched);
+    if(matchedCard && matchedCard.length > 0){
+      const newScore = 100;
+      // 이전 스코어가 있다면 가져오기
+      const updateScore = totalScore + newScore;
+      setTotalScore(updateScore);
+    }
+  };
 
   // Game Point 계산
   const calculatePoint = () => {
@@ -215,7 +215,7 @@ export default function GameNormal() {
       <Link to="/" className="homeBtn">
         HOME
       </Link>
-      <div className="normalGameBackground">
+      <div className="easyGameBackground">
         <p>Level: {nowLevel} / Turns: {turns} / Score: {totalScore} / Timer: {seconds}</p>
         <div className="cardGrid">
           {cards.map((card) => (
