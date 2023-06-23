@@ -46,10 +46,21 @@
   font-style: normal;
 }
 
+// web base font pixel
+@font-face {
+  font-family: 'DungGeunMo';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+  unicode-range: U+AC00-D7A3;
+  font-weight: normal;
+  font-style: normal;
+}
+
 .root {
   height: 100%;
   margin: 0;
   padding: 0;
 }
+
+button {font-family: 'DungGeunMo';}
 
 

@@ -106,7 +106,7 @@ export default function Home() {
       <div className="header">
         <div>
           <img src="/logo_trump.png" alt="logImage"></img>
-          <Link to="/" className="title">
+          <Link to="/" className="heading">
             WonderLand
           </Link>
         </div>
@@ -203,18 +203,20 @@ export default function Home() {
       {/* 메인페이지 */}
       <div className="home">
         <div className="box-whole">
-          <div className="home-title">
-            <b>트럼프카드 맞추기 게임</b>
+          <div className="box-title-gamescreen">
+            <div className="home-title">
+              <b>트럼프카드 맞추기 게임</b>
+            </div>
+            {isLoggedIn ? (
+              <div className="gameScreen">
+                <button onClick={clickStart} className="game-link" />
+              </div>
+            ) : (
+              <div onClick={handleOpenModal} className="gameScreen">
+                <button className="game-link" />
+              </div>
+            )}
           </div>
-          {isLoggedIn ? (
-            <div className="gameScreen">
-              <button onClick={clickStart} className="game-link" />
-            </div>
-          ) : (
-            <div onClick={handleOpenModal} className="gameScreen">
-              <button className="game-link" />
-            </div>
-          )}
         </div>
       </div>
     </>

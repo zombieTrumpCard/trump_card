@@ -144,7 +144,7 @@ export default function GameHard() {
   useEffect(() => {
     if (choiceOne && choiceTwo) {
       setDisabled(true);
-      if (choiceOne.src === choiceTwo.src) {
+      if (choiceOne.src === choiceTwo.src && choiceOne.id !== choiceTwo.id) {
         setCards((prevCards) =>
           prevCards.map((card) =>
             card.src === choiceOne.src ? { ...card, matched: true } : card
