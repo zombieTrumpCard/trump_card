@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import kakaoOauth from "../components/account/kakaoOauth";
 
 const cookies = new Cookies();
 
@@ -190,7 +191,7 @@ export default function Home() {
                         </button>
                       </div>
                     </form>
-                    <button type="button" onClick={handleKaKao}>
+                    <button type="button" onClick={kakaoOauth}>
                       카카오
                     </button>
                   </div>
