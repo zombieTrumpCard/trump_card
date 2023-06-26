@@ -1,7 +1,11 @@
+@use '../../components/account/Header.scss';
+
+
+
 .userdrop {
   font-family: "NanumSquareNeo-Variable";
   display: grid;
-  height: calc(93% - 1px);
+  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
 
   .dropTitle {
     position: absolute;

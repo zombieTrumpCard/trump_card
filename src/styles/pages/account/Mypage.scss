@@ -1,3 +1,5 @@
+@use '../../components/account/Header.scss';
+
 // 카드 크기
 $card-width: 152px;
 $card-height: 210px;
@@ -6,7 +8,7 @@ $card-height: 210px;
   // background-color: aquamarine;
   font-family: "NanumSquareNeo-Variable";
   display: grid;
-  height: calc(93% - 1px);
+  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
   place-items: center;
 
   .box-whole {

@@ -2,35 +2,30 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import PropTypes from "prop-types";
+import isLogin from "../../util/isLogin";
+import { useModal, Modal } from "../../hook/Modal";
+import kakaoOauth from "./kakaoOauth";
 
 const cookies = new Cookies();
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
-  const [showModal, setShowModal] = useState(false); // 모달
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [id, setId] = useState(""); // 로그인 시 받는 id
+  const [password, setPassword] = useState(""); // 로그인 시 받는 password
+  const navigate = useNavigate(); // ("/")으로 redirect를 위함
 
+  // 최초 1회 실행
   useEffect(() => {
-    // 새로고침 시 로그인 상태를 복원
-    const getCookie = cookies.get("accessToken");
-    if (!!getCookie === true) {
-      // token이 빈 값이 아니라면
-      setIsLoggedIn(true);
-      axios.defaults.headers.common.Authorization = `Bearer ${getCookie}`;
-    }
+    const checkLoginStatus = () => {
+      // util의 isLogin()을 불러와서 로그인 확인
+      const loggedIn = isLogin();
+      setIsLoggedIn(loggedIn);
+    };
+
+    checkLoginStatus();
   }, []);
-
-  // 모달 열기
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  // 모달 닫기
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
 
   // 로그아웃 처리
   const handleLogout = () => {
@@ -62,7 +57,8 @@ export default function Header() {
       setIsLoggedIn(true);
 
       // 모달창 끄기
-      setShowModal(false);
+      // setShowModal(false);
+      closeModal();
 
       window.location.reload(); // 새로고침
     } catch (error) {
@@ -75,8 +71,6 @@ export default function Header() {
       } else {
         alert(error);
       }
-      // 로그인 실패 처리
-      // alert('일치하는 정보가 없습니다');
     }
   };
 
@@ -89,7 +83,7 @@ export default function Header() {
     <div className="header">
       <div>
         <img src="/logo_trump.png" alt="logImage"></img>
-        <Link to="/" className="title">
+        <Link to="/" className="heading">
           WonderLand
         </Link>
       </div>
@@ -122,63 +116,59 @@ export default function Header() {
           </Link>
 
           {/* Trigger/Open The Modal */}
-          <button className="nav-btn" type="button" onClick={handleOpenModal}>
+          <button className="nav-btn" type="button" onClick={openModal}>
             로그인
           </button>
 
           {/* The Modal */}
-          {showModal && (
-            <div id="myModal" className="modal">
-              {/* Modal content */}
-              <div className="modal-content">
-                <button
-                  className="close"
-                  onClick={handleCloseModal}
-                  type="button"
-                >
-                  &times;
-                </button>
-                <div className="login-container">
-                  <form className="login-form" onSubmit={handleFormSubmit}>
-                    <p>로그인</p>
-                    <input
-                      type="text"
-                      className="form-control-text"
-                      value={id}
-                      placeholder="id를 입력하세요"
-                      onChange={(e) => setId(e.target.value)}
-                    />
-                    <br />
-                    <input
-                      type="password"
-                      className="form-control-text"
-                      value={password}
-                      placeholder="PW를 입력하세요"
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <br />
-                    <div className="btn-bar">
-                      <button className="submit-button" type="submit">
-                        로그인
-                      </button>
-                      <button
-                        className="signup-button"
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setShowModal(false);
-                        }}
-                      >
-                        <Link to="/userCreate">회원가입</Link>
-                      </button>
-                    </div>
-                  </form>
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <div className="login-container">
+              <form className="login-form" onSubmit={handleFormSubmit}>
+                <p>로그인</p>
+                <input
+                  type="text"
+                  className="form-control-text"
+                  value={id}
+                  placeholder="id를 입력하세요"
+                  onChange={(e) => setId(e.target.value)}
+                />
+                <br />
+                <input
+                  type="password"
+                  className="form-control-text"
+                  value={password}
+                  placeholder="PW를 입력하세요"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <br />
+                <div className="btn-bar">
+                  <button className="submit-button" type="submit">
+                    로그인
+                  </button>
+                  <button
+                    className="signup-button"
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      closeModal();
+                    }}
+                  >
+                    <Link to="/userCreate">회원가입</Link>
+                  </button>
                 </div>
-              </div>
+              </form>
+              <button type="button" onClick={kakaoOauth}>
+                카카오
+              </button>
             </div>
-          )}
+          </Modal>
         </div>
       )}
     </div>
   );
 }
+
+Header.propTypes = {
+  isModalOpen: PropTypes.bool.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
+};

@@ -1,7 +1,9 @@
+@use '../../components/account/Header.scss';
+
 .nickchange {
   font-family: "NanumSquareNeo-Variable";
   display: grid;
-  height: calc(93% - 1px);
+  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
 
   .box-whole {
     .myname {

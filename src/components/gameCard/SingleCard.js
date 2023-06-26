@@ -1,20 +1,16 @@
 import React, { useState,useEffect } from 'react';
 import axios from "axios";
 import PropTypes from 'prop-types';
-import { Cookies } from "react-cookie";
+import isLogin from '../../util/isLogin';
 
-const cookies = new Cookies();
 
 export default function SingleCard({ card, handleChoice, flipped, disabled }) {
   const [activeSkin, setActiveSkin] = useState('default')
 
   useEffect(() => {
-    // 새로고침 시 로그인 상태를 복원
-    const getCookie = cookies.get("accessToken");
-    if (!!getCookie === true) {
-      // token이 빈 값이 아니라면
-      axios.defaults.headers.common.Authorization = `Bearer ${getCookie}`;
-    }
+    // 로그인 여부 받아오기
+    const isLoggedIn = isLogin();
+    console.log(isLoggedIn);
   }, []);
 
   const changeSkin = async () => {

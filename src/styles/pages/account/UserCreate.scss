@@ -1,8 +1,11 @@
+@use '../../components/account/Header.scss';
+
+
 .usercreate {
   width: 100%;
   font-family: "NanumSquareNeo-Variable";
   display: grid;
-  height: calc(93% - 1px);
+  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
   place-items: center;
   .box-whole {
     .box {

@@ -1,10 +1,11 @@
+@use '../../components/account/Header.scss';
 $row-height: 3.35rem;
 
 .rank {
   // background-color: aquamarine;
   font-family: "NanumSquareNeo-Variable";
   display: grid;
-  height: calc(93% - 1px);
+  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
   place-items: center;
   .myscore {
     font-size: 2.5rem;
