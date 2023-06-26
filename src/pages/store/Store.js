@@ -118,6 +118,7 @@ export default function Store() {
                       ? skinList.find((one) => one.skin_id === item.skin_id).skin_name
                       : "데이터없음"}
                   </span>
+                  <br />
                   <span className="skin-price">{item.price} G</span>
                 </div>
               ))

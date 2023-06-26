@@ -41,12 +41,9 @@ $row-height: 3.35rem;
       .navbar {
         display: flex;
         align-items: center;
-        // justify-content: center;
         flex-direction: column;
         padding: 0 1rem 0 1rem;
 
-        // padding: 1rem 2rem;
-        // background-color: yellow;
         .lv {
           padding: 1rem;
           font-size: 1rem;
@@ -96,21 +93,19 @@ $row-height: 3.35rem;
 
       .table-box::-webkit-scrollbar-track {
         background-color: gray; /* Chrome, Safari, Opera */
-        width: 4px;
+        width: 5px;
       }
       .table-box {
         background-color: #f0f0f0;
         height: 25rem;
 
-        display: flex;
         justify-content: space-between;
 
-        overflow-x: hidden; /* 가로 스크롤 숨기기 */
-        overflow-y: scroll; /* 세로 스크롤 표시 */
+        overflow-y: scroll;
+        
         .table-container {
           background-color: pink;
           border-collapse: collapse;
-          // overflow-y: hidden; /* 세로 스크롤 표시 */
         }
 
         .table-container thead {
@@ -121,7 +116,6 @@ $row-height: 3.35rem;
         }
 
         .table-container tbody {
-          // overflow-y: auto; /* 세로 스크롤 표시 */
           height: calc(
             100% - $row-height * 4
           ); /* thead의 높이를 제외한 부분의 높이 설정 */

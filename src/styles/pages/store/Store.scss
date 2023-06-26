@@ -67,14 +67,15 @@ $card-height: 210px;
       }
 
       .shelf {
-        display: flex;
-        align-items: row;
+        white-space: nowrap;
         overflow-x: scroll;
         width: 50rem;
 
         .skin-box {
+          display: inline-block;
+          vertical-align: top;
+          text-align: center;
           padding: 1.2rem 2rem;
-          display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
@@ -119,7 +120,8 @@ $card-height: 210px;
 
 // 카드 스킨 이미지
 .apple {
-  background-image: url("../../../../public/skin/apple.png");
+  background-image: url("../../../../public/skin/apple.png") !important;
+  display: block !important;
 }
 
 .heart_queen {
