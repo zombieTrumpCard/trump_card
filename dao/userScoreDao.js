@@ -1,6 +1,4 @@
-const { Op } = require("sequelize");
 const { UserScore, UserInfo } = require("../models/index");
-const sequelize = require("sequelize");
 
 const dao = {
   // 점수 등록
@@ -67,26 +65,7 @@ const dao = {
 
   // 랭킹
   async selectList(params) {
-    // let users = await UserInfo.findAll({});
-    // let resultUsers = [];
-    // users.forEach((user) => {
-    //   user.dataValues.score = UserScore.findOne({
-    //     where: { level: params.level, user_id: user.dataValues.user_id },
-    //     order: [["score", "DESC"]],
-    //     limit: 1,
-    //   });
-    //   const test = UserScore.findOne({
-    //     where: { level: params.level, user_id: user.dataValues.user_id },
-    //     order: [["score", "DESC"]],
-    //     limit: 1,
-    //   });
-    //   console.log(`test:fdsafjdsalfjdsalkf${test}`);
-    //   resultUsers.push(user);
-    // });
-    // return resultUsers;
     return await UserScore.findAll({
-      // attributes: [sequelize.fn("distinct", sequelize.col("user_id")), "score", "id"],
-      // attributes: [sequelize.fn("max", sequelize.col("score"))],
       raw: true,
       where: { level: params.level },
       order: [["score", "DESC"]],
