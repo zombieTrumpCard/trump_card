@@ -7,8 +7,7 @@ $card-width: 152px;
 $card-height: 210px;
 
 .store {
-  font-family: "NanumSquareNeo-Variable";
-  // background-color: aquamarine;
+  font-family: 'DungGeunMo';
   display: grid;
   height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
   place-items: center;
@@ -54,7 +53,7 @@ $card-height: 210px;
       }
 
       .shelf::-webkit-scrollbar {
-        width: 15px; /* Chrome, Safari, Opera */
+        height: 22px; /* Chrome, Safari, Opera */
       }
 
       .shelf::-webkit-scrollbar-thumb {
@@ -100,8 +99,7 @@ $card-height: 210px;
             padding: 0.6rem 3rem;
             width:100%;
             margin: 0.6rem 0;
-            background-color: rgb(0, 179, 255);
-            font-family: "NanumSquareNeo-Variable";
+            background-color: rgb(0, 179, 255);            
             color: #ffffff;
             border: none;
             border-radius: 25px;

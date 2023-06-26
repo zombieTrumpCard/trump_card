@@ -167,8 +167,3 @@ export default function Header() {
     </div>
   );
 }
-
-Header.propTypes = {
-  isModalOpen: PropTypes.bool.isRequired,
-  setIsModalOpen: PropTypes.func.isRequired,
-};
