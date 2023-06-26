@@ -26,14 +26,6 @@ router.post("/mkscore", isLoggedIn, async (req, res) => {
     };
     logger.info(`(userScore.reg.params) ${JSON.stringify(params)}`);
 
-    // 입력값 null 체크
-    // if (!params.level) {
-    //   const err = new Error("Not allowed null (level)");
-    //   logger.error(err.toString());
-
-    //   res.status(400).json({ err: err.toString() });
-    // }
-
     // 비즈니스 로직 호출
     const result = await userScoreService.reg(params);
     logger.info(`(userScore.reg.result) ${JSON.stringify(result)}`);

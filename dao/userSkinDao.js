@@ -1,4 +1,3 @@
-const { Op } = require("sequelize");
 const { UserSkin, UserInfo, Skin } = require("../models/index");
 
 const dao = {
