@@ -76,7 +76,9 @@ export default function UserDrop() {
         무기한 가입 제한 할 수 있습니다.
         `} />
       <br />
+      <div className="field-row">
       <input className="checkbox" type="checkbox" checked={isChecked} onChange={handleCheckboxChange}/>
+      </div>
       <span className="checkboxText">본문 내용에 동의합니다.</span>
       <button className="dropBtn" type="button" onClick={handleOpenModal} disabled={!isChecked}>탈퇴하기</button>
       {/* The Modal */}

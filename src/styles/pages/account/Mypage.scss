@@ -60,7 +60,6 @@ $card-height: 210px;
         position: relative;
         width: $card-width;
         height: $card-height;
-        // float: left;
         cursor: pointer;
         .skinimg-front {
           position: absolute;
@@ -153,13 +152,14 @@ $card-height: 210px;
             width: 4px;
           }
           .shelf {
-            display: flex;
-            align-items: row;
+            white-space: nowrap;
             overflow-x: scroll;
             width: 50rem;
             .skin-box {
+              display: inline-block;
+              vertical-align: top;
+              text-align: center;
               padding: 1.2rem 2rem;
-              display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: center;
@@ -171,6 +171,7 @@ $card-height: 210px;
               .skin-img {
                 width: $card-width;
                 height: $card-height;
+                margin-top: 1rem;
                 background-repeat: no-repeat;
                 background-size: 100%;
                 background-position: center;
