@@ -193,7 +193,7 @@ export default function Home() {
                     </form>
                     <button type="button" onClick={kakaoOauth}>
                       카카오
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
