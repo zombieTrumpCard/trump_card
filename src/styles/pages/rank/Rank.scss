@@ -3,7 +3,7 @@ $row-height: 3.35rem;
 
 .rank {
   // background-color: aquamarine;
-  font-family: "NanumSquareNeo-Variable";
+  font-family: 'DungGeunMo';
   display: grid;
   height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
   place-items: center;
@@ -86,7 +86,7 @@ $row-height: 3.35rem;
         }
       }
       .table-box::-webkit-scrollbar {
-        width: 15px; /* Chrome, Safari, Opera */
+        width: 22px; /* Chrome, Safari, Opera */
       }
 
       .table-box::-webkit-scrollbar-thumb {

@@ -1,12 +1,11 @@
-@use '../../components/account/Header.scss';
+@use "../../components/account/Header.scss";
 
 // 카드 크기
 $card-width: 152px;
 $card-height: 210px;
 
 .mypage {
-  // background-color: aquamarine;
-  font-family: "NanumSquareNeo-Variable";
+  font-family: "DungGeunMo";
   display: grid;
   height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
   place-items: center;
@@ -114,15 +113,7 @@ $card-height: 210px;
         padding: 8px 12px;
       }
       select {
-        background-color: #f2f2f2;
-        border: 1px solid #ccc;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        // background-image: url("arrow.png"); /* 사용자 정의 화살표 이미지 */
-        background-repeat: no-repeat;
-        background-position: right center;
-        padding-right: 20px; /* 이미지와 간격 조절 */
+        font-family: 'DungGeunMo';
       }
       select option:checked {
         background-color: #ddd;
@@ -205,4 +196,3 @@ $card-height: 210px;
     }
   }
 }
-
