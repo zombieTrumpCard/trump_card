@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Levelpage from "./pages/gameCard/Levelpage";
 import Header from "./components/account/Header";
+import HeaderNew from "./components/account/HeaderNew";
 import Home from "./pages/Home";
 import MyPage from "./pages/account/Mypage";
 import NickChange from "./pages/account/NickChange";
@@ -14,6 +15,7 @@ import GameNormal from "./pages/gameCard/GameNormal";
 import GameHard from "./pages/gameCard/GameHard";
 import GameOver from "./pages/gameCard/GameOver";
 import GameEnd from "./pages/gameCard/GameEnd";
+import WordGame from "./pages/gameWord/Word";
 
 function App() {
   return (
@@ -64,6 +66,15 @@ function App() {
           }
         />
         <Route
+          path="/wordGame"
+          element={
+            <>
+              <HeaderNew />
+              <WordGame />
+            </>
+          }
+        />
+        <Route
           path="/nickChange"
           element={
             <>
@@ -81,42 +92,12 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/level"
-          element={(
-            <Levelpage />
-          )}
-        />
-        <Route
-          path="/gameeasy"
-          element={(
-            <GameEasy />
-          )}
-        />
-        <Route
-          path="/gamenormal"
-          element={(
-            <GameNormal />
-            )}
-        />
-        <Route
-          path="/gamehard"
-          element={(
-            <GameHard />
-          )}
-        />
-        <Route
-          path="/gameover"
-          element={(
-            <GameOver />
-          )}
-        />
-        <Route
-          path="/gameend"
-          element={(
-            <GameEnd />
-          )}
-        />
+        <Route path="/level" element={<Levelpage />} />
+        <Route path="/gameeasy" element={<GameEasy />} />
+        <Route path="/gamenormal" element={<GameNormal />} />
+        <Route path="/gamehard" element={<GameHard />} />
+        <Route path="/gameover" element={<GameOver />} />
+        <Route path="/gameend" element={<GameEnd />} />
         <Route path="/level" element={<Levelpage />} />
         <Route path="/gameeasy" element={<GameEasy />} />
         <Route path="/gamenormal" element={<GameNormal />} />
