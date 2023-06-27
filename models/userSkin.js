@@ -5,11 +5,6 @@ module.exports = class UserSkin extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        // user_skin_id: {
-        //   type: Sequelize.INTEGER,
-        //   primaryKey: true,
-        //   autoIncrement: true,
-        // },
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
