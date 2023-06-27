@@ -9,7 +9,7 @@ import kakaoOauth from "./kakaoOauth";
 
 const cookies = new Cookies();
 
-export default function Header() {
+export default function HeaderNew() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
   const { isModalOpen, openModal, closeModal } = useModal();
   const [id, setId] = useState(""); // 로그인 시 받는 id
@@ -80,16 +80,16 @@ export default function Header() {
   }
 
   return (
-    <div className="header">
+    <div className="headernew">
       <div>
-        <img src="/logo_trump.png" alt="logImage"></img>
+        <img src="/logo.png" alt="logImage"></img>
         <Link to="/" className="heading">
           WonderLand
         </Link>
       </div>
       {isLoggedIn ? (
         <div className="navbar">
-          <Link to="/rank" className="nav-btn">
+          {/* <Link to="/rank" className="nav-btn">
             랭킹
           </Link>
           <Link to="/store" className="nav-btn">
@@ -97,8 +97,8 @@ export default function Header() {
           </Link>
           <Link to="/mypage" className="nav-btn">
             내정보
-          </Link>
-          <button
+          </Link> */}
+          {/* <button
             className="nav-btn"
             type="button"
             onClick={() => {
@@ -106,8 +106,11 @@ export default function Header() {
               navigate("/");
             }}
           >
-            로그아웃
-          </button>
+            파티 나가기
+          </button> */}
+          <Link to="/home" className="nav-btn">
+            파티 나가기
+          </Link>
         </div>
       ) : (
         <div className="navbar">

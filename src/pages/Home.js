@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import isLogin from '../util/isLogin';
+import { Link, useNavigate } from "react-router-dom";
+import isLogin from "../util/isLogin";
 import Header from "../components/account/Header";
 
 export default function Home() {
@@ -47,6 +47,11 @@ export default function Home() {
                 <button className="game-link" />
               </div>
             )}
+            <div>
+              <Link to="/wordGame" className="nav-btn">
+                다른게임
+              </Link>
+            </div>
           </div>
         </div>
       </div>

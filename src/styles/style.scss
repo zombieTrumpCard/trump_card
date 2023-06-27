@@ -1,20 +1,22 @@
-@import 'components/gameCard/Background';
-@import 'components/account/Header';
-@import 'components/common/Balloon';
-@import 'components/gameCard/SingleCard';
-@import 'pages/Home';
-@import 'pages/account/Mypage';
-@import 'pages/account/NickChange';
-@import 'pages/account/UserDrop';
-@import 'pages/rank/Rank';
-@import 'pages/account/UserCreate';
-@import 'pages/store/Store';
-@import 'pages/gameCard/Levelpage';
-@import 'pages/gameCard/GameEasy';
-@import 'pages/gameCard/GameNormal';
-@import 'pages/gameCard/GameHard';
-@import 'pages/gameCard/GameOver';
-@import 'pages/gameCard/GameEnd';
+@import "components/gameCard/Background";
+@import "components/account/Header";
+@import "components/common/Balloon";
+@import "components/gameCard/SingleCard";
+@import "pages/Home";
+@import "pages/account/Mypage";
+@import "pages/account/NickChange";
+@import "pages/account/UserDrop";
+@import "pages/rank/Rank";
+@import "pages/account/UserCreate";
+@import "pages/store/Store";
+@import "pages/gameCard/Levelpage";
+@import "pages/gameCard/GameEasy";
+@import "pages/gameCard/GameNormal";
+@import "pages/gameCard/GameHard";
+@import "pages/gameCard/GameOver";
+@import "pages/gameCard/GameEnd";
+@import "pages/wordGame/Page";
+@import "components/account/HeaderNew";
 
 // game base font
 @font-face {
@@ -30,8 +32,9 @@
 
 // web title font
 @font-face {
-  font-family: 'HSJiptokki-Black';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/HSJiptokki-Black.woff2') format('woff2');
+  font-family: "HSJiptokki-Black";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/HSJiptokki-Black.woff2")
+    format("woff2");
   unicode-range: U+AC00-D7A3;
   font-weight: 900;
   font-style: normal;
@@ -39,8 +42,9 @@
 
 // web base font
 @font-face {
-  font-family: 'NanumSquareNeo-Variable';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+  font-family: "NanumSquareNeo-Variable";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2")
+    format("woff2");
   unicode-range: U+AC00-D7A3;
   font-weight: normal;
   font-style: normal;
@@ -48,8 +52,9 @@
 
 // web base font pixel
 @font-face {
-  font-family: 'DungGeunMo';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+  font-family: "DungGeunMo";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff")
+    format("woff");
   unicode-range: U+AC00-D7A3;
   font-weight: normal;
   font-style: normal;
@@ -61,6 +66,6 @@
   padding: 0;
 }
 
-button {font-family: 'DungGeunMo';}
-
-
+button {
+  font-family: "DungGeunMo";
+}
