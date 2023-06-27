@@ -1,19 +1,19 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-const logger = require("../lib/logger");
-const tokenUtil = require("../lib/tokenUtil");
-const hashUtil = require("../lib/hashUtil");
-const userInfoService = require("../service/userInfoService");
-const { UserInfo } = require("../models/index");
-const bodyParser = require("body-parser");
-const { isLoggedIn } = require("../lib/middleware");
+const logger = require('../lib/logger');
+const tokenUtil = require('../lib/tokenUtil');
+const hashUtil = require('../lib/hashUtil');
+const userInfoService = require('../service/userInfoService');
+const { UserInfo } = require('../models/index');
+const bodyParser = require('body-parser');
+const { isLoggedIn } = require('../lib/middleware');
 
 // body-parser 설정
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 // 회원가입
-router.post("/join", async (req, res) => {
+router.post('/join', async (req, res) => {
   try {
     const params = {
       id: req.body.id,
@@ -27,7 +27,7 @@ router.post("/join", async (req, res) => {
 
     // 입력값 null 체크
     if (!params.id || !params.password || !params.nickname) {
-      const err = new Error("Not allowed null (id,password,nickname)");
+      const err = new Error('Not allowed null (id,password,nickname)');
       logger.error(err.toString());
 
       res.status(500).json({ err: err.toString() });
@@ -48,7 +48,7 @@ router.post("/join", async (req, res) => {
 });
 
 // 로그인
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   const { id, password } = req.body;
   console.log(req.body);
   try {
@@ -69,22 +69,22 @@ router.post("/login", async (req, res) => {
     } else {
       res
         .status(401)
-        .json({ message: "유효하지 않은 사용자 이름 또는 비밀번호입니다." });
+        .json({ message: '유효하지 않은 사용자 이름 또는 비밀번호입니다.' });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "서버 오류" });
+    res.status(500).json({ message: '서버 오류' });
   }
 });
 
 // 내정보 수정
-router.put("/reUser", isLoggedIn, async (req, res) => {
+router.put('/reUser', isLoggedIn, async (req, res) => {
   const tokenHeader = req.headers && req.headers.authorization;
   let token;
 
-  if (tokenHeader && tokenHeader.startsWith("Bearer ")) {
+  if (tokenHeader && tokenHeader.startsWith('Bearer ')) {
     // "Bearer " 스키마 제외
-    token = tokenHeader.split(" ")[1];
+    token = tokenHeader.split(' ')[1];
   }
   const decoded = tokenUtil.verifyToken(token);
   const id = decoded.id;
@@ -111,13 +111,13 @@ router.put("/reUser", isLoggedIn, async (req, res) => {
 });
 
 // 내정보 조회
-router.get("/myInfo", isLoggedIn, async (req, res) => {
+router.get('/myInfo', isLoggedIn, async (req, res) => {
   const tokenHeader = req.headers && req.headers.authorization;
   let token;
 
-  if (tokenHeader && tokenHeader.startsWith("Bearer ")) {
+  if (tokenHeader && tokenHeader.startsWith('Bearer ')) {
     // "Bearer " 스키마 제외
-    token = tokenHeader.split(" ")[1];
+    token = tokenHeader.split(' ')[1];
   }
 
   const decoded = tokenUtil.verifyToken(token);
@@ -139,13 +139,13 @@ router.get("/myInfo", isLoggedIn, async (req, res) => {
 });
 
 // 회원탈퇴
-router.delete("/deleteInfo", isLoggedIn, async (req, res) => {
+router.delete('/deleteInfo', isLoggedIn, async (req, res) => {
   const tokenHeader = req.headers && req.headers.authorization;
   let token;
 
-  if (tokenHeader && tokenHeader.startsWith("Bearer ")) {
+  if (tokenHeader && tokenHeader.startsWith('Bearer ')) {
     // "Bearer " 스키마 제외
-    token = tokenHeader.split(" ")[1];
+    token = tokenHeader.split(' ')[1];
   }
   const decoded = tokenUtil.verifyToken(token);
   const id = decoded.id;
@@ -167,7 +167,7 @@ router.delete("/deleteInfo", isLoggedIn, async (req, res) => {
 });
 
 // 아이디 중복 확인
-router.get("/checkId", async (req, res) => {
+router.get('/checkId', async (req, res) => {
   try {
     const params = {
       id: req.query.id,
@@ -176,7 +176,7 @@ router.get("/checkId", async (req, res) => {
     const result = await userInfoService.ckid(params);
     console.log(result);
     if (!result) {
-      res.status(409).json({ message: "이미 가입된 아이디입니다." });
+      res.status(409).json({ message: '이미 가입된 아이디입니다.' });
     }
     logger.info(`(userInfo.info.result) ${JSON.stringify(result)}`);
 
@@ -188,7 +188,7 @@ router.get("/checkId", async (req, res) => {
 });
 
 // 닉네임 중복 확인
-router.get("/checkNickname", async (req, res) => {
+router.get('/checkNickname', async (req, res) => {
   try {
     const params = {
       nickname: req.query.nickname,
@@ -196,7 +196,7 @@ router.get("/checkNickname", async (req, res) => {
     logger.info(`(userInfo.info.params) ${JSON.stringify(params)}`);
     const result = await userInfoService.cknm(params);
     if (!result) {
-      res.status(409).json({ message: "이미 존재하는 닉네임입니다." });
+      res.status(409).json({ message: '이미 존재하는 닉네임입니다.' });
     }
     logger.info(`(userInfo.info.result) ${JSON.stringify(result)}`);
 
@@ -207,7 +207,7 @@ router.get("/checkNickname", async (req, res) => {
   }
 });
 // 티어설정
-router.put("/tier", async (req, res) => {
+router.put('/tier', async (req, res) => {
   try {
     logger.info(`(userInfo.info) ${JSON.stringify()}`);
     const result = await userInfoService.tier();

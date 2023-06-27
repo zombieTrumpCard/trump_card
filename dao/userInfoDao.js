@@ -1,5 +1,5 @@
-const { Op } = require("sequelize");
-const { UserInfo, UserScore, UserSkin, Skin } = require("../models/index");
+const { Op } = require('sequelize');
+const { UserInfo, UserScore, UserSkin, Skin } = require('../models/index');
 
 const dao = {
   // 회원가입
@@ -26,22 +26,22 @@ const dao = {
     });
 
     const userScores = await UserScore.findAll({
-      where: { level: "hard", user_id: userInfo.user_id },
-      attributes: ["score"],
-      order: [["score", "DESC"]],
+      where: { level: 'hard', user_id: userInfo.user_id },
+      attributes: ['score'],
+      order: [['score', 'DESC']],
       limit: 1,
     });
 
     const userSkin = await UserSkin.findOne({
       where: { active_skin: true, user_id: userInfo.user_id },
-      attributes: ["skin_id"],
+      attributes: ['skin_id'],
     });
 
     let skinName = null;
     if (userSkin) {
       const skin = await Skin.findOne({
         where: { skin_id: userSkin.skin_id },
-        attributes: ["skin"],
+        attributes: ['skin'],
       });
       skinName = skin ? skin.skin : null;
     }
@@ -119,6 +119,12 @@ const dao = {
         .catch((err) => {
           reject(err);
         });
+    });
+  },
+
+  async infoForSnsId(params) {
+    return await UserInfo.findOne({
+      where: { snsId: params.id },
     });
   },
 };

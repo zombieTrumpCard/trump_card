@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 
 //table 생성
 module.exports = class UserInfo extends Sequelize.Model {
@@ -12,12 +12,21 @@ module.exports = class UserInfo extends Sequelize.Model {
         },
         id: {
           type: Sequelize.STRING(255),
-          allowNull: false,
+          // allowNull: false,
           unique: true,
         },
         password: {
           type: Sequelize.STRING(255),
+          // allowNull: false,
+        },
+        provider: {
+          type: Sequelize.ENUM('local', 'kakao'),
           allowNull: false,
+          defaultValue: 'local',
+        },
+        snsId: {
+          type: Sequelize.STRING(30),
+          allowNull: true,
         },
         nickname: {
           type: Sequelize.STRING(255),
@@ -47,14 +56,14 @@ module.exports = class UserInfo extends Sequelize.Model {
   //관계 설정
   static associate(db) {
     db.UserInfo.hasMany(db.UserSkin, {
-      foreignKey: { name: "user_id", allowNull: false },
+      foreignKey: { name: 'user_id', allowNull: false },
       // as: "userSkins",
     });
     db.UserInfo.hasMany(db.UserScore, {
-      foreignKey: { name: "user_id", allowNull: false },
+      foreignKey: { name: 'user_id', allowNull: false },
       // as: "userScores",
     });
   }
 
-  static includeAttributes = ["id", "nickname", "tier", "point"];
+  static includeAttributes = ['id', 'nickname', 'tier', 'point'];
 };
