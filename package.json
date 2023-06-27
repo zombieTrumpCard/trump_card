@@ -53,5 +53,12 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.8"
-  }
+  },
+  "description": "res.status(에러숫자).json({ message: \"에러보낼 내용\" });",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "",
+  "license": "ISC"
 }
