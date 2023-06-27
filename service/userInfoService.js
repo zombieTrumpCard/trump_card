@@ -1,5 +1,5 @@
-const logger = require("../lib/logger");
-const userInfoDao = require("../dao/userInfoDao");
+const logger = require('../lib/logger');
+const userInfoDao = require('../dao/userInfoDao');
 
 const service = {
   // 회원가입
@@ -26,6 +26,22 @@ const service = {
     try {
       result = await userInfoDao.selectInfo(params);
       console.log(result);
+      logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(userInfoService.info) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
+  async infoForSnsId(params) {
+    let result = null;
+    try {
+      result = await userInfoDao.infoForSnsId(params);
+      // console.log(`result:${result}`);
       logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userInfoService.info) ${err.toString()}`);
