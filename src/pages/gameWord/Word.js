@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import socket from "../../util/socket";
+import isLogin from "../../util/isLogin";
 
 const wordGame = () => {
   const locations = [
@@ -27,12 +29,16 @@ const wordGame = () => {
   const [timer, setTimer] = useState(10);
   const [time, setTime] = useState(10);
   const [rabbitPosition, setRabbitPosition] = useState(0);
+  const [isVa, setIsVa] = useState(false);
   const boxWidth = 300; // 박스의 너비
   const conversationRef = useRef(null);
   const timerRef = useRef(null);
+  const [adminMsg, setAdminMsg] = useState([]);
 
   const players = ["User1", "User2", "User3", "User4", "User5", "User6"];
   const roundLimit = 5;
+
+  const [myNickname, setMyNickname] = useState("");
 
   const startTimer = () => {
     clearInterval(timerRef.current);
@@ -43,7 +49,7 @@ const wordGame = () => {
     }, 1000);
   };
 
-  const startGame = () => {
+  function initializeGame() {
     const randomIndex = Math.floor(Math.random() * locations.length);
     const selectedLocation = locations[randomIndex];
     setCurrentLocation(selectedLocation);
@@ -52,6 +58,19 @@ const wordGame = () => {
     setConversations([]);
     setRound(1);
     startTimer();
+  }
+  const startGame = async () => {
+    try {
+      const response = await axios.get("/word/verification");
+      const isVal = response.data;
+      if (isVal) {
+        initializeGame();
+      } else {
+        alert("유효성 검사에 실패했습니다.");
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
   const test = async (a) => {
@@ -77,7 +96,38 @@ const wordGame = () => {
   };
 
   useEffect(() => {
+    isLogin();
     test();
+    const getNickname = async () => {
+      try {
+        const result = await axios.get("/word/getNickname");
+        // console.log("1", result.data);
+        setMyNickname(result.data);
+        socket.connect(result.data);
+        socket.joinRoom("ROOMNAME");
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // 닉네임 가져오기+소켓 연결
+    getNickname();
+
+    // 메세지 수신 설정
+    socket.receiveMsg(setConversations);
+    console.log("1", setConversations);
+
+    // admin 메시지 수신 이벤트
+    socket.receiveAminMsg(setAdminMsg);
+
+    // 게임시작
+    if (isVa) {
+      socket.start(initializeGame);
+    }
+    return () => {
+      // 컴포넌트가 언마운트될 때 소켓 연결 해제
+      socket.disconnect(myNickname);
+    };
   }, []);
 
   const handleTimeout = () => {
@@ -127,11 +177,27 @@ const wordGame = () => {
         const isValid = await test(userInput);
 
         if (isValid === true) {
-          setConversations((prevConversations) => {
-            const newConversations = [...prevConversations];
-            newConversations.push(`${players[index]}: ${userInput}`);
-            return newConversations;
-          });
+          // setConversations((prevConversations) => {
+          //   const newConversations = [...prevConversations];
+          //   // newConversations.push(`${players[index]}: ${userInput}`);
+          //   // console.log(newConversations);
+          //   return newConversations;
+          // });
+          console.log(userInput, myNickname);
+          socket.sendMsg(userInput, myNickname);
+          // socket.receiveMsg(setConversations);
+          // socketio.on("message", (data) => {
+          //   const { sender, message, sendRoom } = data;
+          //   console.log("데이터on시점", data);
+          //   // setConversations((prevdata) => [...prevdata, `${sender}:${message}`]);
+          //   setConversations((prevConversations) => {
+          //     const newConversations = [...prevConversations];
+          //     newConversations.push(`${sender}: ${message}`);
+          //     console.log(98772, data);
+          //     console.log(12321, newConversations);
+          //     return newConversations;
+          //   });
+          // });
           setUserInputs((prevInputs) => {
             const newInputs = [...prevInputs];
             newInputs[index] = "";
@@ -241,8 +307,13 @@ const wordGame = () => {
       </div>
 
       <div className="conversation-box" ref={conversationRef}>
-        <button onClick={startGame}>게임 시작</button>
+        <button onClick={startGame} disabled={!isVa}>
+          게임 시작
+        </button>
         <h2>게임 창</h2>
+        {adminMsg.map((item, index) => (
+          <p key={index}>{item}</p>
+        ))}
         <div className="conversation-content">
           {conversations.map((conversation, index) => (
             <p key={index}>{conversation}</p>

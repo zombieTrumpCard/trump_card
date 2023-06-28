@@ -55,8 +55,8 @@ export default function UserCreate() {
         },
       });
       console.log(response);
-      if(response.data === true){
-        alert("사용할 수 있는 닉네임입니다.")
+      if (response.data === true) {
+        alert("사용할 수 있는 닉네임입니다.");
       }
     } catch (error) {
       console.log(error);
@@ -78,8 +78,8 @@ export default function UserCreate() {
         },
       });
       console.log(response);
-      if(response.data === true){
-        alert("사용할 수 있는 아이디입니다.")
+      if (response.data === true) {
+        alert("사용할 수 있는 아이디입니다.");
       }
     } catch (error) {
       console.log(error);
