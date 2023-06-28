@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Levelpage from "./pages/gameCard/Levelpage";
 import Header from "./components/account/Header";
+import HeaderNew from "./components/account/HeaderNew";
 import Home from "./pages/Home";
 import MyPage from "./pages/account/Mypage";
 import NickChange from "./pages/account/NickChange";
@@ -17,6 +18,7 @@ import GameEnd from "./pages/gameCard/GameEnd";
 import Test from "./util/socket";
 import TestChat from "./pages/TestChat";
 import GameWordWait from "./pages/gameword/GameWordWait";
+import WordGame from "./pages/gameWord/Word";
 
 function App() {
   return (
@@ -79,6 +81,14 @@ function App() {
             <>
               <Header />
               <Store />
+            </>
+          }
+        />
+        <Route
+          path="/wordGame"
+          element={
+            <>
+              <WordGame />
             </>
           }
         />
