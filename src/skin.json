@@ -1,0 +1,57 @@
+[
+  {
+    "skin_id": 1,
+    "skin": "apple",
+    "skin_name": "애플"
+  },
+  {
+    "skin_id": 2,
+    "skin": "heart_queen",
+    "skin_name": "하트여왕"
+  },
+  {
+    "skin_id": 3,
+    "skin": "cat",
+    "skin_name": "캣"
+  },
+  {
+    "skin_id": 4,
+    "skin": "zombie",
+    "skin_name": "좀비"
+  },
+  {
+    "skin_id": 5,
+    "skin": "basic",
+    "skin_name": "열정!열정!열정!"
+  },
+  {
+    "skin_id": 6,
+    "skin": "white_rabbit",
+    "skin_name": "흰토끼"
+  },
+  {
+    "skin_id": 7,
+    "skin": "Taewook",
+    "skin_name": "태욱"
+  },
+  {
+    "skin_id": 8,
+    "skin": "Arsenal",
+    "skin_name": "아스날"
+  },
+  {
+    "skin_id": 9,
+    "skin": "Jedi",
+    "skin_name": "만도"
+  },
+  {
+    "skin_id": 10,
+    "skin": "Magic",
+    "skin_name": "마법진"
+  },
+  {
+    "skin_id": 11,
+    "skin": "nomal",
+    "skin_name": "기본카드"
+  }
+]

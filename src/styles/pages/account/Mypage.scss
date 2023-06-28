@@ -1,0 +1,199 @@
+@use "../../components/account/Header.scss";
+
+// 카드 크기
+$card-width: 152px;
+$card-height: 210px;
+
+.mypage {
+  font-family: "DungGeunMo";
+  display: grid;
+  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
+  place-items: center;
+
+  .box-whole {
+    .box-content {
+      background-color: #f0f0f0;
+
+      display: flex;
+      justify-content: space-between;
+      .myname {
+        padding: 0 1rem;
+        font-size: 1.4rem;
+        margin-right: 10rem;
+      }
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(50, 69, 238);
+        border-radius: 12px;
+        .nav-btn {
+          padding: 8px 12px;
+          margin: 0 8px;
+          background-color: #f0f0f0;
+          color: #333;
+          border: none;
+          border-radius: 15px;
+          cursor: pointer;
+          text-decoration: none;
+          font-size: 0.8rem;
+        }
+      }
+    }
+    .body-content {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      // background-color: skyblue;
+      .mykey.myskin {
+        margin: 0;
+        margin-top: 3rem;
+      }
+      .myvalue.myskin {
+        margin: 0;
+      }
+
+      .skinimg-container {
+        position: relative;
+        width: $card-width;
+        height: $card-height;
+        cursor: pointer;
+        .skinimg-front {
+          position: absolute;
+          width: $card-width;
+          height: $card-height;
+          background-color: white;
+          top: 0;
+          left: 0;
+          border-radius: 12px;
+          border: 0.1rem solid;
+          background-repeat: no-repeat;
+          background-size: 100%;
+        }
+        .skinimg-back {
+          position: absolute;
+          width: $card-width;
+          height: $card-height;
+          background-color: rgb(101, 174, 208);
+          top: 0;
+          left: 0;
+          border-radius: 12px;
+
+          text-align: right;
+          line-height: $card-height;
+          font-size: 3rem;
+          border: 0.1rem solid;
+        }
+
+        .skinimg-back {
+          transform: translate(0px);
+          transition: all 0.8s ease;
+        }
+      }
+      .skinimg-container:hover {
+        // border: 2px solid yellow;
+      }
+
+      .skinimg-container:hover .skinimg-back {
+        transform: translate(30px);
+      }
+      .keyvalue-box {
+        display: flex;
+        align-items: center;
+      }
+      .mykey {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+      }
+      .myvalue {
+        font-size: 1.4rem;
+        padding: 8px 12px;
+      }
+      select {
+        font-family: "DungGeunMo";
+      }
+      select option:checked {
+        background-color: #ddd;
+      }
+    }
+    .modal {
+      .modal-content {
+        .close {
+        }
+        p {
+          padding-left: 1.3rem;
+        }
+        .box-xscroll {
+          display: flex;
+          align-items: column;
+          justify-content: center;
+          .shelf::-webkit-scrollbar {
+            width: 15px; /* Chrome, Safari, Opera */
+          }
+
+          .shelf::-webkit-scrollbar-thumb {
+            background-color: rgb(112, 212, 255); /* Chrome, Safari, Opera */
+            border-radius: 25px;
+          }
+
+          .shelf::-webkit-scrollbar-track {
+            background-color: rgb(222, 222, 222); /* Chrome, Safari, Opera */
+            width: 4px;
+          }
+          .shelf {
+            white-space: nowrap;
+            overflow-x: scroll;
+            width: 50rem;
+            .skin-box {
+              display: inline-block;
+              vertical-align: top;
+              text-align: center;
+              padding: 1.2rem 2rem;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              .skin-name {
+                padding: 0.4rem 0.4rem;
+                color: rgb(0, 186, 232);
+                font-size: 1.2rem;
+              }
+              .skin-img {
+                width: $card-width;
+                height: $card-height;
+                margin-top: 1rem;
+                background-repeat: no-repeat;
+                background-size: 100%;
+                background-position: center;
+                border-radius: 12px;
+                border: solid 1px black;
+                cursor: pointer;
+              }
+              .skin-img.checked {
+                box-shadow: 10px 10px lightblue;
+              }
+              .skin-img:hover {
+                position: relative;
+                top: -5px;
+                left: -5px;
+              }
+            }
+          }
+          .setMyskin-btn {
+            background-color: rgb(0, 186, 232);
+            border: none;
+            border-radius: 12px;
+            margin: 1rem;
+            color: white;
+            font-size: 1rem;
+            font-family: "NanumSquareNeo-Variable";
+          }
+          .setMyskin-btn:hover {
+            background-color: rgb(0, 144, 221);
+          }
+        }
+      }
+    }
+  }
+}

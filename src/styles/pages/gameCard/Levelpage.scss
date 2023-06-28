@@ -1,0 +1,66 @@
+  .levelTitle {
+    position: absolute;
+    width: 200px;
+    height: 60px;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
+
+    font-family: "Mali-Regular";
+    font-size: 80px;
+    color: #000;
+    text-align: center;
+  };
+
+  .chooseLevelEasy {
+    position: absolute;
+    width: 7rem;
+    height: 9rem;
+    top: 30%;
+    left: 38%;
+    transform: translate(-50%);
+
+    border: none;
+    background-color: transparent;
+    background-size: cover;
+  };
+
+  .chooseLevelNormal {
+    position: absolute;
+    width: 7rem;
+    height: 9rem;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+
+    border: none;
+    background-color: transparent;
+    background-size: cover;
+  };
+
+  .chooseLevelHard {
+    position: absolute;
+    width: 7rem;
+    height: 9rem;
+    top: 30%;
+    left: 62%;
+    transform: translate(-50%);
+
+    border: none;
+    background-color: transparent;
+    background-size: cover;
+  };
+
+  .startBtn {
+    position: absolute;
+    width: 10.9rem;
+    height: 14rem;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%);
+
+    border: none;
+    background-color: transparent;
+    background-image: url('../../../../public/startBtn.png');
+    background-size: cover;
+  };

@@ -1,0 +1,54 @@
+.background {
+  display: flex;
+  margin: 0;
+  font-family: 'Mali-Regular';
+
+  width: 100%;
+  height: 100vh;
+  background-image: url('../../../../public/background.jpg');
+  background-size: cover;
+
+  .homeBtn {
+    position: absolute;
+    right: 1rem;
+
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+
+    font-size: 2.5rem;
+    color: #000;
+    text-align: center;
+  };
+
+  .RestartBtn {
+    position: absolute;
+    bottom: 1rem;
+    right: 3rem;
+    background: none;
+    border: none;
+  
+    width: 6rem;
+    height: 3rem;
+  
+    font-family: 'Mali-Regular';
+    color: #000;
+    cursor: pointer;
+    font-size: 2rem;
+  }
+  
+  .RestartBtn:hover {
+    background: none;
+    color: #000;
+  }
+
+  .rabbitIcon {
+    position: absolute;
+    width: 5rem;
+    height: 5rem;
+    top: 87%;
+
+    background-image: url('../../../../public/rabbitIcon.png');
+    background-size: cover;
+  }
+}
