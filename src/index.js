@@ -12,10 +12,10 @@ import "@sakun/system.css/dist/system.css";
 // const httpClient = new HttpClient(baseURL);
 // const chatService = new ChatService(httpClient);
 
-// axios.defaults.baseURL = "http://192.168.0.50:1788"; // 태욱님컴
-// axios.defaults.baseURL = "http://192.168.0.71:1788"; // 다슬님컴
-// axios.defaults.baseURL = "http://192.168.0.81:1788"; // 태경님컴
-axios.defaults.baseURL = "http://192.168.0.62:1788"; // 지현님컴
+// axios.defaults.baseURL = process.env.REACT_APP_SERVER_TAEWOOK_URL; // 태욱님컴
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_DASEUL_URL; // 다슬님컴
+// axios.defaults.baseURL = process.env.REACT_APP_SERVER_TAEKYUNG_URL; // 태경님컴
+// axios.defaults.baseURL = process.env.REACT_APP_SERVER_JIHYUN_URL; // 지현님컴
 axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
