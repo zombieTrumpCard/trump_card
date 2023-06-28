@@ -17,7 +17,7 @@ import GameOver from "./pages/gameCard/GameOver";
 import GameEnd from "./pages/gameCard/GameEnd";
 import Test from "./util/socket";
 import TestChat from "./pages/TestChat";
-import GameWordWait from "./pages/gameword/GameWordWait";
+import GameWordWait from "./pages/gameWord/GameWordWait";
 import WordGame from "./pages/gameWord/Word";
 
 function App() {

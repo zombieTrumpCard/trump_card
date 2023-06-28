@@ -12,12 +12,6 @@ export default function UserCreate() {
 
   const navigate = useNavigate();
 
-  // axios 인스턴스 생성
-  const api = axios.create({
-    baseURL: "http://192.168.0.50:1788", // 서버 주소
-    withCredentials: true, // CORS 요청 처리를 위한 옵션 설정
-  });
-
   const handleFormSubmit = async (e) => {
     e.preventDefault(); // 새로고침 막기
     console.log(
@@ -31,7 +25,7 @@ export default function UserCreate() {
       phonenum
     );
     try {
-      const response = await api.post("/userInfos/join", {
+      const response = await axios.post("/userInfos/join", {
         id,
         password: password2,
         nickname,
@@ -55,14 +49,14 @@ export default function UserCreate() {
   const checkNick = async () => {
     console.log("nickname", nickname);
     try {
-      const response = await api.get("userInfos/checkNickname", {
+      const response = await axios.get("userInfos/checkNickname", {
         params: {
           nickname,
         },
       });
       console.log(response);
-      if(response.data === true){
-        alert("사용할 수 있는 닉네임입니다.")
+      if (response.data === true) {
+        alert("사용할 수 있는 닉네임입니다.");
       }
     } catch (error) {
       console.log(error);
@@ -78,14 +72,14 @@ export default function UserCreate() {
   const checkId = async () => {
     console.log("id", id);
     try {
-      const response = await api.get("userInfos/checkId", {
+      const response = await axios.get("userInfos/checkId", {
         params: {
           id,
         },
       });
       console.log(response);
-      if(response.data === true){
-        alert("사용할 수 있는 아이디입니다.")
+      if (response.data === true) {
+        alert("사용할 수 있는 아이디입니다.");
       }
     } catch (error) {
       console.log(error);
