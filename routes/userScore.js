@@ -41,11 +41,9 @@ router.post("/mkscore", isLoggedIn, async (req, res) => {
 router.get("/ckscoreBefore", async (req, res) => {
   try {
     const level = req.query.level;
-    console.log("11", level);
     const params = {
       level: req.query.level,
     };
-    console.log("22", params);
     logger.info(`(userScore.list.params) ${JSON.stringify(params)}`);
     const result = await userScoreService.list(params);
     logger.info(`(userScore.list.result) ${JSON.stringify(result)}`);
