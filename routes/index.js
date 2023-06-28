@@ -5,6 +5,7 @@ const authRouter = require('./auth');
 const userSkinRouter = require('./userSkin');
 const userScoreRouter = require('./userScore');
 const skinRouter = require('./skin');
+const apiRouter = require("./api");
 const router = express.Router();
 
 /* GET home page. */
@@ -32,4 +33,7 @@ router.use('/userSkins', userSkinRouter);
 router.use('/skinS', skinRouter);
 // userInfo
 router.use('/userScores', userScoreRouter);
+//api
+router.use("/api", apiRouter);
+
 module.exports = router;

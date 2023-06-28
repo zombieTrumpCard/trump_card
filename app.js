@@ -26,6 +26,7 @@ app.use(
       'http://192.168.0.71:3000',
       'http://192.168.0.62:3000',
       'http://192.168.0.54:3000',
+      "http://192.168.0.50:3000",
     ],
     credentials: true,
   })
@@ -68,7 +69,7 @@ app.use(
   session({
     resave: false,
     saveUninitialized: false,
-    secret: process.env.COOKIE_SECRET,
+    secret: process.env.CLIENT_SECRET,
     cookie: {
       httpOnly: true,
       secure: false,
