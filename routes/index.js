@@ -2,9 +2,10 @@ const express = require("express");
 const logger = require("../lib/logger");
 const userInfoRouter = require("./userInfo");
 const authRouter = require('./auth');
-const userSkinRouter = require("./userSkin");
-const userScoreRouter = require("./userScore");
-const skinRouter = require("./skin");
+const userSkinRouter = require('./userSkin');
+const userScoreRouter = require('./userScore');
+const skinRouter = require('./skin');
+const apiRouter = require("./api");
 const wordRouter = require("./word");
 const router = express.Router();
 
@@ -26,13 +27,15 @@ router.get('/log-test', (req, res, next) => {
 });
 router.use('/auth', authRouter);
 // userInfo
-router.use("/userInfos", userInfoRouter);
-// userSkins
-router.use("/userSkins", userSkinRouter);
-// skinS
-router.use("/skinS", skinRouter);
-// userScores
-router.use("/userScores", userScoreRouter);
+router.use('/userInfos', userInfoRouter);
+// userInfo
+router.use('/userSkins', userSkinRouter);
+// userInfo
+router.use('/skinS', skinRouter);
+// userInfo
+router.use('/userScores', userScoreRouter);
+//api
+router.use("/api", apiRouter);
 // word
 router.use("/word", wordRouter);
 

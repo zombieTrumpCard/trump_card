@@ -1,7 +1,11 @@
 const passport = require('passport');
+const dotenv = require('dotenv');
 const KakaoStrategy = require('passport-kakao').Strategy;
 
 const User = require('../models/userInfo');
+
+dotenv.config();
+
 
 module.exports = () => {
   passport.use(
