@@ -25,6 +25,9 @@ const wordGame = () => {
   const [conversations, setConversations] = useState([]);
   const [round, setRound] = useState(1);
   const [timer, setTimer] = useState(10);
+  const [time, setTime] = useState(10);
+  const [rabbitPosition, setRabbitPosition] = useState(0);
+  const boxWidth = 300; // 박스의 너비
   const conversationRef = useRef(null);
   const timerRef = useRef(null);
 
@@ -52,20 +55,24 @@ const wordGame = () => {
   };
 
   const test = async (a) => {
-    // console.log("담길값", a);
     try {
       const response = await axios.get("/api/search/encyc", {
         params: {
           word: a,
         },
       });
-      console.log(response);
+
+      const isValid = response.data; // 가정: 응답에서 유효성 검사 결과를 추출하여 사용
+
+      console.log(response); // 응답 확인 (선택 사항)
+      return isValid; // 유효성 검사 결과 반환
     } catch (error) {
-      if (error.code !== 200 && error.code === 401) {
+      if (error.response && error.response.status === 401) {
         alert(`${error.response.data.message}`);
       } else {
         alert(error);
       }
+      return false; // 유효성 검사 실패로 처리
     }
   };
 
@@ -78,17 +85,22 @@ const wordGame = () => {
     alert("TIMEOUT");
     if (round < roundLimit) {
       setRound((prevRound) => prevRound + 1);
-      setCurrentPlayerIndex(0);
+      setCurrentPlayerIndex((prevIndex) => (prevIndex + 1) % players.length);
       setUserInputs([]);
       setConversations([]);
       startTimer();
+
+      // 처음 제시어를 다시 랜덤으로 선택
+      const randomIndex = Math.floor(Math.random() * locations.length);
+      const selectedLocation = locations[randomIndex];
+      setCurrentLocation(selectedLocation);
     } else {
       // 게임 종료 처리
       alert("게임이 종료되었습니다.");
       // 게임 종료 후 초기화를 수행합니다.
       setCurrentLocation("");
       setRound(1);
-      setCurrentPlayerIndex(0);
+      setCurrentPlayerIndex(players.indexOf(players[currentPlayerIndex]) + 1);
       setUserInputs([]);
       setConversations([]);
     }
@@ -103,7 +115,7 @@ const wordGame = () => {
     });
   };
 
-  const checkAnswer = (userInput, index) => {
+  const checkAnswer = async (userInput, index) => {
     const regexPattern = /^[ㄱ-ㅎ가-힣]+$/;
     if (
       (conversations.length === 0 && userInput.charAt(0) === currentLocation) ||
@@ -112,21 +124,32 @@ const wordGame = () => {
           conversations[conversations.length - 1].slice(-1))
     ) {
       if (regexPattern.test(userInput)) {
-        setConversations((prevConversations) => {
-          const newConversations = [...prevConversations];
-          test(userInput);
-          // console.log(userInput);
-          newConversations.push(`${players[index]}: ${userInput}`);
-          return newConversations;
-        });
-        setUserInputs((prevInputs) => {
-          const newInputs = [...prevInputs];
-          newInputs[index] = "";
-          return newInputs;
-        });
-        setCurrentPlayerIndex((prevIndex) => (prevIndex + 1) % players.length);
-        clearInterval(timerRef.current);
-        startTimer();
+        const isValid = await test(userInput);
+
+        if (isValid === true) {
+          setConversations((prevConversations) => {
+            const newConversations = [...prevConversations];
+            newConversations.push(`${players[index]}: ${userInput}`);
+            return newConversations;
+          });
+          setUserInputs((prevInputs) => {
+            const newInputs = [...prevInputs];
+            newInputs[index] = "";
+            return newInputs;
+          });
+          setCurrentPlayerIndex(
+            (prevIndex) => (prevIndex + 1) % players.length
+          );
+          clearInterval(timerRef.current);
+          startTimer();
+        } else {
+          alert("유효하지 않은 입력입니다. 다른 단어를 시도해주세요!");
+          setUserInputs((prevInputs) => {
+            const newInputs = [...prevInputs];
+            newInputs[index] = "";
+            return newInputs;
+          });
+        }
       } else {
         alert("잘못된 입력입니다. 자음 또는 모음으로만 입력해주세요!");
         setUserInputs((prevInputs) => {
@@ -170,11 +193,31 @@ const wordGame = () => {
     }
   }, [round]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime((prevTimer) => {
+        if (prevTimer === 0) {
+          setRabbitPosition(0); // 토끼 위치를 0으로 설정하여 다시 시작
+          return 10; // 타이머를 10으로 설정하여 다시 시작
+        }
+
+        setRabbitPosition((prevPosition) => {
+          if (prevPosition >= boxWidth) {
+            return 0; // 토끼 위치를 0으로 설정하여 다시 시작
+          }
+          return prevPosition + boxWidth / 10; // 토끼 위치를 이동
+        });
+
+        return prevTimer - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="game-container">
       <h1>끝말잇기 게임</h1>
-      <button onClick={startGame}>게임 시작</button>
-      {currentLocation && <p>처음 제시어: {currentLocation}</p>}
 
       <div className="round-info">
         <p>남은 라운드: {roundLimit - round + 1}</p>
@@ -184,7 +227,21 @@ const wordGame = () => {
         <p>남은 시간: {timer}초</p>
       </div>
 
+      <div className="bar">
+        {rabbitPosition < boxWidth && (
+          <div
+            className="rabbit"
+            style={{
+              transform: `translateX(${rabbitPosition}px)`,
+              transition: `${time}s linear`,
+            }}
+          ></div>
+        )}
+        <div className="clock"></div>
+      </div>
+
       <div className="conversation-box" ref={conversationRef}>
+        <button onClick={startGame}>게임 시작</button>
         <h2>게임 창</h2>
         <div className="conversation-content">
           {conversations.map((conversation, index) => (
@@ -211,6 +268,9 @@ const wordGame = () => {
           </form>
         ))}
       </div>
+      {currentLocation && (
+        <p className="first">처음 제시어: {currentLocation}</p>
+      )}
     </div>
   );
 };

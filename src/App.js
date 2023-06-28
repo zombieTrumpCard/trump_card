@@ -69,7 +69,6 @@ function App() {
           path="/wordGame"
           element={
             <>
-              <HeaderNew />
               <WordGame />
             </>
           }
