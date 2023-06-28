@@ -16,9 +16,9 @@ import GameHard from "./pages/gameCard/GameHard";
 import GameOver from "./pages/gameCard/GameOver";
 import GameEnd from "./pages/gameCard/GameEnd";
 import Test from "./util/socket";
-import TestChat from "./pages/TestChat";
 import GameWordWait from "./pages/gameword/GameWordWait";
-import WordGame from "./pages/gameWord/Word";
+import WordGame from "./pages/gameword/Word";
+import WaitingRoom from './pages/gameword/WaitingRoom';
 
 function App() {
   return (
@@ -29,14 +29,6 @@ function App() {
           element={
             <>
               <Test />
-            </>
-          }
-        />
-        <Route
-          path="/testchat"
-          element={
-            <>
-              <TestChat />
             </>
           }
         />
@@ -89,6 +81,15 @@ function App() {
           element={
             <>
               <WordGame />
+            </>
+          }
+        />
+        <Route
+          path="/WaitingRoom"
+          element={
+            <>
+              <HeaderNew />
+              <WaitingRoom />
             </>
           }
         />
