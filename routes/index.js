@@ -1,11 +1,12 @@
-const express = require('express');
-const logger = require('../lib/logger');
-const userInfoRouter = require('./userInfo');
+const express = require("express");
+const logger = require("../lib/logger");
+const userInfoRouter = require("./userInfo");
 const authRouter = require('./auth');
 const userSkinRouter = require('./userSkin');
 const userScoreRouter = require('./userScore');
 const skinRouter = require('./skin');
 const apiRouter = require("./api");
+const wordRouter = require("./word");
 const router = express.Router();
 
 /* GET home page. */
@@ -35,5 +36,7 @@ router.use('/skinS', skinRouter);
 router.use('/userScores', userScoreRouter);
 //api
 router.use("/api", apiRouter);
+// word
+router.use("/word", wordRouter);
 
 module.exports = router;

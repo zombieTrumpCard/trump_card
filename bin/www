@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('card-back:server');
-var http = require('http');
+var app = require("../app");
+var debug = require("debug")("card-back:server");
+var http = require("http");
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +20,11 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
+
+/**
+ * Socket.io Setup
+ */
+app.io.attach(server);
 
 /**
  * Listen on provided port, on all network interfaces.
