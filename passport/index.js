@@ -15,6 +15,6 @@ module.exports = () => {
       .catch((err) => done(err));
   });
 
-  local();
+  // local();
   kakao(); // 구글 전략 등록
 };
