@@ -87,10 +87,11 @@ const getUserInfo = async (accessToken) => {
   // return get.data;
   const result = get.data;
 
+  console.log(`responseData : ${JSON.stringify(get.data)}`);
   // id, email 추출
   return {
     id: result.id,
-    email: result.kakao_account.email,
+    account: result.kakao_account,
     // snsId: result.profile.id,
   };
 };

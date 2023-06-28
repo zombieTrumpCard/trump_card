@@ -1,5 +1,6 @@
 const logger = require('../lib/logger');
 const userInfoDao = require('../dao/userInfoDao');
+const User = require('../models/userInfo');
 
 const service = {
   // 회원가입
@@ -40,7 +41,17 @@ const service = {
   async infoForSnsId(params) {
     let result = null;
     try {
-      result = await userInfoDao.infoForSnsId(params);
+      const user = await userInfoDao.infoForSnsId(params);
+      result = user;
+      if (!user) {
+        const newUser = await User.create({
+          id: params.account.email,
+          nickname: params.account.profile.nickname,
+          snsid: params.id,
+          provider: 'kakao',
+        });
+        result = newUser;
+      }
       // console.log(`result:${result}`);
       logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
     } catch (err) {
