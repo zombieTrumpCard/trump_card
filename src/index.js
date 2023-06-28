@@ -5,6 +5,12 @@ import axios from "axios";
 import App from "./App";
 import "./styles/style.scss";
 import "@sakun/system.css/dist/system.css";
+// import HttpClient from "./components/server/http";
+// import ChatService from "./components/server/chat";
+
+// const baseURL = process.env.REACT_APP_BASE_URL;
+// const httpClient = new HttpClient(baseURL);
+// const chatService = new ChatService(httpClient);
 
 // axios.defaults.baseURL = "http://192.168.0.50:1788"; // 태욱님컴
 // axios.defaults.baseURL = "http://192.168.0.71:1788"; // 다슬님컴
