@@ -21,15 +21,10 @@ export default function NickChange() {
     }
   }
 
-  const api = axios.create({
-    baseURL: "http://192.168.0.50:1788", // 서버 주소
-    withCredentials: true, // CORS 요청 처리를 위한 옵션 설정
-  });
-
   const checkNick = async () => {
     console.log("nickname", nickname);
     try {
-      const response = await api.get("userInfos/checkNickname", {
+      const response = await axios.get("userInfos/checkNickname", {
         params: {
           nickname,
         },
