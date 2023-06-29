@@ -36,22 +36,22 @@ export default function Home() {
         <div className="box-whole">
           <div className="box-title-gamescreen">
             <div className="home-title">
-              <b>트럼프카드 맞추기 게임</b>
+              <b>WELCOME TO WONDERLAND</b>
             </div>
             {isLoggedIn ? (
               <div className="gameScreen">
                 <button onClick={clickStart} className="game-link" />
+                <div>
+                  <Link to="/WaitingRoom" className="nav-btn">
+                    다른게임
+                  </Link>
+                </div>
               </div>
             ) : (
               <div onClick={openModal} className="gameScreen">
                 <button className="game-link" />
               </div>
             )}
-            <div>
-              <Link to="/WaitingRoom" className="nav-btn">
-                다른게임
-              </Link>
-            </div>
           </div>
         </div>
       </div>

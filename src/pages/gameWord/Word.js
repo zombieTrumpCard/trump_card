@@ -1,14 +1,11 @@
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import socket from "../../util/socket";
 import isLogin from "../../util/isLogin";
 
-
-export default function Word ({ myNickname, roomName }){
-
+export default function Word({ myNickname, roomName }) {
   const locations = [
     "가",
     "나",
@@ -39,6 +36,8 @@ export default function Word ({ myNickname, roomName }){
   const conversationRef = useRef(null);
   const timerRef = useRef(null);
   const [adminMsg, setAdminMsg] = useState([]);
+  const [sugggetWords, setSugggetWords] = useState([]);
+  const [arrayWords, setArrayWords] = useState([]);
 
   const players = ["User1", "User2", "User3", "User4", "User5", "User6"];
   const roundLimit = 5;
@@ -64,6 +63,32 @@ export default function Word ({ myNickname, roomName }){
     setRound(1);
     startTimer();
   }
+
+  function handleGameStartButton() {
+    const randomWords = [];
+    while (randomWords.length < 5) {
+      const randomIndex = Math.floor(Math.random() * locations.length);
+      const word = locations[randomIndex];
+      if (!randomWords.includes(word)) {
+        randomWords.push(word);
+      }
+    }
+
+    // 첫 번째 인덱스의 글자를 맨 처음 제시어로 설정
+    const initialLocation = randomWords[0];
+    console.log(randomWords);
+    setSugggetWords(randomWords);
+    setCurrentLocation(initialLocation); // 맨 처음 제시어 설정
+
+    socket.start({
+      room: roomName,
+      words: randomWords,
+    });
+  }
+  // 버튼 클릭 이벤트 핸들러
+  const handleClickStartButton = () => {
+    handleGameStartButton();
+  };
 
   const test = async (a) => {
     try {
@@ -91,14 +116,10 @@ export default function Word ({ myNickname, roomName }){
       try {
         const response = await axios.get("/word/verification");
         const result = response.data;
+        // console.log(result);
         // 게임시작
         if (result === true) {
           setIsRoomOwner(true);
-
-          socket.start({
-            room: roomName,
-          });
-
         } else {
           alert("방장이 아닙니다!");
         }
@@ -109,17 +130,16 @@ export default function Word ({ myNickname, roomName }){
     isLogin();
     test();
     checkOwner();
-    socket.sendStartMsg(initializeGame);
-
 
     console.log("몇번출력되나두고보자");
+
+    socket.receiveStartMsg(initializeGame);
 
     // 메세지 수신 설정
     socket.receiveMsg(setConversations);
 
     // admin 메시지 수신 이벤트
     socket.receiveAminMsg(setAdminMsg);
-
   }, []);
 
   const handleTimeout = () => {
@@ -127,15 +147,16 @@ export default function Word ({ myNickname, roomName }){
     alert("TIMEOUT");
     if (round < roundLimit) {
       setRound((prevRound) => prevRound + 1);
+
+      // 다음 인덱스의 글자를 보여줌
+      const nextIndex = (currentPlayerIndex + 1) % players.length;
+      const nextLocation = sugggetWords[nextIndex];
+      setCurrentLocation(nextLocation);
+
       setCurrentPlayerIndex((prevIndex) => (prevIndex + 1) % players.length);
       setUserInputs([]);
       setConversations([]);
       startTimer();
-
-      // 처음 제시어를 다시 랜덤으로 선택
-      const randomIndex = Math.floor(Math.random() * locations.length);
-      const selectedLocation = locations[randomIndex];
-      setCurrentLocation(selectedLocation);
     } else {
       // 게임 종료 처리
       alert("게임이 종료되었습니다.");
@@ -169,36 +190,38 @@ export default function Word ({ myNickname, roomName }){
         const isValid = await test(userInput);
 
         if (isValid === true) {
-          // setConversations((prevConversations) => {
-          //   const newConversations = [...prevConversations];
-          //   // newConversations.push(`${players[index]}: ${userInput}`);
-          //   // console.log(newConversations);
-          //   return newConversations;
-          // });
           console.log(userInput, myNickname, conversations);
-          // const splitWord = conversations.map(
-          //   (conversation) => conversation.split(": ")[1]
-          // );
-          // console.log(splitWord);
 
+          // if (userInput.length < 2) {
+          //   alert("2글자 이상 ㄱㄱ");
+          //   setUserInputs((prevInputs) => {
+          //     const newInputs = [...prevInputs];
+          //     newInputs[index] = "";
+          //     return newInputs;
+          //   });
+          // }
+          // let x = 0;
+          // for (let i = 0; i < conversations.length; i += 1) {
+          //   console.log(conversations[i]);
+          //   if (conversations[i].split(": ")[1] === userInput) {
+          //     x = 1;
+          //     break;
+          //   }
+          // }
+          // if (x === 1) {
+          //   alert("중복");
+          //   setUserInputs((prevInputs) => {
+          //     const newInputs = [...prevInputs];
+          //     newInputs[index] = "";
+          //     return newInputs;
+          //   });
+          // }
           socket.sendMsg({
             message: userInput,
             sender: myNickname,
             room: roomName,
           });
-          // socket.receiveMsg(setConversations);
-          // socketio.on("message", (data) => {
-          //   const { sender, message, sendRoom } = data;
-          //   console.log("데이터on시점", data);
-          //   // setConversations((prevdata) => [...prevdata, `${sender}:${message}`]);
-          //   setConversations((prevConversations) => {
-          //     const newConversations = [...prevConversations];
-          //     newConversations.push(`${sender}: ${message}`);
-          //     console.log(98772, data);
-          //     console.log(12321, newConversations);
-          //     return newConversations;
-          //   });
-          // });
+
           setUserInputs((prevInputs) => {
             const newInputs = [...prevInputs];
             newInputs[index] = "";
@@ -308,7 +331,7 @@ export default function Word ({ myNickname, roomName }){
       </div>
 
       <div className="conversation-box" ref={conversationRef}>
-        <button onClick={initializeGame} disabled={!isRoomOwner}>
+        <button onClick={handleClickStartButton} disabled={!isRoomOwner}>
           게임 시작
         </button>
         <h2>게임 창</h2>
@@ -353,4 +376,3 @@ Word.propTypes = {
 
   roomName: PropTypes.string.isRequired,
 };
-
