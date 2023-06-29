@@ -21,7 +21,7 @@ module.exports = class UserInfo extends Sequelize.Model {
         },
         provider: {
           type: Sequelize.ENUM('local', 'kakao'),
-          allowNull: false,
+          // allowNull: false,
           defaultValue: 'local',
         },
         snsId: {

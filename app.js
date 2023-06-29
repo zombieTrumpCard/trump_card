@@ -49,6 +49,7 @@ const io = require("socket.io")({
     ],
     credentials: true,
   },
+  pingTimeout: 600000,
 });
 app.io = io;
 

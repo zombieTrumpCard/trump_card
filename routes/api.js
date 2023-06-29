@@ -28,8 +28,8 @@ router.get("/search/encyc", function (req, res) {
     if (!error && response.statusCode == 200) {
       res.writeHead(200, { "Content-Type": "text/json;charset=utf-8" });
       const data = JSON.parse(body);
-      if (!data.items[0].title) res.end("false");
-      const answer = data.items[0].title.replace(/<\/?b>/g, "");
+      if (!data.items[0]?.title) res.end("false");
+      const answer = data.items[0]?.title.replace(/<\/?b>/g, "");
       if (answer === req.query.word) res.end("true");
       else res.end("false");
     } else {
