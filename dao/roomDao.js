@@ -29,7 +29,26 @@ const dao = {
     });
   },
 
-  // 방 조회
+  // 룸 오너 조회
+  selectUserId(user_id) {
+    return new Promise((resolve, reject) => {
+      Room.findOne({
+        where: { user_id: user_id },
+      })
+        .then((result) => {
+          if(!!result === true){
+            resolve( true );
+          }else if(result === null){
+            resolve( `유효하지 않습니다.` );
+          }
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+
+  // 전체 방 조회
   selectList() {
     // where 검색 조건
     const setQuery = {};
@@ -41,6 +60,21 @@ const dao = {
       })
         .then((selectedList) => {
           resolve(selectedList);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+
+  // 내가 속한 방 조회
+  selectOne() {
+    return new Promise((resolve, reject) => {
+      Room.findOne({
+        where: { user_id: user_id },
+      })
+        .then((result) => {
+          resolve( result.nickname );
         })
         .catch((err) => {
           reject(err);
