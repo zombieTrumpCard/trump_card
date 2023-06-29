@@ -29,15 +29,13 @@ export default function WaitingRoom() {
   const getRooms = async () => {
     try {
       const response = await axios.get("/word/getRooms");
-      console.log(response.data);
       const roomData = response.data.map((item) => ({
         room_id: item.room_id,
         room_name: item.room_name,
         title: item.title,
       }));
       setRooms(roomData);
-
-      
+      console.log(roomData);
     } catch (error) {
       console.error(error);
     }
@@ -57,11 +55,7 @@ export default function WaitingRoom() {
   }, []);
 
   useEffect(() => {
-    // 방 입장 소켓 연결
-    socket.joinRoom({
-      userNick: myNickname,
-      room: roomName,
-    });
+    console.log("");
 
     // 컴포넌트가 언마운트 될 때 방 퇴장
     return () => {
@@ -84,6 +78,7 @@ export default function WaitingRoom() {
     }
   };
 
+  // 방 생성
   const createRoom = async (newRoom) => {
     try {
       const response = await axios.post("/word/createRoom", {
@@ -91,19 +86,65 @@ export default function WaitingRoom() {
       });
       setRoomName(newRoom);
       setIsInGameScreen(true);
-      console.log(response);
+
+      // 방 입장 소켓 연결
+      socket.joinRoom({
+        userNick: myNickname,
+        room: newRoom,
+      });
+
     } catch (error) {
       console.log(error);
     }
   };
 
+  // 방 생성 버튼 클릭
   const handleCreateBtnClick = () => {
-    setNum((prevNum) => {
-      const updatedNum = prevNum + 1;
-      setRooms((prevRooms) => [...prevRooms, `Room${updatedNum}`]);
-      createRoom(`Room${updatedNum}`);
-      return updatedNum;
-    });
+    const newRoom =
+      rooms.length === 0
+        ? "Room1"
+        : `Room${
+            Number(rooms[rooms.length - 1]?.room_name.split("Room")[1]) + 1
+          }`;
+
+    console.log(
+      Number(rooms[rooms.length - 1]?.room_name.split("Room")[1]) + 1
+    );
+    console.log("newRoom은", newRoom);
+    // setNum((prevNum) => {
+    //   const updatedNum = prevNum + 1;
+    //   setRooms((prevRooms) => [
+    //     ...prevRooms,
+    //     { roomName: `Room${updatedNum}` },
+    //   ]);
+    // });
+
+    createRoom(newRoom);
+    return newRoom;
+  };
+
+  // 방 참여
+  const joinRoom = async (room_id, room_name) => {
+    try {
+      const response = await axios.post("/word/joinroom", { room_id });
+      console.log(response);
+      setRoomName(room_name);
+      setIsInGameScreen(true);
+
+      // 방 입장 소켓 연결
+      socket.joinRoom({
+        userNick: myNickname,
+        room: room_name,
+      });
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 방 참여 버튼 클릭
+  const handleJoinBtnClick = async (room_id, room_name) => {
+    joinRoom(room_id, room_name);
   };
 
   // const addPlayer = (username) => {
@@ -128,7 +169,7 @@ export default function WaitingRoom() {
             <div className="game-wrapper">
               <div className="box-wrap">
                 <div className="gameList">게임목록</div>
-                <div className="roomCreate" onClick={handleCreateBtnClick}>
+                <div className="roomCreate" onClick={()=>{handleCreateBtnClick()}}>
                   방 생성
                 </div>
                 <div className="refreshRoom">새로고침</div>
@@ -147,9 +188,19 @@ export default function WaitingRoom() {
                 <div>
                   <h2>룸 목록:</h2>
                   <ul>
-                    {/* {rooms.map((room, index) => (
-                      <li key={index}>{room}</li>
-                    ))} */}
+                    {rooms.length === 0 ? (
+                      <li>생성된 방이 없습니다. 새로 만들어보세요!</li>
+                    ) : (
+                      rooms.map((item, index) => (
+                        <li
+                          key={index}
+                          onClick={()=>{
+                            handleJoinBtnClick(item.room_id,item.room_name)}}
+                        >
+                          {item.title}
+                        </li>
+                      ))
+                    )}
                   </ul>
                 </div>
               </div>
