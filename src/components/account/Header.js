@@ -156,7 +156,7 @@ export default function Header() {
                     <Link to="/userCreate">회원가입</Link>
                   </button>
                 </div>
-              <div>
+                <div>
                   <button
                     className="kakao-button"
                     type="button"

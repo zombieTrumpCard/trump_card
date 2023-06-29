@@ -1,6 +1,7 @@
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 
-const socket = io(`${process.env.REACT_APP_SERVER_DASEUL_URL}`);
+// const socket = io(`${process.env.REACT_APP_SERVER_DASEUL_URL}`);
+const socket = io(`${process.env.REACT_APP_SERVER_JIHYUN_URL}`);
 
 export default class {
   // 클라이언트에서 소켓 연결 설정
@@ -13,9 +14,9 @@ export default class {
   // 방 입장 이벤트
   static joinRoom(data) {
     const params = {
-      userNick: data.userNick, 
-      room : data.room, 
-    }
+      userNick: data.userNick,
+      room: data.room,
+    };
     socket.emit("join", params);
   }
 
@@ -71,10 +72,18 @@ export default class {
     socket.disconnect(userNick);
   }
 
-  static start(initializeGame) {
-    socket.on("startGame", (data) => {
-      console.log(data);
-      initializeGame();
-    });
+  // 게임 시작 트리거 보내기 이벤트
+  static start(data) {
+    const params = {
+      userNick: data.userNick,
+      room: data.room,
+    };
+    socket.emit("startGame", params);
+  }
+
+  // 게임 시작 이벤트
+  static sendStartMsg(initializeGame) {
+    socket.on("startGame", (data) => {});
+    initializeGame();
   }
 }

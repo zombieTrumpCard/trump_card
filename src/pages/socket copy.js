@@ -11,7 +11,6 @@ export default function Test() {
   // 클라이언트에서 소켓 연결 설정
 
   useEffect(() => {
-
     // 사용자 연결 이벤트
     const username = "만두";
     socket.emit("signin", { username });

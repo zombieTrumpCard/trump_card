@@ -12,22 +12,41 @@ export default function WaitingRoom() {
   const [rooms, setRooms] = useState([]);
   const [roomName, setRoomName] = useState("");
   const [num, setNum] = useState(0);
-  const [isGameScreen, setIsGameScreen] = useState(false);
-  
+  const [isInGameScreen, setIsInGameScreen] = useState(false);
+
+  // 닉네임 가져오기+소켓 연결
+  const getNickname = async () => {
+    try {
+      const result = await axios.get("/word/getNickname");
+      setMyNickname(result.data);
+      socket.connect(result.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 방리스트 가져오기
+  const getRooms = async () => {
+    try {
+      const response = await axios.get("/word/getRooms");
+      console.log(response.data);
+      const roomData = response.data.map((item) => ({
+        room_id: item.room_id,
+        room_name: item.room_name,
+        title: item.title,
+      }));
+      setRooms(roomData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const getNickname = async () => {
-      try {
-        const result = await axios.get("/word/getNickname");
-        setMyNickname(result.data);
-        socket.connect(result.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     // 닉네임 가져오기+소켓 연결
     getNickname();
+
+    // 방 리스트 가져오기
+    getRooms();
 
     return () => {
       // 컴포넌트가 언마운트될 때 소켓 연결 해제
@@ -38,18 +57,18 @@ export default function WaitingRoom() {
   useEffect(() => {
     // 방 입장 소켓 연결
     socket.joinRoom({
-      userNick: myNickname, 
-      room : roomName, 
+      userNick: myNickname,
+      room: roomName,
     });
-  
+
     // 컴포넌트가 언마운트 될 때 방 퇴장
     return () => {
       socket.leaveRoom({
-        userNick: myNickname, 
-        room : roomName, 
+        userNick: myNickname,
+        room: roomName,
       });
     };
-  }, [roomName]);
+  }, [roomName, isInGameScreen]);
 
   const handleInputChange = (event) => {
     setUsername(event.target.value);
@@ -69,7 +88,8 @@ export default function WaitingRoom() {
         room_name: newRoom,
       });
       setRoomName(newRoom);
-      setIsGameScreen(true);
+      setIsInGameScreen(true);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -90,7 +110,12 @@ export default function WaitingRoom() {
 
   return (
     <div className="WaitingRoom">
-      {isGameScreen ? null : (
+      {isInGameScreen ? (
+        <button type="button" onClick={() => setIsInGameScreen(false)}>
+          로비 화면으로
+        </button>
+      ) : null}
+      {isInGameScreen ? null : (
         <div className="TaeKyeong">
           <h2>끝말잇기 게임 - 대기실</h2>
           <div className="container">
@@ -120,9 +145,9 @@ export default function WaitingRoom() {
                 <div>
                   <h2>룸 목록:</h2>
                   <ul>
-                    {rooms.map((room, index) => (
+                    {/* {rooms.map((room, index) => (
                       <li key={index}>{room}</li>
-                    ))}
+                    ))} */}
                   </ul>
                 </div>
               </div>
@@ -130,7 +155,9 @@ export default function WaitingRoom() {
           </div>
         </div>
       )}
-      {isGameScreen ? <Word socket={socket} myNickname={myNickname} roomName={roomName}/> : null}
+      {isInGameScreen ? (
+        <Word myNickname={myNickname} roomName={roomName} />
+      ) : null}
     </div>
   );
 }
