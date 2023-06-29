@@ -1,9 +1,7 @@
 import { io } from "socket.io-client";
 
-
 const socket = io(`${process.env.REACT_APP_SERVER_DASEUL_URL}`);
 // const socket = io(`${process.env.REACT_APP_SERVER_JIHYUN_URL}`);
-
 
 export default class {
   // 클라이언트에서 소켓 연결 설정
@@ -18,6 +16,7 @@ export default class {
     const params = {
       userNick: data.userNick,
       room: data.room,
+      // room_id: data.room_id,
     };
     socket.emit("join", params);
   }
@@ -60,6 +59,11 @@ export default class {
   //   socket.emit("user list", { title, users: userList });
   // }
 
+  // 사용자 리스트 수신 이벤트
+  static getplayerList(title, userList) {
+    socket.on("user list", { title, users: userList });
+  }
+
   // 채팅방 퇴장 이벤트
   static leaveRoom(data) {
     const params = {
@@ -74,6 +78,9 @@ export default class {
     socket.disconnect(userNick);
   }
 
+  // 유저 리스트 업데이트 이벤트
+
+
   // 게임 시작 트리거 보내기 이벤트
   static start(data) {
     const params = {
@@ -87,5 +94,24 @@ export default class {
   static sendStartMsg(initializeGame) {
     socket.on("startGame", (data) => {});
     initializeGame();
+  }
+
+  // 타이핑 전송 이벤트
+  static sendTypingMsg(data) {
+    const params = {
+      message: data.message,
+      sender: data.sender,
+      room: data.room,
+    };
+    socket.emit("typingMessage", params);
+  }
+
+  // 타이핑 수신 이벤트
+  static receiveTypingMsg(setTypingMsg) {
+    socket.on("typingMessage", (data) => {
+      const { sender, message, room } = data;
+      console.log("은하철도999",message);
+      setTypingMsg(message);
+    });
   }
 }

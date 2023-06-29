@@ -1,14 +1,11 @@
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import socket from "../../util/socket";
 import isLogin from "../../util/isLogin";
 
-
-export default function Word ({ myNickname, roomName }){
-
+export default function Word({ myNickname, roomName, userList }) {
   const locations = [
     "가",
     "나",
@@ -39,11 +36,13 @@ export default function Word ({ myNickname, roomName }){
   const conversationRef = useRef(null);
   const timerRef = useRef(null);
   const [adminMsg, setAdminMsg] = useState([]);
+  const [typingMsg, setTypingMsg] = useState([]);
 
   const players = ["User1", "User2", "User3", "User4", "User5", "User6"];
   const roundLimit = 5;
 
-  // const [myNickname, setMyNickname] = useState("");
+  // 유저 리스트
+  const [playerList, setPlayerList] = useState(userList);
 
   const startTimer = () => {
     clearInterval(timerRef.current);
@@ -98,7 +97,6 @@ export default function Word ({ myNickname, roomName }){
           socket.start({
             room: roomName,
           });
-
         } else {
           alert("방장이 아닙니다!");
         }
@@ -111,7 +109,6 @@ export default function Word ({ myNickname, roomName }){
     checkOwner();
     socket.sendStartMsg(initializeGame);
 
-
     console.log("몇번출력되나두고보자");
 
     // 메세지 수신 설정
@@ -120,6 +117,8 @@ export default function Word ({ myNickname, roomName }){
     // admin 메시지 수신 이벤트
     socket.receiveAminMsg(setAdminMsg);
 
+    // 타이핑 메세지 수신
+    socket.receiveTypingMsg(setTypingMsg);
   }, []);
 
   const handleTimeout = () => {
@@ -243,6 +242,14 @@ export default function Word ({ myNickname, roomName }){
     }
   };
 
+  const handleTypingSend = (e) => {
+    socket.sendTypingMsg({
+      message: e.target.value,
+      sender: myNickname,
+      room: roomName,
+    });
+  };
+
   useEffect(() => {
     conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
   }, [conversations]);
@@ -292,6 +299,7 @@ export default function Word ({ myNickname, roomName }){
 
       <div className="timer">
         <p>남은 시간: {timer}초</p>
+        <p>{typingMsg}1</p>
       </div>
 
       <div className="bar">
@@ -329,7 +337,10 @@ export default function Word ({ myNickname, roomName }){
             <input
               type="text"
               value={userInputs[index] || ""}
-              onChange={(e) => handleUserInput(e, index)}
+              onChange={(e) => {
+                handleUserInput(e, index);
+                handleTypingSend(e);
+              }}
               pattern="^[ㄱ-ㅎ가-힣]+$"
               title="잘못된 입력입니다. 자음 또는 모음으로만 입력해주세요!"
               required
@@ -348,9 +359,7 @@ export default function Word ({ myNickname, roomName }){
 }
 
 Word.propTypes = {
-  socket: PropTypes.object.isRequired,
   myNickname: PropTypes.string.isRequired,
-
   roomName: PropTypes.string.isRequired,
+  userList: PropTypes.array.isRequired,
 };
-

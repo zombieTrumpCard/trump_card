@@ -112,13 +112,14 @@ export default function Store() {
                       ? "구매완료"
                       : "구매"}
                   </button>
-                  <div className={`skin-img ${item.skin}`} />
+                  <div className="skin-img-box">
+                    <div className={`skin-img ${item.skin}`} />
+                  </div>
                   <span className="skin-name">
                     {skinList.find((one) => one.skin_id === item.skin_id)
                       ? skinList.find((one) => one.skin_id === item.skin_id).skin_name
                       : "데이터없음"}
                   </span>
-                  <br />
                   <span className="skin-price">{item.price} G</span>
                 </div>
               ))

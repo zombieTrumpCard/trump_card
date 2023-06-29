@@ -6,23 +6,28 @@ $card-height: 210px;
 
 .store {
   font-family: 'DungGeunMo';
-  display: grid;
-  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
-  place-items: center;
+  // display: grid;
+  // height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
+  // place-items: center;
+  width: 100%;
 
   .box-whole {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
+    // display: flex;
+    // flex-direction: column;
+    // align-content: center;
+    // justify-content: center;
+    // overflow-x: auto;
+    width: 100%;
+    height: 100%;
 
     .box-content-top {
-      position: relative;
+      // position: relative;
       background-color: #f0f0f0;
       display: flex;
       justify-content: space-between;
+      height: 80px;
       p {
-        font-size: 2rem;
+        font-size: 1.5rem;
         padding-left: 2rem;
       }
       .navbar {
@@ -39,8 +44,8 @@ $card-height: 210px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
+      // justify-content: center;
+      // margin-bottom: 1rem;
 
       .shop-owner {
         width: 10rem;
@@ -65,31 +70,36 @@ $card-height: 210px;
       }
 
       .shelf {
-        white-space: nowrap;
+        // white-space: nowrap;
         overflow-x: scroll;
-        width: 50rem;
+        width: 100%;
+        display: flex;
 
         .skin-box {
-          display: inline-block;
+          display: flex;
           vertical-align: top;
           text-align: center;
-          padding: 1.2rem 2rem;
+          padding: 1.2rem 1.5rem;
           flex-direction: column;
           align-items: center;
           justify-content: center;
+          gap: 8px;
           .skin-name {
             padding: 0.4rem 0.4rem;
             color: rgb(0, 186, 232);
             font-size: 1.2rem;
           }
-          .skin-img {
-            width: $card-width;
-            height: $card-height;
-            background-repeat: no-repeat;
-            background-size: 100%;
-            border-radius: 12px;
+          .skin-img-box {
+            padding: 24px;
             border: solid 1px black;
-            cursor: pointer;
+            border-radius: 12px;
+            .skin-img {
+              width: $card-width;
+              height: $card-height;
+              background-repeat: no-repeat;
+              background-size: 100%;
+              cursor: pointer;
+            }
           }
           .buy-btn:hover{
             background-color: #003cff;
@@ -97,11 +107,11 @@ $card-height: 210px;
           .buy-btn {
             padding: 0.6rem 3rem;
             width:100%;
-            margin: 0.6rem 0;
+            // margin: 0.6rem 0;
             background-color: rgb(0, 179, 255);            
             color: #ffffff;
             border: none;
-            border-radius: 25px;
+            border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
             font-size: 0.8rem;
