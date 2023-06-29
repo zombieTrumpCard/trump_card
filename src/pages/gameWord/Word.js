@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import socket from "../../util/socket";
+// import socket from "../../util/socket";
 import isLogin from "../../util/isLogin";
 
-const wordGame = () => {
+const wordGame = ({socket}, myNickname, roomName) => {
   const locations = [
     "가",
     "나",
@@ -29,7 +29,7 @@ const wordGame = () => {
   const [timer, setTimer] = useState(10);
   const [time, setTime] = useState(10);
   const [rabbitPosition, setRabbitPosition] = useState(0);
-  const [isVa, setIsVa] = useState(false);
+  const [isVa, setIsVa] = useState(true);
   const boxWidth = 300; // 박스의 너비
   const conversationRef = useRef(null);
   const timerRef = useRef(null);
@@ -38,7 +38,7 @@ const wordGame = () => {
   const players = ["User1", "User2", "User3", "User4", "User5", "User6"];
   const roundLimit = 5;
 
-  const [myNickname, setMyNickname] = useState("");
+  // const [myNickname, setMyNickname] = useState("");
 
   const startTimer = () => {
     clearInterval(timerRef.current);
@@ -98,20 +98,9 @@ const wordGame = () => {
   useEffect(() => {
     isLogin();
     test();
-    const getNickname = async () => {
-      try {
-        const result = await axios.get("/word/getNickname");
-        // console.log("1", result.data);
-        setMyNickname(result.data);
-        socket.connect(result.data);
-        socket.joinRoom("ROOMNAME");
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
-    // 닉네임 가져오기+소켓 연결
-    getNickname();
+    // // 방 입장 소켓 연결
+    // socket.joinRoom(roomName.roomName);
 
     // 메세지 수신 설정
     socket.receiveMsg(setConversations);
@@ -124,9 +113,13 @@ const wordGame = () => {
     if (isVa) {
       socket.start(initializeGame);
     }
+
     return () => {
-      // 컴포넌트가 언마운트될 때 소켓 연결 해제
-      socket.disconnect(myNickname);
+      // // 컴포넌트가 언마운트될 때 소켓 연결 해제
+      // socket.disconnect(myNickname);
+
+      // // 컴포넌트가 언마운트 될 때 방 퇴장
+      // socket.leaveRoom(roomName.roomName);
     };
   }, []);
 
@@ -184,7 +177,12 @@ const wordGame = () => {
           //   return newConversations;
           // });
           console.log(userInput, myNickname);
-          socket.sendMsg(userInput, myNickname);
+          socket.sendMsg(
+            {
+              message: userInput,
+              sender: myNickname,
+              room: roomName,
+            });
           // socket.receiveMsg(setConversations);
           // socketio.on("message", (data) => {
           //   const { sender, message, sendRoom } = data;

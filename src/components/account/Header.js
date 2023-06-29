@@ -156,10 +156,21 @@ export default function Header() {
                     <Link to="/userCreate">회원가입</Link>
                   </button>
                 </div>
+              <div>
+                  <button
+                    className="kakao-button"
+                    type="button"
+                    onClick={kakaoOauth}
+                  >
+                    카카오 로그인
+                  </button>
+                </div>
+                <div>
+                  <button className="google-button" type="button" onClick={""}>
+                    구글 로그인
+                  </button>
+                </div>
               </form>
-              <button type="button" onClick={kakaoOauth}>
-                카카오
-              </button>
             </div>
           </Modal>
         </div>

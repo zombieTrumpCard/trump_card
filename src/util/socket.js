@@ -11,14 +11,18 @@ export default class {
   }
 
   // 방 입장 이벤트
-  static joinRoom(roomName) {
-    socket.emit("join", roomName);
+  static joinRoom(data) {
+    const params = {
+      userNick: data.userNick, 
+      room : data.room, 
+    }
+    socket.emit("join", params);
   }
 
   // 메시지 수신 이벤트
   static receiveMsg(setConversations) {
     socket.on("message", (data) => {
-      const { sender, message, sendRoom } = data;
+      const { sender, message, room } = data;
       // setConversations((prevConversations) => {
       //   const newConversations = [...prevConversations];
       //   newConversations.push(`${sender}: ${message}`);
@@ -39,23 +43,32 @@ export default class {
   }
 
   // 메시지 전송 이벤트
-  static sendMsg(msg, userNick) {
-    socket.emit("sendMessage", msg, userNick);
+  static sendMsg(data) {
+    const params = {
+      message: data.message,
+      sender: data.sender,
+      room: data.room,
+    };
+    socket.emit("sendMessage", params);
   }
 
-  // 사용자 리스트 제공 이벤트
-  static sendUserList(title, userList) {
-    socket.emit("user list", { title, users: userList });
-  }
+  // // 사용자 리스트 제공 이벤트
+  // static sendUserList(title, userList) {
+  //   socket.emit("user list", { title, users: userList });
+  // }
 
   // 채팅방 퇴장 이벤트
-  static leaveRoom(roomName) {
-    socket.emit("leave", roomName);
+  static leaveRoom(data) {
+    const params = {
+      userNick: data.userNick,
+      room: data.room,
+    };
+    socket.emit("leave", params);
   }
 
   // 소켓 연결 해제 이벤트
-  static disconnect() {
-    socket.disconnect();
+  static disconnect(userNick) {
+    socket.disconnect(userNick);
   }
 
   static start(initializeGame) {
