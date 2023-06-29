@@ -108,7 +108,7 @@ export default function HeaderNew() {
           >
             파티 나가기
           </button> */}
-          <Link to="/home" className="nav-btn">
+          <Link to="/WaitingRoom" className="nav-btn">
             파티 나가기
           </Link>
         </div>
