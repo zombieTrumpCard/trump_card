@@ -1,7 +1,9 @@
 import { io } from "socket.io-client";
 
-// const socket = io(`${process.env.REACT_APP_SERVER_DASEUL_URL}`);
-const socket = io(`${process.env.REACT_APP_SERVER_JIHYUN_URL}`);
+
+const socket = io(`${process.env.REACT_APP_SERVER_DASEUL_URL}`);
+// const socket = io(`${process.env.REACT_APP_SERVER_JIHYUN_URL}`);
+
 
 export default class {
   // 클라이언트에서 소켓 연결 설정
