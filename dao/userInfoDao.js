@@ -125,7 +125,7 @@ const dao = {
 
   async infoForSnsId(params) {
     return await UserInfo.findOne({
-      where: { snsId: params.id },
+      where: { sns_id: params.id },
     });
   },
 };

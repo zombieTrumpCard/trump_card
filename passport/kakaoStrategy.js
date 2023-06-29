@@ -19,7 +19,7 @@ module.exports = () => {
         try {
           console.log('kakao 5436543765767657', profile);
           const exUser = await User.findOne({
-            where: { snsId: profile.id, provider: 'kakao' },
+            where: { sns_id: profile.id, provider: 'kakao' },
           });
           if (exUser) {
             console.log(
