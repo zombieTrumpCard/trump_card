@@ -134,12 +134,53 @@ $borderWidthBottom: 1px;
   }
 }
 
+
+.kakao-button {
+  padding: 10px 60px;
+  background-color: #ffff00;
+  border: none;
+  border-radius: 3px;
+  margin: auto;
+  position: relative;
+  top: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+}
+
+.google-button {
+  padding: 10px 66.5px;
+  background-color: #afeeee;
+  border: none;
+  border-radius: 3px;
+  margin: auto;
+  position: relative;
+  top: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+}
+
 .signup-button:hover {
   background-color: #0056b3;
 }
 
 .submit-button:hover {
   background-color: #0056b3;
+}
+
+.kakao-button:hover {
+  background-color: #f5deb3;
+}
+
+.google-button:hover {
+  background-color: #1e90ff;
 }
 
 .btn-bar {

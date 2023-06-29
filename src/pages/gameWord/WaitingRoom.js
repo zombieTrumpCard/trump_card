@@ -4,15 +4,52 @@ import Word from "./Word";
 import socket from "../../util/socket";
 
 export default function WaitingRoom() {
+  const [myNickname, setMyNickname] = useState("");
+
+  // TaeKyeong Page
   const [username, setUsername] = useState("");
   const [players, setPlayers] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [roomName, setRoomName] = useState("");
   const [num, setNum] = useState(0);
   const [isGameScreen, setIsGameScreen] = useState(false);
+  
 
   useEffect(() => {
-    // socket.connect();
+    const getNickname = async () => {
+      try {
+        const result = await axios.get("/word/getNickname");
+        setMyNickname(result.data);
+        socket.connect(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // 닉네임 가져오기+소켓 연결
+    getNickname();
+
+    return () => {
+      // 컴포넌트가 언마운트될 때 소켓 연결 해제
+      // socket.disconnect(myNickname);
+    };
   }, []);
+
+  useEffect(() => {
+    // 방 입장 소켓 연결
+    socket.joinRoom({
+      userNick: myNickname, 
+      room : roomName, 
+    });
+  
+    // 컴포넌트가 언마운트 될 때 방 퇴장
+    return () => {
+      socket.leaveRoom({
+        userNick: myNickname, 
+        room : roomName, 
+      });
+    };
+  }, [roomName]);
 
   const handleInputChange = (event) => {
     setUsername(event.target.value);
@@ -31,7 +68,7 @@ export default function WaitingRoom() {
       const response = await axios.post("/word/createRoom", {
         room_name: newRoom,
       });
-      // console.log(response);
+      setRoomName(newRoom);
       setIsGameScreen(true);
     } catch (error) {
       console.log(error);
@@ -93,7 +130,7 @@ export default function WaitingRoom() {
           </div>
         </div>
       )}
-      {isGameScreen ? <Word /> : null}
+      {isGameScreen ? <Word socket={socket} myNickname={myNickname} roomName={roomName}/> : null}
     </div>
   );
 }
