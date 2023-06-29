@@ -29,7 +29,7 @@ const wordGame = () => {
   const [timer, setTimer] = useState(10);
   const [time, setTime] = useState(10);
   const [rabbitPosition, setRabbitPosition] = useState(0);
-  const [isVa, setIsVa] = useState(false);
+  const [isRoomOner, setIsRoomOner] = useState(false);
   const boxWidth = 300; // 박스의 너비
   const conversationRef = useRef(null);
   const timerRef = useRef(null);
@@ -59,19 +59,6 @@ const wordGame = () => {
     setRound(1);
     startTimer();
   }
-  const startGame = async () => {
-    try {
-      const response = await axios.get("/word/verification");
-      const isVal = response.data;
-      if (isVal) {
-        initializeGame();
-      } else {
-        alert("유효성 검사에 실패했습니다.");
-      }
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
 
   const test = async (a) => {
     try {
@@ -83,7 +70,6 @@ const wordGame = () => {
 
       const isValid = response.data; // 가정: 응답에서 유효성 검사 결과를 추출하여 사용
 
-      console.log(response); // 응답 확인 (선택 사항)
       return isValid; // 유효성 검사 결과 반환
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -96,15 +82,31 @@ const wordGame = () => {
   };
 
   useEffect(() => {
+    const checkOner = async () => {
+      try {
+        const response = await axios.get("/word/verification");
+        const result = response.data;
+        // 게임시작
+        if (result === true) {
+          setIsRoomOner(true);
+          socket.start(initializeGame);
+        } else {
+          alert("방장이 아닙니다!");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
     isLogin();
     test();
+    checkOner();
     const getNickname = async () => {
       try {
         const result = await axios.get("/word/getNickname");
-        // console.log("1", result.data);
+        console.log("12", result.data);
         setMyNickname(result.data);
         socket.connect(result.data);
-        socket.joinRoom("ROOMNAME");
+        socket.joinRoom("Room1");
       } catch (error) {
         console.error(error);
       }
@@ -115,20 +117,14 @@ const wordGame = () => {
 
     // 메세지 수신 설정
     socket.receiveMsg(setConversations);
-    console.log("1", setConversations);
 
     // admin 메시지 수신 이벤트
     socket.receiveAminMsg(setAdminMsg);
-
-    // 게임시작
-    if (isVa) {
-      socket.start(initializeGame);
-    }
     return () => {
       // 컴포넌트가 언마운트될 때 소켓 연결 해제
       socket.disconnect(myNickname);
     };
-  }, []);
+  }, [isRoomOner]);
 
   const handleTimeout = () => {
     clearInterval(timerRef.current);
@@ -307,7 +303,7 @@ const wordGame = () => {
       </div>
 
       <div className="conversation-box" ref={conversationRef}>
-        <button onClick={startGame} disabled={!isVa}>
+        <button onClick={initializeGame} disabled={!isRoomOner}>
           게임 시작
         </button>
         <h2>게임 창</h2>
