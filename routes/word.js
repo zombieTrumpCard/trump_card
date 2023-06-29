@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const logger = require("../lib/logger");
-const roomRepository = require("../lib/roomUtil");
-const userRepository = require("../lib/socketUserUtil");
+// const roomRepository = require("../lib/roomUtil");
+// const userRepository = require("../lib/socketUserUtil");
 const wordService = require("../service/wordService");
 const userInfoService = require("../service/userInfoService");
 const { isLoggedIn } = require("../lib/middleware");
@@ -111,6 +111,54 @@ router.get("/verification", isLoggedIn, async (req, res) => {
       `(wordService.findRoomOwner.result) ${JSON.stringify(result)}`
     );
     res.status(200).send(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+//Delete 게임방 나가기
+router.delete("/leaveRoom", isLoggedIn, async (req, res) => {
+  const tokenHeader = req.headers && req.headers.authorization;
+  let token;
+  if (tokenHeader && tokenHeader.startsWith("Bearer ")) {
+    // "Bearer " 스키마 제외
+    token = tokenHeader.split(" ")[1];
+  }
+  const decoded = tokenUtil.verifyToken(token);
+  const user_id = decoded.user_id;
+
+  try {
+    // 비즈니스 로직 호출
+    // 룸 나가기 로직
+    const leaveRoom = await wordService.leaveRoom(user_id);
+    logger.info(`(word.leaveRoom.result) ${JSON.stringify(leaveRoom)}`);
+        
+    // 최종 응답
+    res.status(200).json({ message: "룸 나가기 완료" });
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+//Delete 게임방 삭제
+router.delete("/deleteRoom/:user_id", isLoggedIn, async (req, res) => {
+  const tokenHeader = req.headers && req.headers.authorization;
+  let token;
+  if (tokenHeader && tokenHeader.startsWith("Bearer ")) {
+    // "Bearer " 스키마 제외
+    token = tokenHeader.split(" ")[1];
+  }
+  
+  
+  try {
+    // 비즈니스 로직 호출
+    // 방 제거 로직
+    const deleteRoom = await wordService
+      .roomDelete(user_id);
+        logger.info(`(word.roomDelete.result) ${JSON.stringify(deleteRoom)}`);
+        
+    // 최종 응답
+    res.status(200).json({ message: `게임방 삭제 완료` });
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }

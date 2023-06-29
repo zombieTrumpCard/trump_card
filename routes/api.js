@@ -40,7 +40,7 @@ const api_key = process.env.API_KEY;
 //     }
 //   });
 // });
-console.log(req.query.word);
+
 request.get(api_url, function (error, response, body) {
 if (!error && response.statusCode == 200 && body) {
     res.writeHead(200, { "Content-Type": "text/json;charset=utf-8" });    
