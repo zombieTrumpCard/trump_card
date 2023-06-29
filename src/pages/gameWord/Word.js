@@ -155,13 +155,30 @@ export default function Word({ myNickname, roomName }) {
 
     console.log("몇번출력되나두고보자");
 
-    socket.receiveStartMsg(initializeGame);
-
     // 메세지 수신 설정
     socket.receiveMsg(setConversations);
 
     // admin 메시지 수신 이벤트
     socket.receiveAminMsg(setAdminMsg);
+
+
+    // 게임 받기 이벤트
+    socket.receiveStartMsg(
+      initializeGame,
+      setArrayWords,
+      setCurrentLocation,
+      setRound,
+      setCurrentPlayerIndex,
+      setUserInputs,
+      setConversations
+    );
+
+  function sendNextStep() {
+    const params = {
+      room: roomName,
+    };
+    socket.emit("sendNextStep", params);
+  }
 
     // 타이핑 메세지 수신
     socket.receiveTypingMsg(setTypingMsg);
@@ -185,6 +202,7 @@ export default function Word({ myNickname, roomName }) {
     // console.log("playerList", playerList);
   }, [playerList]);
 
+
   const handleTimeout = () => {
     clearInterval(timerRef.current);
     alert("TIMEOUT");
@@ -200,6 +218,8 @@ export default function Word({ myNickname, roomName }) {
       setUserInputs([]);
       setConversations([]);
       startTimer();
+
+      sendNextStep(); // 다음 스텝 보내기 이벤트 전송
     } else {
       // 게임 종료 처리
       alert("게임이 종료되었습니다.");
