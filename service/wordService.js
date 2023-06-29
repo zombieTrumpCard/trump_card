@@ -55,6 +55,23 @@ const service = {
     });
   },
 
+  // 룸 오너 찾기
+  async findRoomOwner(user_id) {
+    let result = null;
+    try {
+      result = await roomDao.selectUserId(user_id);
+      logger.debug(`(wordService.selectUserId) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(wordService.selectUserId) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
+
   // 룸 이용자 등록
   async joinRoom(params) {
     let inserted = null;
@@ -73,6 +90,23 @@ const service = {
     });
   },
 
+  // 룸 이용중인 사용자 리스트
+  async getRoomUsers(user_id) {
+    let result = null;
+    try {
+      const result1 = await roomUsersDao.selectOne(user_id);      
+      result = await roomUsersDao.selectList(result1);
+      logger.debug(`(wordService.getRoomUsers) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(skinService.getRoomUsers) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
 };
 
 module.exports = service;
