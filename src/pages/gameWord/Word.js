@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-// import socket from "../../util/socket";
+import socket from "../../util/socket";
 import isLogin from "../../util/isLogin";
 
-const wordGame = ({socket}, myNickname, roomName) => {
+export default function Word ({ myNickname, roomName }){
   const locations = [
     "가",
     "나",
@@ -29,7 +30,7 @@ const wordGame = ({socket}, myNickname, roomName) => {
   const [timer, setTimer] = useState(10);
   const [time, setTime] = useState(10);
   const [rabbitPosition, setRabbitPosition] = useState(0);
-  const [isRoomOner, setIsRoomOner] = useState(false);
+  const [isRoomOwner, setIsRoomOwner] = useState(false);
   const boxWidth = 300; // 박스의 너비
   const conversationRef = useRef(null);
   const timerRef = useRef(null);
@@ -88,7 +89,7 @@ const wordGame = ({socket}, myNickname, roomName) => {
         const result = response.data;
         // 게임시작
         if (result === true) {
-          setIsRoomOner(true);
+          setIsRoomOwner(true);
           socket.start(initializeGame);
         } else {
           alert("방장이 아닙니다!");
@@ -101,23 +102,14 @@ const wordGame = ({socket}, myNickname, roomName) => {
     test();
     checkOwner();
 
-    // // 방 입장 소켓 연결
-    // socket.joinRoom(roomName.roomName);
-
+    console.log("몇번출력되나두고보자")
     // 메세지 수신 설정
     socket.receiveMsg(setConversations);
 
     // admin 메시지 수신 이벤트
     socket.receiveAminMsg(setAdminMsg);
     
-    return () => {
-      // // 컴포넌트가 언마운트될 때 소켓 연결 해제
-      // socket.disconnect(myNickname);
-
-      // // 컴포넌트가 언마운트 될 때 방 퇴장
-      // socket.leaveRoom(roomName.roomName);
-    };
-  }, [isRoomOner]);
+  }, []);
 
   const handleTimeout = () => {
     clearInterval(timerRef.current);
@@ -301,7 +293,7 @@ const wordGame = ({socket}, myNickname, roomName) => {
       </div>
 
       <div className="conversation-box" ref={conversationRef}>
-        <button onClick={initializeGame} disabled={!isRoomOner}>
+        <button onClick={initializeGame} disabled={!isRoomOwner}>
           게임 시작
         </button>
         <h2>게임 창</h2>
@@ -340,4 +332,8 @@ const wordGame = ({socket}, myNickname, roomName) => {
   );
 };
 
-export default wordGame;
+Word.propTypes = {
+  socket: PropTypes.object.isRequired,
+  myNickname: PropTypes.string.isRequired,
+  roomName: PropTypes.string.isRequired
+};
