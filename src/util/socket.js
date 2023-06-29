@@ -93,16 +93,49 @@ export default class {
   // 게임 시작 트리거 보내기 이벤트
   static start(data) {
     const params = {
-      userNick: data.userNick,
       room: data.room,
+      words: data.words,
     };
     socket.emit("startGame", params);
   }
 
-  // 게임 시작 이벤트
-  static sendStartMsg(initializeGame) {
-    socket.on("startGame", (data) => {});
-    initializeGame();
+  // 게임 받기 이벤트
+  static receiveStartMsg(initializeGame, setArrayWords) {
+    socket.on("startGame", (data) => {
+      const { room, words } = data;
+      setArrayWords(words);
+      initializeGame();
+    });
+  }
+
+  // 다음 스텝 보내기 이벤트
+  static sendNextStep(data) {
+    const params = {
+      room: data.room,
+    };
+    socket.emit("sendNextStep", params);
+  }
+
+  // 다음 스텝 받기 이벤트
+  static listenNextStep() {
+    socket.on("listenNextStep", (data) => {
+      const { room } = data;
+    });
+  }
+
+  // 게임 종료 보내기 이벤트
+  static sendEndGame(data) {
+    const params = {
+      room: data.room,
+    };
+    socket.emit("sendEndGame", params);
+  }
+
+  // 게임 종료 받기 이벤트
+  static listenEndGame() {
+    socket.on("listenEndGame", (data) => {
+      const { room } = data;
+    });
   }
 
   // 타이핑 전송 이벤트
