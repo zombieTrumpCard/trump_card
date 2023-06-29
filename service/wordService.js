@@ -38,6 +38,35 @@ const service = {
     });
   },
 
+  // 룸 제거
+  async roomDelete(user_id) {
+    let deleted = null;
+    try {
+      deleted = await roomDao.delete(user_id);
+      logger.debug(`(wordService.roomDelete) Room deleted: ${user_id}`);
+    } catch (err) {
+      logger.error(`(wordService.roomDelete) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+    // 결과값 리턴
+    return deleted;
+  },
+
+  // 룸 나가기
+  async leaveRoom(user_id) {
+    try {
+      // 룸 이용자 삭제 로직
+      await roomUsersDao.delete(user_id);
+      
+      // 최종 응답
+      return { message: "룸 나가기 완료" };
+    } catch (err) {
+      throw err;
+    }
+  },
+
   // 닉네임 찾기
   async findNickname(user_id) {
     let result = null;

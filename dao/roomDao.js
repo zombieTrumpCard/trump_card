@@ -83,15 +83,20 @@ const dao = {
   },
 
   // 방 삭제
-  async delete(params) {
+  async delete(user_id) {
     try {
       const room = await Room.findOne({
-        where: { room_id: params.room_id },
+        where: { user_id: user_id },
       });
       if (!room) {
-        // 해당 room_id에 해당하는 Room이 없는 경우에 대한 처리
+        // 해당 user_id에 해당하는 Room이 없는 경우에 대한 처리
         return null;
       }
+      // 방 삭제 로직 추가
+    await Room.destroy({
+      where: { user_id: user_id },
+    });
+    return null;
     } catch (err) {
       // 오류 처리
       console.error(err);

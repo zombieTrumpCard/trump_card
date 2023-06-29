@@ -45,13 +45,13 @@ const dao = {
   },
 
   // 유저 퇴장
-  async delete(params) {
+  async delete(user_id) {
     try {
       const room = await Room.findOne({
-        where: { room_name: params.room_name },
+        where: { user_id : user_id },
       });
       if (!room) {
-        // 해당 room_name에 해당하는 Room이 없는 경우에 대한 처리
+        // 해당 user_id에 해당하는 Room이 없는 경우에 대한 처리
         return null;
       }
     } catch (err) {
