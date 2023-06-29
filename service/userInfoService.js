@@ -47,15 +47,15 @@ const service = {
         const newUser = await User.create({
           id: params.account.email,
           nickname: params.account.profile.nickname,
-          snsid: params.id,
+          sns_id: params.id,
           provider: 'kakao',
         });
         result = newUser;
       }
       // console.log(`result:${result}`);
-      logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
+      logger.debug(`(userInfoService.snsId) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(userInfoService.info) ${err.toString()}`);
+      logger.error(`(userInfoService.snsId) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -105,9 +105,9 @@ const service = {
     try {
       result = await userInfoDao.checkId(params);
       console.log(result);
-      logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
+      logger.debug(`(userInfoService.ckid) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(userInfoService.info) ${err.toString()}`);
+      logger.error(`(userInfoService.ckid) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -123,9 +123,9 @@ const service = {
     try {
       result = await userInfoDao.checkNm(params);
       console.log(result);
-      logger.debug(`(userInfoService.info) ${JSON.stringify(result)}`);
+      logger.debug(`(userInfoService.cknm) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(userInfoService.info) ${err.toString()}`);
+      logger.error(`(userInfoService.cknm) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
