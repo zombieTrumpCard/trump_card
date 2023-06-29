@@ -16,9 +16,12 @@ import GameHard from "./pages/gameCard/GameHard";
 import GameOver from "./pages/gameCard/GameOver";
 import GameEnd from "./pages/gameCard/GameEnd";
 import Test from "./util/socket";
-import GameWordWait from "./pages/gameword/GameWordWait";
-import WordGame from "./pages/gameword/Word";
-import WaitingRoom from './pages/gameword/WaitingRoom';
+
+// import GameWordWait from "./pages/gameword/GameWordWait";
+// import WordGame from "./pages/gameWord/Word";
+import WaitingRoom from "./pages/gameWord/WaitingRoom";
+
+
 
 function App() {
   return (
@@ -76,14 +79,14 @@ function App() {
             </>
           }
         />
-        <Route
+        {/* <Route
           path="/wordGame"
           element={
             <>
               <WordGame />
             </>
           }
-        />
+        /> */}
         <Route
           path="/WaitingRoom"
           element={
@@ -117,7 +120,7 @@ function App() {
         <Route path="/gamehard" element={<GameHard />} />
         <Route path="/gameover" element={<GameOver />} />
         <Route path="/gameend" element={<GameEnd />} />
-        <Route path="/gamewordwait" element={<GameWordWait />} />
+        {/* <Route path="/gamewordwait" element={<GameWordWait />} /> */}
       </Routes>
     </BrowserRouter>
   );
