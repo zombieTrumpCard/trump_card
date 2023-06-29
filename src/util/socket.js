@@ -82,11 +82,39 @@ export default class {
   }
 
   // 게임 받기 이벤트
-  static receiveStartMsg(initializeGame, setArrayWords) {
+  static receiveStartMsg(
+    initializeGame,
+    setArrayWords,
+    setNextLocation,
+    setCurrentLocation,
+    setRound,
+    setCurrentPlayerIndex,
+    setUserInputs,
+    setConversations
+  ) {
     socket.on("startGame", (data) => {
       const { room, words } = data;
       setArrayWords(words);
       initializeGame();
+
+      // 타임아웃 발생 시 다음 인덱스의 글자 보여주기
+      socket.on("timeout", (timeoutData) => {
+        const { currentPlayerIndex, suggestWords, players, roundLimit } =
+          timeoutData;
+        const nextIndex = (currentPlayerIndex + 1) % players.length;
+        const nextLocation = suggestWords[nextIndex];
+
+        if (roundLimit > 0) {
+          setNextLocation(nextLocation);
+        } else {
+          // 게임 종료 처리
+          setCurrentLocation(""); // 현재 위치 초기화
+          setRound(1); // 라운드 초기화
+          setCurrentPlayerIndex((prevIndex) => prevIndex + 1); // 다음 플레이어 인덱스로 설정
+          setUserInputs([]); // 사용자 입력 초기화
+          setConversations([]); // 대화 초기화
+        }
+      });
     });
   }
 
