@@ -24,7 +24,7 @@ module.exports = class UserInfo extends Sequelize.Model {
           // allowNull: false,
           defaultValue: 'local',
         },
-        snsid: {
+        sns_id: {
           type: Sequelize.STRING(30),
           allowNull: true,
         },
