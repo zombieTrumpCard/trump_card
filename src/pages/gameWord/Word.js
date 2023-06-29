@@ -1,10 +1,14 @@
+
 import PropTypes from 'prop-types';
+
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import socket from "../../util/socket";
 import isLogin from "../../util/isLogin";
 
+
 export default function Word ({ myNickname, roomName }){
+
   const locations = [
     "가",
     "나",
@@ -90,7 +94,11 @@ export default function Word ({ myNickname, roomName }){
         // 게임시작
         if (result === true) {
           setIsRoomOwner(true);
-          socket.start(initializeGame);
+
+          socket.start({
+            room: roomName,
+          });
+
         } else {
           alert("방장이 아닙니다!");
         }
@@ -101,14 +109,17 @@ export default function Word ({ myNickname, roomName }){
     isLogin();
     test();
     checkOwner();
+    socket.sendStartMsg(initializeGame);
 
-    console.log("몇번출력되나두고보자")
+
+    console.log("몇번출력되나두고보자");
+
     // 메세지 수신 설정
     socket.receiveMsg(setConversations);
 
     // admin 메시지 수신 이벤트
     socket.receiveAminMsg(setAdminMsg);
-    
+
   }, []);
 
   const handleTimeout = () => {
@@ -164,13 +175,17 @@ export default function Word ({ myNickname, roomName }){
           //   // console.log(newConversations);
           //   return newConversations;
           // });
-          console.log(userInput, myNickname);
-          socket.sendMsg(
-            {
-              message: userInput,
-              sender: myNickname,
-              room: roomName,
-            });
+          console.log(userInput, myNickname, conversations);
+          // const splitWord = conversations.map(
+          //   (conversation) => conversation.split(": ")[1]
+          // );
+          // console.log(splitWord);
+
+          socket.sendMsg({
+            message: userInput,
+            sender: myNickname,
+            room: roomName,
+          });
           // socket.receiveMsg(setConversations);
           // socketio.on("message", (data) => {
           //   const { sender, message, sendRoom } = data;
@@ -330,10 +345,12 @@ export default function Word ({ myNickname, roomName }){
       )}
     </div>
   );
-};
+}
 
 Word.propTypes = {
   socket: PropTypes.object.isRequired,
   myNickname: PropTypes.string.isRequired,
-  roomName: PropTypes.string.isRequired
+
+  roomName: PropTypes.string.isRequired,
 };
+

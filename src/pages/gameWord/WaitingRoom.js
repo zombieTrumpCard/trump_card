@@ -29,13 +29,17 @@ export default function WaitingRoom() {
   const getRooms = async () => {
     try {
       const response = await axios.get("/word/getRooms");
+
+      console.log(response.data);
       const roomData = response.data.map((item) => ({
         room_id: item.room_id,
         room_name: item.room_name,
         title: item.title,
       }));
       setRooms(roomData);
+
       console.log(roomData);
+
     } catch (error) {
       console.error(error);
     }
@@ -55,7 +59,9 @@ export default function WaitingRoom() {
   }, []);
 
   useEffect(() => {
+
     console.log("");
+
 
     // 컴포넌트가 언마운트 될 때 방 퇴장
     return () => {
@@ -92,6 +98,7 @@ export default function WaitingRoom() {
         userNick: myNickname,
         room: newRoom,
       });
+
 
     } catch (error) {
       console.log(error);
@@ -188,6 +195,7 @@ export default function WaitingRoom() {
                 <div>
                   <h2>룸 목록:</h2>
                   <ul>
+
                     {rooms.length === 0 ? (
                       <li>생성된 방이 없습니다. 새로 만들어보세요!</li>
                     ) : (
@@ -201,6 +209,7 @@ export default function WaitingRoom() {
                         </li>
                       ))
                     )}
+
                   </ul>
                 </div>
               </div>
