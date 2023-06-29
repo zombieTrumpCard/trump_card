@@ -48,7 +48,7 @@ export default function Home() {
               </div>
             )}
             <div>
-              <Link to="/wordGame" className="nav-btn">
+              <Link to="/WaitingRoom" className="nav-btn">
                 다른게임
               </Link>
             </div>

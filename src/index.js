@@ -5,17 +5,12 @@ import axios from "axios";
 import App from "./App";
 import "./styles/style.scss";
 import "@sakun/system.css/dist/system.css";
-// import HttpClient from "./components/server/http";
-// import ChatService from "./components/server/chat";
-
-// const baseURL = process.env.REACT_APP_BASE_URL;
-// const httpClient = new HttpClient(baseURL);
-// const chatService = new ChatService(httpClient);
 
 // axios.defaults.baseURL = process.env.REACT_APP_SERVER_TAEWOOK_URL; // 태욱님컴
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DASEUL_URL; // 다슬님컴
 // axios.defaults.baseURL = process.env.REACT_APP_SERVER_TAEKYUNG_URL; // 태경님컴
 // axios.defaults.baseURL = process.env.REACT_APP_SERVER_JIHYUN_URL; // 지현님컴
+
 axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

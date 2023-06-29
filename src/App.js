@@ -19,6 +19,8 @@ import Test from "./util/socket";
 import TestChat from "./pages/TestChat";
 import GameWordWait from "./pages/gameWord/GameWordWait";
 import WordGame from "./pages/gameWord/Word";
+import WaitingRoom from './pages/gameword/WaitingRoom';
+
 
 function App() {
   return (
@@ -29,14 +31,6 @@ function App() {
           element={
             <>
               <Test />
-            </>
-          }
-        />
-        <Route
-          path="/testchat"
-          element={
-            <>
-              <TestChat />
             </>
           }
         />
@@ -89,6 +83,15 @@ function App() {
           element={
             <>
               <WordGame />
+            </>
+          }
+        />
+        <Route
+          path="/WaitingRoom"
+          element={
+            <>
+              <HeaderNew />
+              <WaitingRoom />
             </>
           }
         />
