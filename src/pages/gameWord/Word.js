@@ -36,13 +36,15 @@ export default function Word({ myNickname, roomName }) {
   const conversationRef = useRef(null);
   const timerRef = useRef(null);
   const [adminMsg, setAdminMsg] = useState([]);
+  const [typingMsg, setTypingMsg] = useState([]);
   const [sugggetWords, setSugggetWords] = useState([]);
   const [arrayWords, setArrayWords] = useState([]);
 
   const players = ["User1", "User2", "User3", "User4", "User5", "User6"];
   const roundLimit = 5;
 
-  // const [myNickname, setMyNickname] = useState("");
+  // 유저 리스트
+  const [playerList, setPlayerList] = useState([]);
 
   const startTimer = () => {
     clearInterval(timerRef.current);
@@ -111,6 +113,26 @@ export default function Word({ myNickname, roomName }) {
     }
   };
 
+  // 방 유저 퇴장 DB에서 삭제
+  const leaveRoom = async () => {
+    try {
+      const response = await axios.delete("/word/leaveRoom");
+      console.log(response.data.message);
+    } catch (error) {
+      console.log("leaveRoom error : ", error);
+    }
+  };
+
+  // 방장이 나가면 방을 DB에서 삭제
+  const deleteRoom = async () => {
+    try {
+      const response = await axios.delete("/word/deleteRoom");
+      console.log(response.data.message);
+    } catch (error) {
+      console.log("deleteRoom error : ", error);
+    }
+  };
+
   useEffect(() => {
     const checkOwner = async () => {
       try {
@@ -140,7 +162,28 @@ export default function Word({ myNickname, roomName }) {
 
     // admin 메시지 수신 이벤트
     socket.receiveAminMsg(setAdminMsg);
+
+    // 타이핑 메세지 수신
+    socket.receiveTypingMsg(setTypingMsg);
+
+    // 유저 리스트 수신
+    socket.getplayerList(setPlayerList);
+
+    // 컴포넌트가 언마운트 될 때 방 퇴장
+    return () => {
+      socket.leaveRoom({
+        userNick: myNickname,
+        room: roomName,
+      });
+      leaveRoom();
+      deleteRoom();
+    };
   }, []);
+
+  useEffect(() => {
+    // 현재 참여중인 유저가 업데이트 되면 처리할 내용을 아래에 작성
+    // console.log("playerList", playerList);
+  }, [playerList]);
 
   const handleTimeout = () => {
     clearInterval(timerRef.current);
@@ -221,7 +264,7 @@ export default function Word({ myNickname, roomName }) {
             sender: myNickname,
             room: roomName,
           });
-
+          
           setUserInputs((prevInputs) => {
             const newInputs = [...prevInputs];
             newInputs[index] = "";
@@ -264,6 +307,14 @@ export default function Word({ myNickname, roomName }) {
     if (userInput) {
       checkAnswer(userInput, index);
     }
+  };
+
+  const handleTypingSend = (e) => {
+    socket.sendTypingMsg({
+      message: e.target.value,
+      sender: myNickname,
+      room: roomName,
+    });
   };
 
   useEffect(() => {
@@ -315,6 +366,7 @@ export default function Word({ myNickname, roomName }) {
 
       <div className="timer">
         <p>남은 시간: {timer}초</p>
+        <p>{typingMsg}1</p>
       </div>
 
       <div className="bar">
@@ -352,7 +404,10 @@ export default function Word({ myNickname, roomName }) {
             <input
               type="text"
               value={userInputs[index] || ""}
-              onChange={(e) => handleUserInput(e, index)}
+              onChange={(e) => {
+                handleUserInput(e, index);
+                handleTypingSend(e);
+              }}
               pattern="^[ㄱ-ㅎ가-힣]+$"
               title="잘못된 입력입니다. 자음 또는 모음으로만 입력해주세요!"
               required
@@ -371,8 +426,6 @@ export default function Word({ myNickname, roomName }) {
 }
 
 Word.propTypes = {
-  socket: PropTypes.object.isRequired,
   myNickname: PropTypes.string.isRequired,
-
   roomName: PropTypes.string.isRequired,
 };

@@ -7,36 +7,59 @@ $card-height: 210px;
 .mypage {
   font-family: "DungGeunMo";
   display: grid;
-  height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
+  // height: calc(93% - calc($borderWidthTop + $borderWidthBottom));
   place-items: center;
 
+  .box-content-top {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    width: 100%;
+    p {
+      font-size: 1.5rem;
+      padding-left: 2rem;
+      font-family: "DungGeunMo";
+    }
+    .box-content-top-right {
+      display: flex;
+      align-items: center;
+      a {
+        margin: 8px;
+      }
+    }
+  }
   .box-whole {
     .box-content {
       background-color: #f0f0f0;
 
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
       .myname {
-        padding: 0 1rem;
+        // padding: 0 1rem;
         font-size: 1.4rem;
-        margin-right: 10rem;
+        // margin-right: 10rem;
+        text-align: center;
+        width: 100%;
       }
       .navbar {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgb(50, 69, 238);
+        // background-color: rgb(50, 69, 238);
         border-radius: 12px;
         .nav-btn {
-          padding: 8px 12px;
-          margin: 0 8px;
-          background-color: #f0f0f0;
-          color: #333;
+          padding: 8px 20px;
+          margin: 0 16px;
+          background-color: rgb(50, 69, 238);
+          color: #fff;
           border: none;
           border-radius: 15px;
           cursor: pointer;
           text-decoration: none;
           font-size: 0.8rem;
+          width: 80px;
+          text-align: center;
         }
       }
     }
@@ -48,8 +71,10 @@ $card-height: 210px;
       align-items: center;
       // background-color: skyblue;
       .mykey.myskin {
-        margin: 0;
-        margin-top: 3rem;
+        // margin: 0;
+        margin: 1.5rem 0;
+        font-size: 1.25rem;
+        width: 100%;
       }
       .myvalue.myskin {
         margin: 0;
@@ -99,13 +124,20 @@ $card-height: 210px;
       .skinimg-container:hover .skinimg-back {
         transform: translate(30px);
       }
-      .keyvalue-box {
-        display: flex;
-        align-items: center;
+      .keyvalue {
+        background: #f3f3f3;
+        margin-top: 24px;
+        border-radius: 8px;
+        padding: 16px 24px;
+        .keyvalue-box {
+          display: flex;
+          align-items: center;
+        }
       }
       .mykey {
         font-size: 0.8rem;
         padding: 8px 12px;
+        width: 120px;
       }
       .myvalue {
         font-size: 1.4rem;
