@@ -16,9 +16,11 @@ import GameHard from "./pages/gameCard/GameHard";
 import GameOver from "./pages/gameCard/GameOver";
 import GameEnd from "./pages/gameCard/GameEnd";
 import Test from "./util/socket";
-import GameWordWait from "./pages/gameword/GameWordWait";
-import WordGame from "./pages/gameword/Word";
+import TestChat from "./pages/TestChat";
+import GameWordWait from "./pages/gameWord/GameWordWait";
+import WordGame from "./pages/gameWord/Word";
 import WaitingRoom from './pages/gameword/WaitingRoom';
+
 
 function App() {
   return (
