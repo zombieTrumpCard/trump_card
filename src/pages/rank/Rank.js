@@ -144,11 +144,15 @@ export default function Rank() {
   return (
     <div className="rank">
       <div className="box-whole">
-        <h1>랭킹</h1>
-        {/* <p>내 스코어 : {myscore}</p>
-        <button type="button" onClick={() => myscoreGet(activeLevel)}>
-          가져오기
-        </button> */}
+        <div className="box-content-top">
+          <p>랭킹</p>
+          <div className="box-content-top-right">
+            <span>내 스코어 : {myscore}</span>
+            <button type="button" onClick={() => myscoreGet(activeLevel)}>
+              가져오기
+            </button>
+          </div>
+        </div>
         <div className="body-content">
           <div className="navbar">
             <div className="lv-bar">

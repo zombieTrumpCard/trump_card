@@ -35,28 +35,55 @@ $row-height: 3.35rem;
   
 
   .box-whole {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    .box-content-top {
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      height: 80px;
+      width: 100%;
+      p {
+        font-size: 1.5rem;
+        padding-left: 2rem;
+        font-family: "DungGeunMo";
+      }
+      .box-content-top-right {
+        display: flex;
+        align-items: center;
+        button {
+          margin: 8px;
+        }
+      }
+    }
     .body-content {
       display: flex;
       justify-content: center;
+      height: 100%;
+      align-items: center;
       .navbar {
         display: flex;
         align-items: center;
         flex-direction: column;
         padding: 0 1rem 0 1rem;
-
+        height: 25rem;
         .lv {
           padding: 1rem;
           font-size: 1rem;
           background-color: rgb(34, 34, 34);
           color: white;
-          border-radius: 12px;
+          border-radius: 8px;
           text-align: center;
         }
         .lv-bar {
           background-color: rgb(220, 220, 220);
           display: flex;
           flex-direction: column;
-          border-radius: 12px;
+          border-radius: 8px;
           .lv-btn {
             padding: 0.2rem 0.4rem;
             margin: 0.8rem 1.5rem;
@@ -96,6 +123,7 @@ $row-height: 3.35rem;
         width: 5px;
       }
       .table-box {
+        border-radius: 8px;
         background-color: #f0f0f0;
         height: 25rem;
 

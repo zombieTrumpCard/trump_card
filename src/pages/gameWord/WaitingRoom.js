@@ -5,14 +5,13 @@ import socket from "../../util/socket";
 
 export default function WaitingRoom() {
   const [myNickname, setMyNickname] = useState("");
+  const [isInGameScreen, setIsInGameScreen] = useState(false);
 
   // TaeKyeong Page
   const [username, setUsername] = useState("");
   const [players, setPlayers] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [roomName, setRoomName] = useState("");
-  const [num, setNum] = useState(0);
-  const [isInGameScreen, setIsInGameScreen] = useState(false);
 
   // 닉네임 가져오기+소켓 연결
   const getNickname = async () => {
@@ -25,51 +24,60 @@ export default function WaitingRoom() {
     }
   };
 
-  // 방리스트 가져오기
+  // 방 리스트 가져오기
   const getRooms = async () => {
     try {
       const response = await axios.get("/word/getRooms");
-
-      console.log(response.data);
       const roomData = response.data.map((item) => ({
         room_id: item.room_id,
         room_name: item.room_name,
         title: item.title,
       }));
       setRooms(roomData);
-
-      console.log(roomData);
-
     } catch (error) {
       console.error(error);
     }
   };
 
+  // 유저 리스트 가져오기 <-소켓으로 구현! 안씀!
+  // const getUserList = async() => {
+  //   try {
+  //     const response = await axios.get("/word/getRoomUsers");
+  //     const newUserList = response.data.map((item) =>(
+  //       item["UserInfo.nickname"]
+  //     ));
+  //     setUserList(newUserList);
+
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   useEffect(() => {
     // 닉네임 가져오기+소켓 연결
     getNickname();
-
-    // 방 리스트 가져오기
-    getRooms();
+    socket.initializeSocket();
 
     return () => {
       // 컴포넌트가 언마운트될 때 소켓 연결 해제
-      // socket.disconnect(myNickname);
+      socket.disconnect();
     };
   }, []);
 
   useEffect(() => {
+    // 방 리스트 가져오기
+    getRooms();
 
-    console.log("");
+    // 유저 리스트 가져오기
+    // getUserList();
 
-
-    // 컴포넌트가 언마운트 될 때 방 퇴장
-    return () => {
-      socket.leaveRoom({
-        userNick: myNickname,
-        room: roomName,
-      });
-    };
+    // // 컴포넌트가 언마운트 될 때 방 퇴장
+    // return () => {
+    //   socket.leaveRoom({
+    //     userNick: myNickname,
+    //     room: roomName,
+    //   });
+    // };
   }, [roomName, isInGameScreen]);
 
   const handleInputChange = (event) => {
@@ -84,22 +92,33 @@ export default function WaitingRoom() {
     }
   };
 
+  // 방 생성 또는 입장 처리 후 호출 될 joinRoom
+  const joinRoomAfterResponse = async (roomId, room_name) => {
+    try {
+      // 방 입장 소켓 연결
+      await socket.joinRoom({
+        userNick: myNickname,
+        room: room_name,
+        room_id: roomId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // 방 생성
   const createRoom = async (newRoom) => {
     try {
       const response = await axios.post("/word/createRoom", {
         room_name: newRoom,
       });
+      // console.log("11223",response.data);
+      const roomId = response.data.room_id;
       setRoomName(newRoom);
       setIsInGameScreen(true);
 
-      // 방 입장 소켓 연결
-      socket.joinRoom({
-        userNick: myNickname,
-        room: newRoom,
-      });
-
-
+      // 응답 수신 후 socket.joinRoom 호출
+      joinRoomAfterResponse(roomId, newRoom);
     } catch (error) {
       console.log(error);
     }
@@ -107,24 +126,8 @@ export default function WaitingRoom() {
 
   // 방 생성 버튼 클릭
   const handleCreateBtnClick = () => {
-    const newRoom =
-      rooms.length === 0
-        ? "Room1"
-        : `Room${
-            Number(rooms[rooms.length - 1]?.room_name.split("Room")[1]) + 1
-          }`;
-
-    console.log(
-      Number(rooms[rooms.length - 1]?.room_name.split("Room")[1]) + 1
-    );
-    console.log("newRoom은", newRoom);
-    // setNum((prevNum) => {
-    //   const updatedNum = prevNum + 1;
-    //   setRooms((prevRooms) => [
-    //     ...prevRooms,
-    //     { roomName: `Room${updatedNum}` },
-    //   ]);
-    // });
+    const timestamp = Date.now();
+    const newRoom = `Room${timestamp}`;
 
     createRoom(newRoom);
     return newRoom;
@@ -134,16 +137,11 @@ export default function WaitingRoom() {
   const joinRoom = async (room_id, room_name) => {
     try {
       const response = await axios.post("/word/joinroom", { room_id });
-      console.log(response);
+      // const roomId = response.data.room_id;
       setRoomName(room_name);
       setIsInGameScreen(true);
 
-      // 방 입장 소켓 연결
-      socket.joinRoom({
-        userNick: myNickname,
-        room: room_name,
-      });
-      
+      joinRoomAfterResponse(room_id, room_name);
     } catch (error) {
       console.log(error);
     }
@@ -153,10 +151,6 @@ export default function WaitingRoom() {
   const handleJoinBtnClick = async (room_id, room_name) => {
     joinRoom(room_id, room_name);
   };
-
-  // const addPlayer = (username) => {
-  //   setPlayers((prevPlayers) => [...prevPlayers, username]);
-  // };
 
   return (
     <div className="WaitingRoom">
@@ -176,7 +170,12 @@ export default function WaitingRoom() {
             <div className="game-wrapper">
               <div className="box-wrap">
                 <div className="gameList">게임목록</div>
-                <div className="roomCreate" onClick={()=>{handleCreateBtnClick()}}>
+                <div
+                  className="roomCreate"
+                  onClick={() => {
+                    handleCreateBtnClick();
+                  }}
+                >
                   방 생성
                 </div>
                 <div className="refreshRoom">새로고침</div>
@@ -195,21 +194,20 @@ export default function WaitingRoom() {
                 <div>
                   <h2>룸 목록:</h2>
                   <ul>
-
                     {rooms.length === 0 ? (
                       <li>생성된 방이 없습니다. 새로 만들어보세요!</li>
                     ) : (
                       rooms.map((item, index) => (
                         <li
                           key={index}
-                          onClick={()=>{
-                            handleJoinBtnClick(item.room_id,item.room_name)}}
+                          onClick={() => {
+                            handleJoinBtnClick(item.room_id, item.room_name);
+                          }}
                         >
                           {item.title}
                         </li>
                       ))
                     )}
-
                   </ul>
                 </div>
               </div>

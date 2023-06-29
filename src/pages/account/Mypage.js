@@ -164,8 +164,9 @@ export default function Mypage() {
 
   return (
     <div className="mypage">
-      <div className="box-whole">
-        <div className="box-content">
+      <div className="box-content-top">
+        <p>내정보</p>
+        <div className="box-content-top-right">
           <p className="myname">
             {userInfo.nickname}
             님!
@@ -174,14 +175,12 @@ export default function Mypage() {
             <Link to="/nickChange" className="nav-btn">
               닉네임 변경
             </Link>
-            <Link to="/dropUser" className="nav-btn" type="button">
-              회원 탈퇴
-            </Link>
           </div>
         </div>
+      </div>
+      <div className="box-whole">
         <div className="body-content">
           <p className="mykey myskin">현재 적용 중인 스킨</p>
-          <p className="myvalue myskin">{userInfo.skinNameKO}</p>
           <div
             className="skinimg-container"
             onClick={() => {
@@ -192,25 +191,31 @@ export default function Mypage() {
             <div className="skinimg-back">&#187;</div>
             <div className={`skinimg-front ${userInfo.skinNameEN}`}></div>
           </div>
-          <div className="keyvalue-box">
-            <span className="mykey">현재 티어</span>
-            <span className="myvalue">{userInfo.tier}</span>
+          <p className="myvalue myskin">{userInfo.skinNameKO}</p>
+          <div className="keyvalue">
+            <div className="keyvalue-box">
+              <span className="mykey">현재 티어</span>
+              <span className="myvalue">{userInfo.tier}</span>
+            </div>
+            <div className="keyvalue-box">
+              <span className="mykey">최고 점수</span>
+              <span className="myvalue">
+                {userInfo.score === 0 ? "기록 없음" : `${userInfo.score} 점`}
+              </span>
+              <select id="levels" onChange={handleLevelChange}>
+                <option value="Hard">어려움</option>
+                <option value="Normal">보통</option>
+                <option value="Easy">쉬움</option>
+              </select>
+            </div>
+            <div className="keyvalue-box">
+              <span className="mykey">보유 포인트</span>
+              <span className="myvalue">{userInfo.point}G</span>
+            </div>
           </div>
-          <div className="keyvalue-box">
-            <span className="mykey">최고 점수</span>
-            <span className="myvalue">
-              {userInfo.score === 0 ? "기록 없음" : `${userInfo.score} 점`}
-            </span>
-            <select id="levels" onChange={handleLevelChange}>
-              <option value="Hard">어려움</option>
-              <option value="Normal">보통</option>
-              <option value="Easy">쉬움</option>
-            </select>
-          </div>
-          <div className="keyvalue-box">
-            <span className="mykey">보유 포인트</span>
-            <span className="myvalue">{userInfo.point}G</span>
-          </div>
+          <Link to="/dropUser" className="nav-btn" type="button">
+              회원 탈퇴
+            </Link>
         </div>
         {/* The Modal */}
         {showModal && (
