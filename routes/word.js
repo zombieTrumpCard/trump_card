@@ -1,20 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const logger = require("../lib/logger");
-const roomRepository = require("../lib/roomUtil");
-const userRepository = require("../lib/socketUserUtil");
 const wordService = require("../service/wordService");
-const userInfoService = require("../service/userInfoService");
 const { isLoggedIn } = require("../lib/middleware");
 const tokenUtil = require("../lib/tokenUtil");
-const socket = require("../lib/socket");
 
 //GET 개설된 채팅방 리스트 불러오기
 router.get("/getRooms", async (req, res) => {
   try {
     // logger.info(`(word.reg.params) ${JSON.stringify(params)}`);
     const result = await wordService.roomlist();
-    logger.info(`(wordService.roomlist.result) ${JSON.stringify(result)}`);
+    // logger.info(`(wordService.roomlist.result) ${JSON.stringify(result)}`);
     // 최종 응답
     res.status(200).json(result);
   } catch (err) {
@@ -37,7 +33,7 @@ router.post("/createRoom", isLoggedIn, async (req, res) => {
   try {
     // 닉네임 가져오기 로직
     const nickname = await wordService.findNickname(user_id);
-    logger.info(`(wordService.reg.result) ${JSON.stringify(nickname)}`);
+    // logger.info(`(wordService.reg.result) ${JSON.stringify(nickname)}`);
 
     // 방생성을 위한 params
     const params = {
@@ -45,7 +41,7 @@ router.post("/createRoom", isLoggedIn, async (req, res) => {
       room_name: req.body.room_name,
       user_id: user_id,
     };
-    logger.info(`(word.roomCreate.params) ${JSON.stringify(params)}`);
+    // logger.info(`(word.roomCreate.params) ${JSON.stringify(params)}`);
 
     // 비즈니스 로직 호출
     // 방 생성 로직
@@ -54,21 +50,21 @@ router.post("/createRoom", isLoggedIn, async (req, res) => {
       .then(async (room) => {
         // 방 주인을 방을 이용하는 유저 리스트에 넣기
         const joinParams = { room_id: room.room_id, user_id: user_id };
-        logger.info(`(word.joinRoom.joinParams) ${JSON.stringify(joinParams)}`);
+        // logger.info(`(word.joinRoom.joinParams) ${JSON.stringify(joinParams)}`);
         const resultRoomUsers = await wordService.joinRoom(joinParams);
-        logger.info(
-          `(word.joinRoom.result) ${JSON.stringify(resultRoomUsers)}`
-        );
+        // logger.info(
+        //   `(word.joinRoom.result) ${JSON.stringify(resultRoomUsers)}`
+        // );
         return room; // 생성된 방을 반환
       })
       .catch((error) => {
         logger.error(`(word.roomCreate.error) ${error.toString()}`);
         return error;
       });
-    logger.info(`(word.roomCreate.result) ${JSON.stringify(resultRoom)}`);
+    // logger.info(`(word.roomCreate.result) ${JSON.stringify(resultRoom)}`);
 
     // 최종 응답
-    res.status(200).json({ message: `게임방 생성 ${params.title}` });
+    res.status(200).json({ message: `게임방 생성 ${params.title}`, room_id : resultRoom.room_id });
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }
@@ -86,9 +82,9 @@ router.get("/getNickname", isLoggedIn, async (req, res) => {
   const user_id = decoded.user_id;
   try {
     const nickname = await wordService.findNickname(user_id);
-    logger.info(
-      `(wordService.findNickname.result) ${JSON.stringify(nickname)}`
-    );
+    // logger.info(
+    //   `(wordService.findNickname.result) ${JSON.stringify(nickname)}`
+    // );
     res.status(200).send(nickname);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
@@ -107,16 +103,14 @@ router.get("/verification", isLoggedIn, async (req, res) => {
   const user_id = decoded.user_id;
   try {
     const result = await wordService.findRoomOwner(user_id);
-    logger.info(
-      `(wordService.findRoomOwner.result) ${JSON.stringify(result)}`
-    );
+    // logger.info(`(wordService.findRoomOwner.result) ${JSON.stringify(result)}`);
     res.status(200).send(result);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }
 });
 
-//GET 특정 방을 이용중인 사용자 불러오기
+//GET 내가 속한 방을 이용중인 사용자 불러오기
 router.get("/getRoomUsers", isLoggedIn, async (req, res) => {
   const tokenHeader = req.headers && req.headers.authorization;
   let token;
@@ -129,9 +123,7 @@ router.get("/getRoomUsers", isLoggedIn, async (req, res) => {
 
   try {
     const result = await wordService.getRoomUsers(user_id);
-    logger.info(
-      `(wordService.findNickname.result) ${JSON.stringify(result)}`
-    );
+    // logger.info(`(wordService.findNickname.result) ${JSON.stringify(result)}`);
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
@@ -140,12 +132,26 @@ router.get("/getRoomUsers", isLoggedIn, async (req, res) => {
 
 //POST 사용자가 개설된 방에 참여
 router.post("/joinroom", async (req, res) => {
-  const user = req.body.username;
-  const roomtitle = req.params.roomtitle;
-  const result = await userRepository.joinRoom(user, roomtitle);
-  const room = await roomRepository.addUserToRoom(user, roomtitle);
+  // 방주인 가져오기
+  const tokenHeader = req.headers && req.headers.authorization;
+  let token;
+  if (tokenHeader && tokenHeader.startsWith("Bearer ")) {
+    // "Bearer " 스키마 제외
+    token = tokenHeader.split(" ")[1];
+  }
+  const decoded = tokenUtil.verifyToken(token);
+  const user_id = decoded.user_id;
+  const params = { room_id: req.body.room_id, user_id: user_id };
 
-  res.status(200).json(room);
+  try {
+    // logger.info(`(wordService.joinRoom.params) ${JSON.stringify(params)}`);
+    const result = await wordService.joinRoom(params);
+    // logger.info(`(wordService.joinRoom.result) ${JSON.stringify(result)}`);
+
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
 });
 
 module.exports = router;
