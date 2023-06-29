@@ -5,7 +5,7 @@ import axios from "axios";
 import socket from "../../util/socket";
 import isLogin from "../../util/isLogin";
 
-export default function Word({ myNickname, roomName, userList }) {
+export default function Word({ myNickname, roomName }) {
   const locations = [
     "가",
     "나",
@@ -42,7 +42,7 @@ export default function Word({ myNickname, roomName, userList }) {
   const roundLimit = 5;
 
   // 유저 리스트
-  const [playerList, setPlayerList] = useState(userList);
+  const [playerList, setPlayerList] = useState([]);
 
   const startTimer = () => {
     clearInterval(timerRef.current);
@@ -85,6 +85,26 @@ export default function Word({ myNickname, roomName, userList }) {
     }
   };
 
+  // 방 유저 퇴장 DB에서 삭제
+  const leaveRoom = async () => {
+    try {
+      const response = await axios.delete("/word/leaveRoom");
+      console.log(response.data.message);
+    } catch (error) {
+      console.log("leaveRoom error : ", error);
+    }
+  };
+
+  // 방장이 나가면 방을 DB에서 삭제
+  const deleteRoom = async () => {
+    try {
+      const response = await axios.delete("/word/deleteRoom");
+      console.log(response.data.message);
+    } catch (error) {
+      console.log("deleteRoom error : ", error);
+    }
+  };
+
   useEffect(() => {
     const checkOwner = async () => {
       try {
@@ -119,7 +139,25 @@ export default function Word({ myNickname, roomName, userList }) {
 
     // 타이핑 메세지 수신
     socket.receiveTypingMsg(setTypingMsg);
+
+    // 유저 리스트 수신
+    socket.getplayerList(setPlayerList);
+
+    // 컴포넌트가 언마운트 될 때 방 퇴장
+    return () => {
+      socket.leaveRoom({
+        userNick: myNickname,
+        room: roomName,
+      });
+      leaveRoom();
+      deleteRoom();
+    };
   }, []);
+
+  useEffect(() => {
+    // 현재 참여중인 유저가 업데이트 되면 처리할 내용을 아래에 작성
+    // console.log("playerList", playerList);
+  }, [playerList]);
 
   const handleTimeout = () => {
     clearInterval(timerRef.current);
@@ -168,36 +206,13 @@ export default function Word({ myNickname, roomName, userList }) {
         const isValid = await test(userInput);
 
         if (isValid === true) {
-          // setConversations((prevConversations) => {
-          //   const newConversations = [...prevConversations];
-          //   // newConversations.push(`${players[index]}: ${userInput}`);
-          //   // console.log(newConversations);
-          //   return newConversations;
-          // });
           console.log(userInput, myNickname, conversations);
-          // const splitWord = conversations.map(
-          //   (conversation) => conversation.split(": ")[1]
-          // );
-          // console.log(splitWord);
 
           socket.sendMsg({
             message: userInput,
             sender: myNickname,
             room: roomName,
           });
-          // socket.receiveMsg(setConversations);
-          // socketio.on("message", (data) => {
-          //   const { sender, message, sendRoom } = data;
-          //   console.log("데이터on시점", data);
-          //   // setConversations((prevdata) => [...prevdata, `${sender}:${message}`]);
-          //   setConversations((prevConversations) => {
-          //     const newConversations = [...prevConversations];
-          //     newConversations.push(`${sender}: ${message}`);
-          //     console.log(98772, data);
-          //     console.log(12321, newConversations);
-          //     return newConversations;
-          //   });
-          // });
           setUserInputs((prevInputs) => {
             const newInputs = [...prevInputs];
             newInputs[index] = "";
@@ -361,5 +376,4 @@ export default function Word({ myNickname, roomName, userList }) {
 Word.propTypes = {
   myNickname: PropTypes.string.isRequired,
   roomName: PropTypes.string.isRequired,
-  userList: PropTypes.array.isRequired,
 };

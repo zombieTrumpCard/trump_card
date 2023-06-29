@@ -5,7 +5,6 @@ import socket from "../../util/socket";
 
 export default function WaitingRoom() {
   const [myNickname, setMyNickname] = useState("");
-  const [userList, setUserList] = useState([]);
   const [isInGameScreen, setIsInGameScreen] = useState(false);
 
   // TaeKyeong Page
@@ -40,27 +39,28 @@ export default function WaitingRoom() {
     }
   };
 
-  // 유저 리스트 가져오기
-  const getUserList = async() => {
-    try {
-      const response = await axios.get("/word/getRoomUsers");
-      const newUserList = response.data.map((item) =>(
-        item["UserInfo.nickname"]
-      ));
-      setUserList(newUserList);
-    
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // 유저 리스트 가져오기 <-소켓으로 구현! 안씀!
+  // const getUserList = async() => {
+  //   try {
+  //     const response = await axios.get("/word/getRoomUsers");
+  //     const newUserList = response.data.map((item) =>(
+  //       item["UserInfo.nickname"]
+  //     ));
+  //     setUserList(newUserList);
+
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
     // 닉네임 가져오기+소켓 연결
     getNickname();
+    socket.initializeSocket();
 
     return () => {
       // 컴포넌트가 언마운트될 때 소켓 연결 해제
-      // socket.disconnect(myNickname);
+      socket.disconnect();
     };
   }, []);
 
@@ -69,15 +69,15 @@ export default function WaitingRoom() {
     getRooms();
 
     // 유저 리스트 가져오기
-    getUserList();
+    // getUserList();
 
-    // 컴포넌트가 언마운트 될 때 방 퇴장
-    return () => {
-      socket.leaveRoom({
-        userNick: myNickname,
-        room: roomName,
-      });
-    };
+    // // 컴포넌트가 언마운트 될 때 방 퇴장
+    // return () => {
+    //   socket.leaveRoom({
+    //     userNick: myNickname,
+    //     room: roomName,
+    //   });
+    // };
   }, [roomName, isInGameScreen]);
 
   const handleInputChange = (event) => {
@@ -92,6 +92,20 @@ export default function WaitingRoom() {
     }
   };
 
+  // 방 생성 또는 입장 처리 후 호출 될 joinRoom
+  const joinRoomAfterResponse = async (roomId, room_name) => {
+    try {
+      // 방 입장 소켓 연결
+      await socket.joinRoom({
+        userNick: myNickname,
+        room: room_name,
+        room_id: roomId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // 방 생성
   const createRoom = async (newRoom) => {
     try {
@@ -103,12 +117,8 @@ export default function WaitingRoom() {
       setRoomName(newRoom);
       setIsInGameScreen(true);
 
-      // 방 입장 소켓 연결
-      socket.joinRoom({
-        userNick: myNickname,
-        room: newRoom,
-        // room_id : roomId
-      });
+      // 응답 수신 후 socket.joinRoom 호출
+      joinRoomAfterResponse(roomId, newRoom);
     } catch (error) {
       console.log(error);
     }
@@ -127,14 +137,11 @@ export default function WaitingRoom() {
   const joinRoom = async (room_id, room_name) => {
     try {
       const response = await axios.post("/word/joinroom", { room_id });
+      // const roomId = response.data.room_id;
       setRoomName(room_name);
       setIsInGameScreen(true);
 
-      // 방 입장 소켓 연결
-      socket.joinRoom({
-        userNick: myNickname,
-        room: room_name,
-      });
+      joinRoomAfterResponse(room_id, room_name);
     } catch (error) {
       console.log(error);
     }
@@ -144,10 +151,6 @@ export default function WaitingRoom() {
   const handleJoinBtnClick = async (room_id, room_name) => {
     joinRoom(room_id, room_name);
   };
-
-  // const addPlayer = (username) => {
-  //   setPlayers((prevPlayers) => [...prevPlayers, username]);
-  // };
 
   return (
     <div className="WaitingRoom">
@@ -213,7 +216,7 @@ export default function WaitingRoom() {
         </div>
       )}
       {isInGameScreen ? (
-        <Word myNickname={myNickname} roomName={roomName} userList={userList} />
+        <Word myNickname={myNickname} roomName={roomName} />
       ) : null}
     </div>
   );

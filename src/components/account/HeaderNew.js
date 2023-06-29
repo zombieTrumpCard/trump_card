@@ -13,7 +13,7 @@ export default function HeaderNew() {
     try {
       const result = await axios.get("/word/getNickname");
       setMyNickname(result.data);
-      socket.connect(result.data);
+      // socket.connect(result.data);
     } catch (error) {
       console.error(error);
     }
@@ -29,7 +29,7 @@ export default function HeaderNew() {
 
     return () => {
       // 컴포넌트가 언마운트될 때 소켓 연결 해제
-      socket.disconnect(myNickname);
+      // socket.disconnect(myNickname);
     };
   }, []);  
 
