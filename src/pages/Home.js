@@ -22,9 +22,11 @@ export default function Home() {
     setIsModalOpen(true);
   };
 
-  const clickStart = () => {
+  const clickStart1 = () => {
     navigate("/level");
-    console.log("clickStart");
+  };
+  const clickStart2 = () => {
+    navigate("/WaitingRoom");
   };
 
   return (
@@ -40,12 +42,8 @@ export default function Home() {
             </div>
             {isLoggedIn ? (
               <div className="gameScreen">
-                <button onClick={clickStart} className="game-link" />
-                <div>
-                  <Link to="/WaitingRoom" className="nav-btn">
-                    다른게임
-                  </Link>
-                </div>
+                <button onClick={clickStart1} className="game-link1" />
+                <button onClick={clickStart2} className="game-link2" />
               </div>
             ) : (
               <div onClick={openModal} className="gameScreen">

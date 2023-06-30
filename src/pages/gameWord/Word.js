@@ -173,12 +173,9 @@ export default function Word({ myNickname, roomName }) {
       setConversations
     );
 
-  function sendNextStep() {
-    const params = {
-      room: roomName,
-    };
-    socket.emit("sendNextStep", params);
-  }
+  
+    // socket.emit("sendNextStep", params);
+  
 
     // 타이핑 메세지 수신
     socket.receiveTypingMsg(setTypingMsg);
@@ -196,6 +193,8 @@ export default function Word({ myNickname, roomName }) {
       deleteRoom();
     };
   }, []);
+
+  
 
   useEffect(() => {
     // 현재 참여중인 유저가 업데이트 되면 처리할 내용을 아래에 작성
@@ -219,7 +218,7 @@ export default function Word({ myNickname, roomName }) {
       setConversations([]);
       startTimer();
 
-      sendNextStep(); // 다음 스텝 보내기 이벤트 전송
+      // socket.sendNextStep(); // 다음 스텝 보내기 이벤트 전송
     } else {
       // 게임 종료 처리
       alert("게임이 종료되었습니다.");
