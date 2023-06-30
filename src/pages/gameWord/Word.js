@@ -39,6 +39,7 @@ export default function Word({ myNickname, roomName }) {
   const [typingMsg, setTypingMsg] = useState([]);
   const [sugggetWords, setSugggetWords] = useState([]);
   const [arrayWords, setArrayWords] = useState([]);
+  const [notification, setNotification] = useState("");
 
   const players = ["User1", "User2", "User3", "User4", "User5", "User6"];
   const roundLimit = 5;
@@ -64,6 +65,7 @@ export default function Word({ myNickname, roomName }) {
     setConversations([]);
     setRound(1);
     startTimer();
+    setNotification("");
   }
 
   function handleGameStartButton() {
@@ -105,9 +107,20 @@ export default function Word({ myNickname, roomName }) {
       return isValid; // 유효성 검사 결과 반환
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        alert(`${error.response.data.message}`);
+        setNotification(`${error.response.data.message}`);
+        // 알림 보내기
+        socket.sendNoti({
+          room: roomName,
+          noti: notification,
+        });
+        console.log("1", notification);
       } else {
-        alert(error);
+        setNotification(error);
+        // 알림 보내기
+        socket.sendNoti({
+          room: roomName,
+          noti: notification,
+        });
       }
       return false; // 유효성 검사 실패로 처리
     }
@@ -143,7 +156,12 @@ export default function Word({ myNickname, roomName }) {
         if (result === true) {
           setIsRoomOwner(true);
         } else {
-          alert("방장이 아닙니다!");
+          setNotification("방장이 아닙니다!");
+          // 알림 보내기
+          socket.sendNoti({
+            room: roomName,
+            noti: notification,
+          });
         }
       } catch (error) {
         throw new Error(error);
@@ -161,7 +179,6 @@ export default function Word({ myNickname, roomName }) {
     // admin 메시지 수신 이벤트
     socket.receiveAminMsg(setAdminMsg);
 
-
     // 게임 받기 이벤트
     socket.receiveStartMsg(
       initializeGame,
@@ -173,18 +190,14 @@ export default function Word({ myNickname, roomName }) {
       setConversations
     );
 
-  function sendNextStep() {
-    const params = {
-      room: roomName,
-    };
-    socket.emit("sendNextStep", params);
-  }
-
     // 타이핑 메세지 수신
     socket.receiveTypingMsg(setTypingMsg);
 
     // 유저 리스트 수신
     socket.getplayerList(setPlayerList);
+
+    // 알림 받기
+    socket.listenNoti(setNotification);
 
     // 컴포넌트가 언마운트 될 때 방 퇴장
     return () => {
@@ -202,10 +215,14 @@ export default function Word({ myNickname, roomName }) {
     // console.log("playerList", playerList);
   }, [playerList]);
 
-
   const handleTimeout = () => {
     clearInterval(timerRef.current);
-    alert("TIMEOUT");
+    setNotification("TIMEOUT");
+    // 알림 보내기
+    socket.sendNoti({
+      room: roomName,
+      noti: notification,
+    });
     if (round < roundLimit) {
       setRound((prevRound) => prevRound + 1);
 
@@ -219,10 +236,23 @@ export default function Word({ myNickname, roomName }) {
       setConversations([]);
       startTimer();
 
-      sendNextStep(); // 다음 스텝 보내기 이벤트 전송
+      socket.sendNextStep({
+        roomName,
+        word: nextLocation,
+        index: currentPlayerIndex,
+        suggest: sugggetWords,
+        player: players,
+        round: roundLimit,
+      }); // 다음 스텝 보내기 이벤트 전송
+      socket.listenNextStep();
     } else {
       // 게임 종료 처리
-      alert("게임이 종료되었습니다.");
+      setNotification("게임이 종료되었습니다.");
+      // 알림 보내기
+      socket.sendNoti({
+        room: roomName,
+        noti: notification,
+      });
       // 게임 종료 후 초기화를 수행합니다.
       setCurrentLocation("");
       setRound(1);
@@ -255,36 +285,51 @@ export default function Word({ myNickname, roomName }) {
         if (isValid === true) {
           console.log(userInput, myNickname, conversations);
 
-          // if (userInput.length < 2) {
-          //   alert("2글자 이상 ㄱㄱ");
-          //   setUserInputs((prevInputs) => {
-          //     const newInputs = [...prevInputs];
-          //     newInputs[index] = "";
-          //     return newInputs;
-          //   });
-          // }
-          // let x = 0;
-          // for (let i = 0; i < conversations.length; i += 1) {
-          //   console.log(conversations[i]);
-          //   if (conversations[i].split(": ")[1] === userInput) {
-          //     x = 1;
-          //     break;
-          //   }
-          // }
-          // if (x === 1) {
-          //   alert("중복");
-          //   setUserInputs((prevInputs) => {
-          //     const newInputs = [...prevInputs];
-          //     newInputs[index] = "";
-          //     return newInputs;
-          //   });
-          // }
+          if (userInput.length < 2) {
+            setNotification("2글자 이상 입력해주세요!");
+            // 알림 보내기
+            socket.sendNoti({
+              room: roomName,
+              noti: notification,
+            });
+            setUserInputs((prevInputs) => {
+              const newInputs = [...prevInputs];
+              newInputs[index] = "";
+              return newInputs;
+            });
+            return;
+          }
+
+          let isDuplicate = false;
+          // eslint-disable-next-line no-plusplus
+          for (let i = 0; i < conversations.length; i++) {
+            if (conversations[i].split(": ")[1] === userInput) {
+              isDuplicate = true;
+              break;
+            }
+          }
+
+          if (isDuplicate) {
+            setNotification("중복된 단어입니다. 다른 단어를 입력해주세요!");
+            // 알림 보내기
+            socket.sendNoti({
+              room: roomName,
+              noti: notification,
+            });
+            setUserInputs((prevInputs) => {
+              const newInputs = [...prevInputs];
+              newInputs[index] = "";
+              return newInputs;
+            });
+            return;
+          }
+
           socket.sendMsg({
             message: userInput,
             sender: myNickname,
             room: roomName,
           });
-          
+
           setUserInputs((prevInputs) => {
             const newInputs = [...prevInputs];
             newInputs[index] = "";
@@ -296,7 +341,14 @@ export default function Word({ myNickname, roomName }) {
           clearInterval(timerRef.current);
           startTimer();
         } else {
-          alert("유효하지 않은 입력입니다. 다른 단어를 시도해주세요!");
+          setNotification(
+            "유효하지 않은 입력입니다. 다른 단어를 시도해주세요!"
+          );
+          // 알림 보내기
+          socket.sendNoti({
+            room: roomName,
+            noti: notification,
+          });
           setUserInputs((prevInputs) => {
             const newInputs = [...prevInputs];
             newInputs[index] = "";
@@ -304,7 +356,14 @@ export default function Word({ myNickname, roomName }) {
           });
         }
       } else {
-        alert("잘못된 입력입니다. 자음 또는 모음으로만 입력해주세요!");
+        setNotification(
+          "잘못된 입력입니다. 자음 또는 모음으로만 입력해주세요!"
+        );
+        // 알림 보내기
+        socket.sendNoti({
+          room: roomName,
+          noti: notification,
+        });
         setUserInputs((prevInputs) => {
           const newInputs = [...prevInputs];
           newInputs[index] = "";
@@ -312,7 +371,12 @@ export default function Word({ myNickname, roomName }) {
         });
       }
     } else {
-      alert("실패!");
+      setNotification("실패!");
+      // 알림 보내기
+      socket.sendNoti({
+        room: roomName,
+        noti: notification,
+      });
       setUserInputs((prevInputs) => {
         const newInputs = [...prevInputs];
         newInputs[index] = "";
@@ -379,16 +443,13 @@ export default function Word({ myNickname, roomName }) {
   return (
     <div className="game-container">
       <h1>끝말잇기 게임</h1>
-
       <div className="round-info">
         <p>남은 라운드: {roundLimit - round + 1}</p>
       </div>
-
       <div className="timer">
         <p>남은 시간: {timer}초</p>
-        <p>{typingMsg}1</p>
+        <p>.. {typingMsg}</p>
       </div>
-
       <div className="bar">
         {rabbitPosition < boxWidth && (
           <div
@@ -400,8 +461,8 @@ export default function Word({ myNickname, roomName }) {
           ></div>
         )}
         <div className="clock"></div>
+        {notification && <div className="resultBox">{notification}</div>}{" "}
       </div>
-
       <div className="conversation-box" ref={conversationRef}>
         <button onClick={handleClickStartButton} disabled={!isRoomOwner}>
           게임 시작
@@ -416,7 +477,6 @@ export default function Word({ myNickname, roomName }) {
           ))}
         </div>
       </div>
-
       <div className="user-inputs">
         {players.map((player, index) => (
           <form key={index} onSubmit={(e) => submitUserInput(e, index)}>
