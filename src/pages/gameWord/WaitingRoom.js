@@ -152,6 +152,33 @@ export default function WaitingRoom() {
     joinRoom(room_id, room_name);
   };
 
+  // 배치를 위한 로직
+  const boxWrapings = [];
+  const boxCount = Math.ceil(rooms.length / 3); // 3개의 박스로 구성된 wrap 컨테이너의 개수
+
+  for (let i = 0; i < boxCount; i += 1) {
+    const start = i * 3;
+    const end = start + 3;
+
+    const boxWrap = (
+      <div className={`box-wraping${i + 1}`} key={i}>
+        {rooms.slice(start, end).map((room, index) => (
+          <div
+            className={`box${start + index + 1}`}
+            key={start + index}
+            onClick={() => {
+              handleJoinBtnClick(room.room_id, room.room_name);
+            }}
+          >
+            {room.title}
+          </div>
+        ))}
+      </div>
+    );
+
+    boxWrapings.push(boxWrap);
+  }
+
   return (
     <div className="WaitingRoom">
       {isInGameScreen ? (
@@ -160,38 +187,32 @@ export default function WaitingRoom() {
         </button>
       ) : null}
       {isInGameScreen ? null : (
-        <div className="TaeKyeong">
+        <div className="waiting-room">
           <h2>끝말잇기 게임 - 대기실</h2>
           <div className="container">
-            <div className="userList">
-              <h2>사용자 목록</h2>
+            <div>
+              <div className="userScreen">사용자 목록</div>
+              <div className="userList">목록</div>
             </div>
-
             <div className="game-wrapper">
               <div className="box-wrap">
-                <div className="gameList">게임목록</div>
-                <div
-                  className="roomCreate"
-                  onClick={() => {
-                    handleCreateBtnClick();
-                  }}
-                >
-                  방 생성
+                <div className="box-wraping2">
+                  <div className="gameList">게임목록</div>
+                  <div
+                    className="roomCreate"
+                    onClick={() => {
+                      handleCreateBtnClick();
+                    }}
+                  >
+                    방 생성
+                  </div>
                 </div>
                 <div className="refreshRoom">새로고침</div>
               </div>
-
               <div className="gameScreen2">
-                <form onSubmit={handleSubmit}></form>
-                <div>
-                  <ul>
-                    {players.map((player, index) => (
-                      <li key={index}>{player}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="roomList"></div>
-                <div>
+                <p className="room-list-name">방 목록</p>
+                {boxWrapings}
+                {/* <div>
                   <h2>룸 목록:</h2>
                   <ul>
                     {rooms.length === 0 ? (
@@ -209,7 +230,7 @@ export default function WaitingRoom() {
                       ))
                     )}
                   </ul>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
