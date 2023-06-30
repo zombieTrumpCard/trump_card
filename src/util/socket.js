@@ -140,6 +140,11 @@ export default class {
   static sendNextStep(data) {
     const params = {
       room: data.room,
+      word: data.word,
+      index: data.index,
+      suggest: data.suggest,
+      players: data.players,
+      round: data.round,
     };
     socket.emit("sendNextStep", params);
   }
@@ -182,6 +187,24 @@ export default class {
       const { sender, message, room } = data;
       console.log("은하철도999", message);
       setTypingMsg(message);
+    });
+  }
+
+  // 알림 보내기 이벤트
+  static sendNoti(data) {
+    const params = {
+      room: data.room,
+      noti: data.noti,
+    };
+    console.log(params);
+    socket.emit("sendNoti", params);
+  }
+
+  // 알림 받기 이벤트
+  static listenNoti(setNotification) {
+    socket.on("listenNoti", (data) => {
+      const { room, noti } = data;
+      setNotification(noti);
     });
   }
 }
