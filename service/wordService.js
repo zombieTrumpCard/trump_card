@@ -8,9 +8,9 @@ const service = {
     let result = null;
     try {
       result = await roomDao.selectList();
-      // logger.debug(`(wordService.roomlist) ${JSON.stringify(result)}`);
+      logger.debug(`(wordService.roomlist) ${JSON.stringify(result)}`);
     } catch (err) {
-      // logger.error(`(wordService.roomlist) ${err.toString()}`);
+      logger.error(`(wordService.roomlist) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -25,9 +25,9 @@ const service = {
     let inserted = null;
     try {
       inserted = await roomDao.insert(params);
-      // logger.debug(`(wordService.roomCreate) ${JSON.stringify(inserted)}`);
+      logger.debug(`(wordService.roomCreate) ${JSON.stringify(inserted)}`);
     } catch (err) {
-      // logger.error(`(wordService.roomCreate) ${err.toString()}`);
+      logger.error(`(wordService.roomCreate) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -72,9 +72,9 @@ const service = {
     let result = null;
     try {
       result = await roomDao.selectNickname(user_id);
-      // logger.debug(`(wordService.findNickname) ${JSON.stringify(result)}`);
+      logger.debug(`(wordService.findNickname) ${JSON.stringify(result)}`);
     } catch (err) {
-      // logger.error(`(wordService.findNickname) ${err.toString()}`);
+      logger.error(`(wordService.findNickname) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -89,9 +89,9 @@ const service = {
     let result = null;
     try {
       result = await roomDao.selectUserId(user_id);
-      // logger.debug(`(wordService.findRoomOwner) ${JSON.stringify(result)}`);
+      logger.debug(`(wordService.findRoomOwner) ${JSON.stringify(result)}`);
     } catch (err) {
-      // logger.error(`(wordService.findRoomOwner) ${err.toString()}`);
+      logger.error(`(wordService.findRoomOwner) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -106,9 +106,9 @@ const service = {
     let inserted = null;
     try {
       inserted = await roomUsersDao.insert(params);
-      // logger.debug(`(wordService.joinRoom) ${JSON.stringify(inserted)}`);
+      logger.debug(`(wordService.joinRoom) ${JSON.stringify(inserted)}`);
     } catch (err) {
-      // logger.error(`(wordService.joinRoom) ${err.toString()}`);
+      logger.error(`(wordService.joinRoom) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -125,9 +125,9 @@ const service = {
     try {
       const result1 = await roomUsersDao.selectOne(user_id);      
       result = await roomUsersDao.selectList(result1);
-      // logger.debug(`(wordService.getRoomUsers) ${JSON.stringify(result)}`);
+      logger.debug(`(wordService.getRoomUsers) ${JSON.stringify(result)}`);
     } catch (err) {
-      // logger.error(`(wordService.getRoomUsers) ${err.toString()}`);
+      logger.error(`(wordService.getRoomUsers) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -142,9 +142,9 @@ const service = {
     let result = null;
     try {
       result = await roomUsersDao.selectList(room_id);
-      // logger.debug(`(wordService.getRoomUsers) ${JSON.stringify(result)}`);
+      logger.debug(`(wordService.getRoomUsers) ${JSON.stringify(result)}`);
     } catch (err) {
-      // logger.error(`(wordService.getRoomUsers) ${err.toString()}`);
+      logger.error(`(wordService.getRoomUsers) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
