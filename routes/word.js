@@ -135,14 +135,16 @@ router.delete("/leaveRoom", isLoggedIn, async (req, res) => {
 });
 
 //Delete 게임방 삭제
-router.delete("/deleteRoom/:user_id", isLoggedIn, async (req, res) => {
+router.delete("/deleteRoom", isLoggedIn, async (req, res) => {
   const tokenHeader = req.headers && req.headers.authorization;
   let token;
   if (tokenHeader && tokenHeader.startsWith("Bearer ")) {
     // "Bearer " 스키마 제외
     token = tokenHeader.split(" ")[1];
   }
-  
+  const decoded = tokenUtil.verifyToken(token);
+  const user_id = decoded.user_id;
+
   
   try {
     // 비즈니스 로직 호출
